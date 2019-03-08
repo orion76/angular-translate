@@ -1,0 +1,4 @@
+ports:
+- port: 4200
+tasks:
+- command: npm run start
