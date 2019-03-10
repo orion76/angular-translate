@@ -3,18 +3,21 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TransComponent } from './trans/trans.component';
-import {MenubarModule} from 'primeng/menubar';
-import { TransSourceComponent } from './trans-source/trans-source.component';
-import { TransResultComponent } from './trans-result/trans-result.component';
-import { TransEditComponent } from './trans-edit/trans-edit.component';
+
+import { MenubarModule } from 'primeng/menubar';
+import { TransComponent } from './components/trans/trans.component';
+import { TransOriginalComponent } from './components/trans/trans-original/trans-original.component';
+import { TransTranslatedComponent } from './components/trans/trans-translated/trans-translated.component';
+import { TransEditComponent } from './components/trans/trans-edit/trans-edit.component';
+import { TransCommonService } from './services/trans-common.service';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     TransComponent,
-    TransSourceComponent,
-    TransResultComponent,
+    TransOriginalComponent,
+    TransTranslatedComponent,
     TransEditComponent
   ],
   imports: [
@@ -22,7 +25,7 @@ import { TransEditComponent } from './trans-edit/trans-edit.component';
     AppRoutingModule,
     MenubarModule
   ],
-  providers: [],
+  providers: [TransCommonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

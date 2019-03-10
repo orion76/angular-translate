@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TransComponent } from './trans/trans.component';
+import { TransComponent } from './components/trans/trans.component';
 
 const routes: Routes = [
     {path:'trans',component:TransComponent}
