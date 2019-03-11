@@ -12,12 +12,12 @@ import { ITransCommonService } from '../../../services/trans-common.service';
   selector: 'app-trans-edit',
   template: `
 
-<div class="trans-edit-original-view">
-  {{original}}
-</div>
-<div class="trans-edit-translated-edit">
-  <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
-</div>
+  <div class="trans-edit-original-view">
+    {{original}}
+  </div>
+  <div class="trans-edit-translated-edit">
+    <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
+  </div>
 
   `
 })
