@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit, ElementRef, Renderer2, Output, EventEmitter, ViewChild, Inject } from '@angular/core';
 import { TransContentAbstract } from '../../../library/trans-content-abstract';
-import { ITranslateData, ISelectedTranslateString, TTranslateMode } from '../../../library/common';
+import { ITranslateData, ISelectedTranslateString } from '../../../library/common';
 import { TransCommonService, ITransCommonService } from '../../../services/trans-common.service';
 import { filter } from 'rxjs/operators';
 import { TRANS_SERVICE } from '../../../services/injection-tokens';
-import {ScrollPanelModule} from 'primeng/scrollpanel';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { ITransItemEntity } from '../../../services/data.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ import {ScrollPanelModule} from 'primeng/scrollpanel';
 })
 export class TransOriginalComponent extends TransContentAbstract implements OnInit {
   @Input() dom: HTMLElement;
-  @Input() data: Map<string, ITranslateData>;
+  @Input() data: Map<string, ITransItemEntity>;
   @ViewChild("content")
   content: ElementRef;
 
@@ -30,7 +31,6 @@ export class TransOriginalComponent extends TransContentAbstract implements OnIn
   ) {
     super(service, renderer);
   }
-  mode: TTranslateMode = 'original';
 
   ngOnInit() {
     super.ngOnInit();

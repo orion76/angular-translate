@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { TTranslateMode, ISelectedTranslateString, EEvents } from '../library/common';
+import { ISelectedTranslateString, EEvents } from '../library/common';
 import { filter, tap } from 'rxjs/operators';
 
 export interface ITransCommonService {
-  do(event: EEvents, source: TTranslateMode, transId: string): void
+  do(event: EEvents, transId: string, data?: any): void
   onEvent(event: EEvents): Observable<ISelectedTranslateString>;
 
 }
@@ -23,8 +23,8 @@ export class TransCommonService implements ITransCommonService {
     )
   }
 
-  public do(event: EEvents, source: TTranslateMode, transId: string): void {
-    this._onSelectSubject.next({ source, transId, event })
+  public do(event: EEvents, transId: string, data?: any): void {
+    this._onSelectSubject.next({ transId, event, data })
   }
 
 }

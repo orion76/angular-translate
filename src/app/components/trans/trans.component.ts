@@ -9,7 +9,7 @@ import { TransTranslatedModule } from './trans-translated/trans-translated.compo
 import { TransEditModule } from './trans-edit/trans-edit.component';
 import { TransCommonService, ITransCommonService } from '../../services/trans-common.service';
 import { TRANS_SERVICE, DATA_SERVICE, SOURFCE_PARSE_SERVICE } from '../../services/injection-tokens';
-import { DataService } from '../../services/data.service';
+import { DataService, IDataService, ITransEntity } from '../../services/data.service';
 import { SourceParseService } from '../../services/source-parse.service';
 
 
@@ -19,11 +19,11 @@ import { SourceParseService } from '../../services/source-parse.service';
   <p-card header="Content" >
     <div class="trans-wrapper">
       <div class="trans-original-wrapper  trans-content-block trans-block">
-        <app-trans-original class="trans-original" [dom]="originalDom"  [data]="translateData"></app-trans-original>
+        <app-trans-original class="trans-original" [dom]="getDOM()"  [data]="entity.original"></app-trans-original>
       </div>
 
       <div class="trans-translated-wrapper  trans-content-block trans-block">
-        <app-trans-translated class="trans-translated" [dom]="translatedDom" [data]="translateData"></app-trans-translated>
+        <app-trans-translated class="trans-translated" [dom]="getDOM()" [data]="entity.translated"></app-trans-translated>
       </div>
 
       <div class="trans-edit-wrapper  trans-block">
@@ -37,49 +37,44 @@ export class TransComponent implements OnInit {
 
   source: string;
 
-  originalDom: HTMLElement;
-  translatedDom: HTMLElement;
-
   selected: ITranslateData;
 
+  private entity: ITransEntity;
+
   translateData: Map<string, ITranslateData> = new Map();
-  private textNodes: HTMLElement[];
+
   constructor(
     @Inject(TRANS_SERVICE) private service: ITransCommonService,
-    private renderer: Renderer2
+    @Inject(DATA_SERVICE) private data: IDataService
   ) { }
 
   ngOnInit() {
     this.source = transSource;
-    this.initParseDom();
+    /** TODO Реализовать загрузку реальной Entity */
+    this.entity = this.data.getItem('');
     this.service.onEvent(EEvents.MOUSE_DOWN).subscribe((event: ISelectedTranslateString) => {
-      this.selected = this.translateData.get(event.transId);
+      const { transId } = event;
+      this.selected = {
+        transId,
+        original: this.entity.original.get(transId).content,
+        translated: this.entity.translated.get(transId).content,
+      }
     })
+
+    this.service.onEvent(EEvents.TRANSLATED_UPDATE).subscribe((event: ISelectedTranslateString) => {
+      const { transId, data } = event;
+      this.entity.translated.get(transId).content = data;
+      this.service.do(EEvents.TRANSLATED_UPDATE_COMPLETE, transId);
+      console.log('[TRANSLATED_UPDATE]', transId, data);
+    })
+
   }
-  initParseDom() {
+
+  getDOM() {
     const parser = new DOMParser();
-    const dom = parser.parseFromString(this.source, 'text/html');
-
-    this.textNodes = getTextNodes(dom);
-
-    let transId = 1;
-
-    this.textNodes.forEach((node: HTMLElement) => {
-      const trans = dom.createElement('trans');
-      trans.id = `trans-id-${transId}`;
-
-      this.translateData.set(trans.id, {
-        original: node.textContent,
-        translated: node.textContent
-      })
-
-      node.parentNode.replaceChild(trans, node);
-      transId++;
-    })
-
-    this.translatedDom = parser.parseFromString(dom.body.innerHTML, 'text/html').body;
-    this.originalDom = parser.parseFromString(dom.body.innerHTML, 'text/html').body;
+    return parser.parseFromString(this.entity.template, 'text/html').body;
   }
+
 }
 
 @NgModule({

@@ -1,11 +1,11 @@
 import { Component, OnInit, NgModule, Input, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {CardModule} from 'primeng/card';
+import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
 
-import { ITranslateData } from '../../../library/common';
+import { ITranslateData, EEvents } from '../../../library/common';
 import { TRANS_SERVICE } from '../../../services/injection-tokens';
 import { ITransCommonService } from '../../../services/trans-common.service';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -25,7 +25,7 @@ import { ButtonModule } from 'primeng/button';
     <p-card header="Translate" class="trans-edit-translated-edit">
     <p-toolbar>
         <div class="ui-toolbar-group-left">
-            <button pButton type="button" label="Update" icon="pi pi-plus"></button>
+            <button pButton type="button" label="Update" icon="pi pi-plus" (click)="handleOnUpdate($event)"></button>
 
         </div>
 <!--
@@ -60,6 +60,10 @@ export class TransEditComponent implements OnInit, OnChanges {
     if (data.currentValue) {
       this.initData(data.currentValue);
     }
+  }
+
+  handleOnUpdate(event: any) {
+    this.service.do(EEvents.TRANSLATED_UPDATE, this.data.transId, this.translated)
   }
 
   private initData(data: ITranslateData) {

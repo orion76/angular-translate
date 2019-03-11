@@ -24,7 +24,10 @@ export class SourceParseService implements ISourceParseService {
 
     textNodes.forEach((node: HTMLElement) => {
       const trans = dom.createElement('trans');
+
       trans.id = `trans-id-${transId}`;
+      trans.textContent = '';
+
 
       entity.original.set(trans.id, {
         transId: trans.id,
@@ -45,6 +48,8 @@ export class SourceParseService implements ISourceParseService {
       node.parentNode.replaceChild(trans, node);
       transId++;
     })
+
+    entity.template = dom.body.innerHTML;
     return entity;
   }
 

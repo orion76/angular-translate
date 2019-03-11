@@ -1,29 +1,25 @@
 
 import { ElementRef, EventEmitter, Renderer2 } from '@angular/core';
 import { TransCommonService, ITransCommonService } from '../services/trans-common.service';
-import { ITranslateData, TTranslateMode, ISelectedTranslateString, EEvents } from './common';
+import { ITranslateData, ISelectedTranslateString, EEvents } from './common';
 import { getTextNodes } from './dom';
 import { filter, tap } from 'rxjs/operators';
+import { ITransItemEntity } from '../services/data.service';
 
 export abstract class TransContentAbstract {
 
   dom: HTMLElement;
-  data: Map<string, ITranslateData>;
-  selectedChange = new EventEmitter();
+  data: Map<string, ITransItemEntity>;
+  elements: Map<string, HTMLElement>;
   content: ElementRef;
   protected _selectedId: any;
-
-  abstract mode: TTranslateMode;
-
-
-  protected textNodes: HTMLElement[];
-  public nodesCount: number = 0;
 
 
   constructor(protected service: ITransCommonService, protected renderer: Renderer2) { }
 
   ngOnInit() {
-    this.textNodes = getTextNodes(this.dom);
+
+
     this.InitEvents();
     this.clearLinkEvent(this.dom);
 
@@ -32,8 +28,10 @@ export abstract class TransContentAbstract {
       .forEach((node: Node) => {
         this.renderer.appendChild(this.content.nativeElement, node);
       })
-
-    this.nodesCount = this.textNodes.length;
+    this.elements = this.getTransElements();
+    this.elements.forEach((node: HTMLElement, transId: string) => {
+      node.textContent = this.data.get(transId).content;
+    })
 
     this.service.onEvent(EEvents.MOUSE_DOWN)
       .subscribe((selected: ISelectedTranslateString) => this.onMouseDownHandler(selected.transId))
@@ -53,7 +51,7 @@ export abstract class TransContentAbstract {
     Array.from(this.dom.getElementsByTagName('trans'))
       .forEach((trans: HTMLElement) => {
 
-        trans.innerHTML = this.data.get(trans.id).original;
+        trans.innerHTML = this.data.get(trans.id).content;
 
         trans.addEventListener('mouseenter', (event: MouseEvent) => this.onMouseEvent(
           EEvents.MOUSE_ENTER, (event.target as HTMLElement).id)
@@ -84,9 +82,19 @@ export abstract class TransContentAbstract {
     return this.content.nativeElement.querySelector('#' + id);
   }
 
-  onMouseDownHandler(transId: string) {
+  getTransElements(): Map<string, HTMLElement> {
 
-    const target: HTMLElement = this.getElement(transId);
+    return Array.from(this.content.nativeElement.getElementsByTagName('trans'))
+      .map((node: HTMLElement) => {
+        return { id: node.id, node }
+      }).
+      reduce((acc: Map<string, HTMLElement>, { id, node }) => {
+        acc.set(id, node);
+        return acc;
+      }, new Map())
+  }
+
+  onMouseDownHandler(transId: string) {
 
     if (this._selectedId) {
       this.renderer.removeClass(this.getElement(this._selectedId), 'trans-selected');
@@ -106,7 +114,7 @@ export abstract class TransContentAbstract {
   }
 
   onMouseEvent(event: EEvents, transId: string) {
-    this.service.do(event, this.mode, transId);
+    this.service.do(event, transId);
   }
 
   debug(...args: any[]) {
