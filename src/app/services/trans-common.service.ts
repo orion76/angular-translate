@@ -24,7 +24,7 @@ export class TransCommonService implements ITransCommonService {
   }
 
   public do(event: EEvents, source: TTranslateMode, transId: string): void {
-    this._onSelectSubject.next({ source, transId, event: EEvents.MOUSE_DOWN })
+    this._onSelectSubject.next({ source, transId, event })
   }
 
 }

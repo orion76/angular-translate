@@ -54,7 +54,7 @@ export class TransComponent implements OnInit {
       trans.id = `trans-id-${transId}`;
 
       this.translateData.set(trans.id, {
-        origin: node.textContent,
+        original: node.textContent,
         translated: node.textContent
       })
 
