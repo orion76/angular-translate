@@ -14,14 +14,9 @@ import { PanelModule } from 'primeng/panel';
   template: `
 
 
-
-
     <p-panel header="Original" class="trans-edit-original-view">
       {{original}}
     </p-panel>
-
-
-
 
 
     <p-panel header="Translate" class="trans-edit-translated-edit">
@@ -39,7 +34,6 @@ import { PanelModule } from 'primeng/panel';
     </p-toolbar>
     <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
     </p-panel>
-
 
   `
 })
