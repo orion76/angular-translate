@@ -14,9 +14,9 @@ import { TRANS_SERVICE } from '../../services/injection-tokens';
 @Component({
   selector: 'app-trans',
   template: `
-  <p-card header="Contens" >
+  <p-card header="Content" >
     <div class="trans-wrapper">
-      <div class="transiginal-wrapper  trans-content-block trans-block">
+      <div class="trans-original-wrapper  trans-content-block trans-block">
         <app-trans-original class="trans-original" [dom]="originalDom"  [data]="translateData"></app-trans-original>
       </div>
 

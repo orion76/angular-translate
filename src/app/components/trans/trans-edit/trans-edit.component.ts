@@ -1,25 +1,28 @@
 import { Component, OnInit, NgModule, Input, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import {CardModule} from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
+
 import { ITranslateData } from '../../../library/common';
 import { TRANS_SERVICE } from '../../../services/injection-tokens';
 import { ITransCommonService } from '../../../services/trans-common.service';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
-import { PanelModule } from 'primeng/panel';
+
 
 @Component({
   selector: 'app-trans-edit',
   template: `
 
 
-    <p-panel header="Original" class="trans-edit-original-view">
+    <p-card header="Original" class="trans-edit-original-view">
       {{original}}
-    </p-panel>
+    </p-card>
 
 
-    <p-panel header="Translate" class="trans-edit-translated-edit">
+    <p-card header="Translate" class="trans-edit-translated-edit">
     <p-toolbar>
         <div class="ui-toolbar-group-left">
             <button pButton type="button" label="New" icon="pi pi-plus"></button>
@@ -33,7 +36,7 @@ import { PanelModule } from 'primeng/panel';
         </div>
     </p-toolbar>
     <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
-    </p-panel>
+    </p-card>
 
   `
 })
@@ -70,7 +73,7 @@ export class TransEditComponent implements OnInit, OnChanges {
   imports: [
     CommonModule,
     FormsModule,
-    PanelModule,
+    CardModule,
     ToolbarModule,
     ButtonModule,
     InputTextareaModule,
