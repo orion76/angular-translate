@@ -35,3 +35,20 @@ border:1px solid #999;
 
 }
 
+.trans-edit-wrapper{
+  width:100%;
+
+  .trans-edit{
+    display:flex
+  }
+
+  .trans-edit-original-view,.trans-edit-translated-edit{
+    width: 50%;
+  }
+
+  .trans-edit-translated-edit{
+    textarea{
+      width:100%;
+    }
+  }
+}

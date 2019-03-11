@@ -1,6 +1,6 @@
 
 import { ElementRef, EventEmitter, Renderer2 } from '@angular/core';
-import { TransCommonService } from '../services/trans-common.service';
+import { TransCommonService, ITransCommonService } from '../services/trans-common.service';
 import { ITranslateData, TTranslateMode, ISelectedTranslateString, EEvents } from './common';
 import { getTextNodes } from './dom';
 import { filter, tap } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export abstract class TransContentAbstract {
   public nodesCount: number = 0;
 
 
-  constructor(protected service: TransCommonService, protected renderer: Renderer2) { }
+  constructor(protected service: ITransCommonService, protected renderer: Renderer2) { }
 
   ngOnInit() {
     this.textNodes = getTextNodes(this.dom);
@@ -41,14 +41,14 @@ export abstract class TransContentAbstract {
     this.service.onEvent(EEvents.MOUSE_ENTER)
       .subscribe((selected: ISelectedTranslateString) => this.onMouseEnterHandler(selected.transId))
 
-this.service.onEvent(EEvents.MOUSE_OUT)
+    this.service.onEvent(EEvents.MOUSE_OUT)
       .subscribe((selected: ISelectedTranslateString) => this.onMouseOutHandler(selected.transId))
 
   }
 
   InitEvents() {
     this.service.onEvent(EEvents.MOUSE_ENTER)
-      .subscribe((item: ISelectedTranslateString) => this.onMouseEnterHandler(item.source))
+      .subscribe((item: ISelectedTranslateString) => this.onMouseEnterHandler(item.transId))
 
     Array.from(this.dom.getElementsByTagName('trans'))
       .forEach((trans: HTMLElement) => {
@@ -96,12 +96,12 @@ this.service.onEvent(EEvents.MOUSE_OUT)
   }
 
   onMouseEnterHandler(transId: string) {
-     const target: HTMLElement = this.getElement(transId);
+    const target: HTMLElement = this.getElement(transId);
     this.renderer.addClass(target, 'trans-mouse-enter');
   }
 
   onMouseOutHandler(transId: string) {
-     const target: HTMLElement = this.getElement(transId);
+    const target: HTMLElement = this.getElement(transId);
     this.renderer.removeClass(target, 'trans-mouse-enter');
   }
 

@@ -1,8 +1,9 @@
-import { Component, OnInit, NgModule, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, NgModule, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TransContentAbstract } from '../../../library/trans-content-abstract';
 import { ITranslateData, TTranslateMode } from '../../../library/common';
-import { TransCommonService } from '../../../services/trans-common.service';
+import { TransCommonService, ITransCommonService } from '../../../services/trans-common.service';
+import { TRANS_SERVICE } from '../../../services/injection-tokens';
 
 
 @Component({
@@ -20,7 +21,10 @@ export class TransTranslatedComponent extends TransContentAbstract implements On
   content: ElementRef;
 
 
-  constructor(service: TransCommonService, protected renderer: Renderer2) {
+  constructor(
+    @Inject(TRANS_SERVICE) protected service: ITransCommonService,
+    protected renderer: Renderer2
+  ) {
     super(service, renderer);
   }
 

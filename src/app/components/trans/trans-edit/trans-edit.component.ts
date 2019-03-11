@@ -1,8 +1,10 @@
-import { Component, OnInit, NgModule, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, NgModule, Input, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
 import { ITranslateData } from '../../../library/common';
+import { TRANS_SERVICE } from '../../../services/injection-tokens';
+import { ITransCommonService } from '../../../services/trans-common.service';
 
 
 
@@ -10,27 +12,33 @@ import { ITranslateData } from '../../../library/common';
   selector: 'app-trans-edit',
   template: `
 
-  <div class="trans-edit-original-view">
-    {{original}}
-  </div>
-  <div class="trans-edit-translated-edit">
-    <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
-  </div>
+<div class="trans-edit-original-view">
+  {{original}}
+</div>
+<div class="trans-edit-translated-edit">
+  <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
+</div>
+
   `
 })
 export class TransEditComponent implements OnInit, OnChanges {
 
   public translated: string;
   public original: string;
+
   @Input() data: ITranslateData;
-  constructor() { }
+
+  constructor(
+    @Inject(TRANS_SERVICE) protected service: ITransCommonService,
+  ) { }
 
   ngOnInit() {
   }
   ngOnChanges(changes: SimpleChanges) {
-    const { dataChange } = changes;
-    if (dataChange.currentValue) {
-      this.initData(dataChange.currentValue);
+    const { data } = changes;
+
+    if (data.currentValue) {
+      this.initData(data.currentValue);
     }
   }
 

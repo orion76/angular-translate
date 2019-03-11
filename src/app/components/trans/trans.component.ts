@@ -1,12 +1,13 @@
-import { Component, OnInit, NgModule, Renderer2 } from '@angular/core';
+import { Component, OnInit, NgModule, Renderer2, Inject } from '@angular/core';
 import { transSource } from './source';
 import { CommonModule } from '@angular/common';
-import { ITranslateData } from '../../library/common';
+import { ITranslateData, EEvents, ISelectedTranslateString } from '../../library/common';
 import { getTextNodes } from '../../library/dom';
 import { TransOriginalModule } from './trans-original/trans-original.component';
 import { TransTranslatedModule } from './trans-translated/trans-translated.component';
 import { TransEditModule } from './trans-edit/trans-edit.component';
-import { TransCommonService } from '../../services/trans-common.service';
+import { TransCommonService, ITransCommonService } from '../../services/trans-common.service';
+import { TRANS_SERVICE } from '../../services/injection-tokens';
 
 
 
@@ -24,7 +25,7 @@ import { TransCommonService } from '../../services/trans-common.service';
       <app-trans-translated class="trans-translated" [dom]="translatedDom" [data]="translateData"></app-trans-translated>
     </div>
     <div class="trans-edit-wrapper  trans-block">
-      <app-trans-edit class="trans-edit" ></app-trans-edit>
+      <app-trans-edit class="trans-edit" [data]="selected"></app-trans-edit>
     </div>
   </div>
   `
@@ -36,12 +37,23 @@ export class TransComponent implements OnInit {
   originalDom: HTMLElement;
   translatedDom: HTMLElement;
 
+  selected: ITranslateData;
+
   translateData: Map<string, ITranslateData> = new Map();
   private textNodes: HTMLElement[];
-  constructor(service: TransCommonService, private renderer: Renderer2) { }
+  constructor(
+    @Inject(TRANS_SERVICE) private service: ITransCommonService,
+    private renderer: Renderer2
+  ) { }
 
   ngOnInit() {
     this.source = transSource;
+    this.initParseDom();
+    this.service.onEvent(EEvents.MOUSE_DOWN).subscribe((event: ISelectedTranslateString) => {
+      this.selected = this.translateData.get(event.transId);
+    })
+  }
+  initParseDom() {
     const parser = new DOMParser();
     const dom = parser.parseFromString(this.source, 'text/html');
 
@@ -65,7 +77,6 @@ export class TransComponent implements OnInit {
     this.translatedDom = parser.parseFromString(dom.body.innerHTML, 'text/html').body;
     this.originalDom = parser.parseFromString(dom.body.innerHTML, 'text/html').body;
   }
-
 }
 
 @NgModule({
@@ -77,6 +88,8 @@ export class TransComponent implements OnInit {
     TransEditModule
   ],
   exports: [TransComponent],
-  providers: []
+  providers: [
+    { provide: TRANS_SERVICE, useClass: TransCommonService },
+  ]
 })
 export class TransModule { }
