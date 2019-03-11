@@ -9,6 +9,15 @@ import { ITranslateData } from '../../../library/common';
 @Component({
   selector: 'app-trans-edit',
   template: `
+<div class="row">
+  <div class="trans-edit-original-view">
+    {{original}}
+  </div>
+<div class="trans-edit-translated-edit">
+  <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
+</div>
+
+
 
   <div class="trans-edit-original-view">
     {{original}}
@@ -16,6 +25,7 @@ import { ITranslateData } from '../../../library/common';
   <div class="trans-edit-translated-edit">
     <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
   </div>
+
   `
 })
 export class TransEditComponent implements OnInit, OnChanges {
