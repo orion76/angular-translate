@@ -2,6 +2,12 @@
 app-root,app-trans-original{
   display:block;
 }
+.ui-toolbar{
+
+  .ui-button{
+    margin-left: 3px;
+  }
+}
 
 .trans-wrapper{
   display: flex;
@@ -14,8 +20,8 @@ app-root,app-trans-original{
 
 .trans-content-block{
   width:50%;
-      max-height: 300px ;
-    overflow-x: scroll;
+      // max-height: 300px ;
+    // overflow-x: scroll;
 }
 
 .trans-mouse-enter,
@@ -39,7 +45,13 @@ border:1px solid #999;
   width:100%;
 
   .trans-edit{
-    display:flex
+    display:flex;
+
+    .ui-panel-content-wrapper{
+      .ui-panel-content {
+        height: 100%;
+      }
+    }
   }
 
   .trans-edit-original-view,.trans-edit-translated-edit{
@@ -51,4 +63,25 @@ border:1px solid #999;
       width:100%;
     }
   }
+}
+
+
+
+.trans-content{
+  width: 100%;
+   height: 200px;
+}
+
+.trans-content .ui-scrollpanel-wrapper {
+    border-right: 9px solid #f4f4f4;
+}
+
+.trans-content .ui-scrollpanel-bar {
+    background-color: #1976d2;
+    opacity: 1;
+    transition: background-color .3s;
+}
+
+.trans-content .ui-scrollpanel-bar:hover {
+    background-color: #135ba1;
 }

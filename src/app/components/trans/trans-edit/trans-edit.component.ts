@@ -5,19 +5,41 @@ import { FormsModule } from '@angular/forms';
 import { ITranslateData } from '../../../library/common';
 import { TRANS_SERVICE } from '../../../services/injection-tokens';
 import { ITransCommonService } from '../../../services/trans-common.service';
-
-
+import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonModule } from 'primeng/button';
+import { PanelModule } from 'primeng/panel';
 
 @Component({
   selector: 'app-trans-edit',
   template: `
 
-<div class="trans-edit-original-view">
-  {{original}}
-</div>
-<div class="trans-edit-translated-edit">
-  <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
-</div>
+
+
+
+    <p-panel header="Original" class="trans-edit-original-view">
+      {{original}}
+    </p-panel>
+
+
+
+
+
+    <p-panel header="Translate" class="trans-edit-translated-edit">
+    <p-toolbar>
+        <div class="ui-toolbar-group-left">
+            <button pButton type="button" label="New" icon="pi pi-plus"></button>
+            <button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>
+        </div>
+
+        <div class="ui-toolbar-group-right">
+            <button pButton type="button" icon="pi pi-search"></button>
+            <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
+            <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
+        </div>
+    </p-toolbar>
+    <textarea [(ngModel)]="translated" [rows]="5" [cols]="30" pInputTextarea autoResize="autoResize"></textarea>
+    </p-panel>
+
 
   `
 })
@@ -54,6 +76,9 @@ export class TransEditComponent implements OnInit, OnChanges {
   imports: [
     CommonModule,
     FormsModule,
+    PanelModule,
+    ToolbarModule,
+    ButtonModule,
     InputTextareaModule,
   ],
   exports: [TransEditComponent]

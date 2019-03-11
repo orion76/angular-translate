@@ -1,6 +1,7 @@
 import { Component, OnInit, NgModule, Renderer2, Inject } from '@angular/core';
 import { transSource } from './source';
 import { CommonModule } from '@angular/common';
+import {CardModule} from 'primeng/card';
 import { ITranslateData, EEvents, ISelectedTranslateString } from '../../library/common';
 import { getTextNodes } from '../../library/dom';
 import { TransOriginalModule } from './trans-original/trans-original.component';
@@ -10,24 +11,24 @@ import { TransCommonService, ITransCommonService } from '../../services/trans-co
 import { TRANS_SERVICE } from '../../services/injection-tokens';
 
 
-
-
-
-
 @Component({
   selector: 'app-trans',
   template: `
-  <div class="trans-wrapper">
-    <div class="trans-original-wrapper  trans-content-block trans-block">
-      <app-trans-original class="trans-original" [dom]="originalDom"  [data]="translateData"></app-trans-original>
+  <p-card header="Contens" >
+    <div class="trans-wrapper">
+      <div class="transiginal-wrapper  trans-content-block trans-block">
+        <app-trans-original class="trans-original" [dom]="originalDom"  [data]="translateData"></app-trans-original>
+      </div>
+
+      <div class="trans-translated-wrapper  trans-content-block trans-block">
+        <app-trans-translated class="trans-translated" [dom]="translatedDom" [data]="translateData"></app-trans-translated>
+      </div>
+
+      <div class="trans-edit-wrapper  trans-block">
+        <app-trans-edit class="trans-edit" [data]="selected"></app-trans-edit>
+      </div>
     </div>
-    <div class="trans-translated-wrapper  trans-content-block trans-block">
-      <app-trans-translated class="trans-translated" [dom]="translatedDom" [data]="translateData"></app-trans-translated>
-    </div>
-    <div class="trans-edit-wrapper  trans-block">
-      <app-trans-edit class="trans-edit" [data]="selected"></app-trans-edit>
-    </div>
-  </div>
+  </p-card>
   `
 })
 export class TransComponent implements OnInit {
@@ -83,6 +84,7 @@ export class TransComponent implements OnInit {
   declarations: [TransComponent],
   imports: [
     CommonModule,
+    CardModule,
     TransOriginalModule,
     TransTranslatedModule,
     TransEditModule

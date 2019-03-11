@@ -5,14 +5,16 @@ import { ITranslateData, ISelectedTranslateString, TTranslateMode } from '../../
 import { TransCommonService, ITransCommonService } from '../../../services/trans-common.service';
 import { filter } from 'rxjs/operators';
 import { TRANS_SERVICE } from '../../../services/injection-tokens';
-
+import {ScrollPanelModule} from 'primeng/scrollpanel';
 
 
 @Component({
   selector: 'app-trans-original',
   template: `
+  <p-scrollPanel styleClass="trans-content" >
     nodesCount: {{nodesCount}}
     <div #content></div>
+    </p-scrollPanel>
   `
 })
 export class TransOriginalComponent extends TransContentAbstract implements OnInit {
@@ -43,7 +45,8 @@ export class TransOriginalComponent extends TransContentAbstract implements OnIn
 @NgModule({
   declarations: [TransOriginalComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    ScrollPanelModule,
   ],
   exports: [TransOriginalComponent]
 })
