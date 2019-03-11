@@ -1,14 +1,16 @@
 import { Component, OnInit, NgModule, Renderer2, Inject } from '@angular/core';
 import { transSource } from './source';
 import { CommonModule } from '@angular/common';
-import {CardModule} from 'primeng/card';
+import { CardModule } from 'primeng/card';
 import { ITranslateData, EEvents, ISelectedTranslateString } from '../../library/common';
 import { getTextNodes } from '../../library/dom';
 import { TransOriginalModule } from './trans-original/trans-original.component';
 import { TransTranslatedModule } from './trans-translated/trans-translated.component';
 import { TransEditModule } from './trans-edit/trans-edit.component';
 import { TransCommonService, ITransCommonService } from '../../services/trans-common.service';
-import { TRANS_SERVICE } from '../../services/injection-tokens';
+import { TRANS_SERVICE, DATA_SERVICE, SOURFCE_PARSE_SERVICE } from '../../services/injection-tokens';
+import { DataService } from '../../services/data.service';
+import { SourceParseService } from '../../services/source-parse.service';
 
 
 @Component({
@@ -92,6 +94,8 @@ export class TransComponent implements OnInit {
   exports: [TransComponent],
   providers: [
     { provide: TRANS_SERVICE, useClass: TransCommonService },
+    { provide: DATA_SERVICE, useClass: DataService },
+    { provide: SOURFCE_PARSE_SERVICE, useClass: SourceParseService },
   ]
 })
 export class TransModule { }
