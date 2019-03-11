@@ -53,7 +53,7 @@ this.service.onEvent(EEvents.MOUSE_OUT)
     Array.from(this.dom.getElementsByTagName('trans'))
       .forEach((trans: HTMLElement) => {
 
-        trans.innerHTML = this.data.get(trans.id).origin;
+        trans.innerHTML = this.data.get(trans.id).original;
 
         trans.addEventListener('mouseenter', (event: MouseEvent) => this.onMouseEvent(
           EEvents.MOUSE_ENTER, (event.target as HTMLElement).id)

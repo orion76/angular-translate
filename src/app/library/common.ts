@@ -14,6 +14,6 @@ export interface ISelectedTranslateString {
 
 
 export interface ITranslateData {
-  origin: string,
+  original: string,
   translated: string
 }
