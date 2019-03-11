@@ -11,18 +11,22 @@ import { TransModule } from './components/trans/trans.component';
 
 
 import { TransCommonService } from './services/trans-common.service';
+import { TransNewModule } from './components/trans-new/trans-new.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     MenubarModule,
-    TransModule
+    TransModule,
+    TransNewModule
   ],
   providers: [TransCommonService],
   bootstrap: [AppComponent]

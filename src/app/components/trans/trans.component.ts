@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule, Renderer2, Inject } from '@angular/core';
+import { Component, OnInit, NgModule, Inject } from '@angular/core';
 import { transSource } from './source';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';

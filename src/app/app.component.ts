@@ -13,7 +13,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.menuBar = [
-      { label: 'Trans', routerLink: 'trans' }
+      { label: 'Trans', routerLink: 'trans' },
+      { label: 'Trans New', routerLink: 'trans-new' },
     ]
   }
 }
