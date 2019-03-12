@@ -2,8 +2,6 @@ import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelect
 
 import { Dictionary } from '@ngrx/entity/src/models';
 
-
-
 import { ITranslateSourceEntity } from '../../../types/trans';
 
 // import IFormProps = FormSelectors.IFormProps;
