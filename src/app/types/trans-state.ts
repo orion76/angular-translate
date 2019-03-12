@@ -1,7 +1,7 @@
 import { ELanguage } from './common';
-import { ITranslateSourceEntity } from './trans';
+import { ITranslateOriginalEntity } from './trans';
 
 
-export interface ITransState extends ITranslateSourceEntity {
+export interface ITransState extends ITranslateOriginalEntity {
   translateLanguage: ELanguage;
 }

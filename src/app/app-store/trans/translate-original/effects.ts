@@ -7,22 +7,22 @@ import { of } from 'rxjs';
 import { DATA_SERVICE } from '../../../services/injection-tokens';
 import { IDataService } from '../../../services/data.service';
 import { StoreActions } from './actions';
-import { ESources, ITranslateSourceEntity } from '../../../types/trans';
+import { ESources, ITranslateOriginalEntity } from '../../../types/trans';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../app-store.module';
 
 
 @Injectable()
-export class TranslateSourceEffects {
+export class TranslateOriginalEffects {
 
 
   @Effect()
-  loadTransStates$ = this.actions$.pipe(
-    ofType<StoreActions.loadSource>(StoreActions.Types.LOAD_SOURCE),
-    switchMap((action: StoreActions.loadSource) => {
+  loadOriginal$ = this.actions$.pipe(
+    ofType<StoreActions.originalLoad>(StoreActions.Types.ORIGINAL_LOAD),
+    switchMap((action: StoreActions.originalLoad) => {
       return this.data.getItem(ESources.SOURCE, action.entityId).pipe(
-        map((entity: ITranslateSourceEntity) => new StoreActions.loadSourceSuccess(entity)),
-        catchError(() => of(new StoreActions.loadSourceError(action.entityId)))
+        map((entity: ITranslateOriginalEntity) => new StoreActions.originalLoadSuccess(entity)),
+        catchError(() => of(new StoreActions.originalLoadError(action.entityId)))
       )
     })
   );

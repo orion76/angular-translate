@@ -1,10 +1,10 @@
-import { TranslateSourceState } from './state';
+import { StoreState } from './state';
 
-import initialState = TranslateSourceState.initialState;
-import State = TranslateSourceState.State;
+import initialState = StoreState.initialState;
+import State = StoreState.State;
 import { StoreActions } from './actions';
-import { featureAdapter } from '../translate-status/state';
 
+import featureAdapter = StoreState.featureAdapter;
 
 export function reducer(state: State = initialState, action: StoreActions.Actions) {
   let stateNew: State;
@@ -13,16 +13,16 @@ export function reducer(state: State = initialState, action: StoreActions.Action
 
   switch (action.type) {
 
-    case StoreActions.Types.NEW_SOURCE:
+    case StoreActions.Types.ORIGINAL_NEW:
       stateNew = featureAdapter.addOne(action.entity, state);
       break;
-    case StoreActions.Types.LOAD_SOURCE:
+    case StoreActions.Types.ORIGINAL_LOAD:
       stateNew = state;
       break;
-    case StoreActions.Types.LOAD_SOURCE_SUCCESS:
+    case StoreActions.Types.ORIGINAL_LOAD_SUCCESS:
       stateNew = featureAdapter.addOne(action.entity, state);
       break;
-    case StoreActions.Types.LOAD_SOURCE_ERROR:
+    case StoreActions.Types.ORIGINAL_LOAD_ERROR:
       stateNew = state;
       break;
     default:

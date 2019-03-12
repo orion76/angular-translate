@@ -1,4 +1,6 @@
 import { ELanguage } from './common';
+import { EnumFlagged } from '../library/enum-flagged';
+import { EOriginalStatus } from '../app-store/trans/original-status/actions';
 
 export enum ESources {
   SOURCE = 'translate-source',
@@ -7,32 +9,51 @@ export enum ESources {
 }
 
 export interface IEntity {
-  entityId: string,
+  entityId: string | null,
   authorId: string,
 }
 
-export interface ITranslatedEntity extends IEntity {
-  sourceId: string,
+/**
+ *
+ */
+export interface ITranslatedLineEntity extends IEntity {
+  // entityId: string,
+  // authorId: string,
   transId: string, // ITranslateOriginalEntity entityId
-  language: ELanguage,
   content: string,
   translated: boolean,
 }
 
-export interface ITranslateOriginalEntity extends IEntity {
-  sourceId: string,
-  language: ELanguage,
+export interface IOriginalLineEntity extends IEntity {
+  // entityId: string,
+  // authorId: string,
   content: string,
 }
 
-export interface ITranslateSourceEntity extends IEntity {
+
+export interface ITranslateOriginalEntity extends IEntity {
+  // entityId: string,
+  // authorId: string,
   language: ELanguage,
-  items: Map<string, ITranslateOriginalEntity>
+  lines: Map<string, IOriginalLineEntity>,
+  template: string
 }
 
-export interface ITranslateedEntityList {
-  sourceId: string,
+export interface ITranslateTranslatedEntity extends IEntity {
+  // entityId: string,
+  // authorId: string,
+  originalId: string,
   language: ELanguage,
-  items: Map<string, ITranslateOriginalEntity>
+  lines: Map<string, ITranslatedLineEntity>
 }
 
+export interface IEntityOriginalStatus {
+  entityId: string,
+  status: EnumFlagged<EOriginalStatus>
+
+}
+
+export type TEntity = ITranslateOriginalEntity
+  | ITranslateTranslatedEntity
+  | IOriginalLineEntity
+  | ITranslatedLineEntity;

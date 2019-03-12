@@ -4,10 +4,10 @@ import { ISourceParseService } from './source-parse.service';
 import { transSource } from '../components/trans/source';
 
 import { Observable, of } from 'rxjs';
-import { ITranslateSourceEntity } from '../types/trans';
+import { TEntity } from '../types/trans';
 
 export interface IDataService {
-  getItem(source: string, entityId: string): Observable<ITranslateSourceEntity>
+  getItem(source: string, entityId: string): Observable<TEntity>
 }
 
 @Injectable()
@@ -18,7 +18,7 @@ export class DataService implements IDataService {
 
   }
 
-  getItem(source: string, entityId: string): Observable<ITranslateSourceEntity> {
+  getItem(source: string, entityId: string): Observable<TEntity> {
     return of(this.parser.parse(transSource, 'en', '1'));
   }
 }
