@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, NgModule, Inject } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,52 +6,49 @@ import { FormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { HttpClient } from 'selenium-webdriver/http';
+
+import { TRANS_SERVICE } from '../../services/injection-tokens';
+import { ITransCommonService } from '../../services/trans-common.service';
 
 
 @Component({
   selector: 'app-trans-new',
   template: `
-  <div>
-<label for="url">
-  <input name="url" type="text" pInputText [(ngModel)]="url"/>
-</label>
-
-<button pButton type="button" label="Download" (click)="Download($event)"></button>
-</div>
-<div>
-<textarea  [(ngModel)]="content"
-  [rows]="5"  [cols]="30"
-  pInputTextarea
-  autoResize="autoResize">
-</textarea>
+<div class="trans-new-component">
+  <div class="trans-new-url-wrapper">
+    <label for="url">
+      <input name="url" type="text" pInputText [(ngModel)]="url"/>
+    </label>
+  </div>
+  <div class="trans-new-button-save-wrapper">
+    <button pButton type="button" label="Save" (click)="Save($event)"></button>
+  </div>
+  <div class="trans-new-content-wrapper">
+    <textarea  [(ngModel)]="content"
+    pInputTextarea
+    autoResize="autoResize"
+    [rows]="15"
+    class="trans-new-content"
+    >
+    </textarea>
+  </div>
 </div>
 `
 })
 export class TransNewComponent implements OnInit {
   public content: string = '';
-  public url: string = 'https://www.google.ru';
+  public url: string = '';
 
-  constructor() { }
+  constructor(
+    @Inject(TRANS_SERVICE) protected service: ITransCommonService,
+  ) { }
 
   ngOnInit() {
 
 
   }
-  Download() {
-    const http: XMLHttpRequest = new XMLHttpRequest();;
-
-    http.addEventListener("load", (response: any) => {
-debugger;
-    });
-    http.open("GET", this.url,true);
-    http.responseType = "document";
-    http.setRequestHeader('Content-Type', 'text/html');
-    http.setRequestHeader('Access-Control-Allow-Origin', '*');
-    http.withCredentials=true;
-    http.send();
-
-    this.content = 'Download';
+  Save() {
+    this.content = '';
   }
 }
 

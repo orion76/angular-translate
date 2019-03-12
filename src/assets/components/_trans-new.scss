@@ -1,0 +1,16 @@
+.trans-new-component{
+  padding: 2em;
+
+}
+
+.trans-new-url-wrapper,
+.trans-new-button-save-wrapper,
+.trans-new-content-wrapper{
+@extend %row;
+}
+
+.trans-new-content-wrapper{
+.trans-new-content{
+width:100%;
+}
+}

@@ -8,11 +8,8 @@ import { AppComponent } from './app.component';
 import { MenubarModule } from 'primeng/menubar';
 import { TransModule } from './components/trans/trans.component';
 
-
-
 import { TransCommonService } from './services/trans-common.service';
 import { TransNewModule } from './components/trans-new/trans-new.component';
-
 
 
 @NgModule({
