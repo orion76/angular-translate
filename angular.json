@@ -139,5 +139,8 @@
       }
     }
   },
-  "defaultProject": "angular-translate"
+  "defaultProject": "angular-translate",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

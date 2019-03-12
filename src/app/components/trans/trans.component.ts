@@ -9,7 +9,8 @@ import { TransTranslatedModule } from './trans-translated/trans-translated.compo
 import { TransEditModule } from './trans-edit/trans-edit.component';
 import { TransCommonService, ITransCommonService } from '../../services/trans-common.service';
 import { TRANS_SERVICE, DATA_SERVICE, SOURFCE_PARSE_SERVICE } from '../../services/injection-tokens';
-import { DataService, IDataService, ITransEntity } from '../../services/data.service';
+import { DataService, IDataService } from '../../services/data.service';
+import { ITransEntity } from "../../services/ITransItemEntity";
 import { SourceParseService } from '../../services/source-parse.service';
 
 

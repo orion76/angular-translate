@@ -3,25 +3,11 @@ import { SOURFCE_PARSE_SERVICE } from './injection-tokens';
 import { ISourceParseService } from './source-parse.service';
 import { transSource } from '../components/trans/source';
 
-
-
-export interface ITransItemEntity {
-  transId: string;
-  language: string;
-  autorId: string;
-  content: string;
-  translated: boolean;
-}
-
-export interface ITransEntity {
-  entityId?: string;
-  template: string;
-  original: Map<string, ITransItemEntity>;
-  translated: Map<string, ITransItemEntity>;
-}
+import { Observable, of } from 'rxjs';
+import { ITranslateSourceEntity } from '../types/trans';
 
 export interface IDataService {
-  getItem(entityId: string): ITransEntity
+  getItem(source: string, entityId: string): Observable<ITranslateSourceEntity>
 }
 
 @Injectable()
@@ -32,7 +18,7 @@ export class DataService implements IDataService {
 
   }
 
-  getItem(entityId: string): ITransEntity {
-    return this.parser.parse(transSource, 'en', '1');
+  getItem(source: string, entityId: string): Observable<ITranslateSourceEntity> {
+    return of(this.parser.parse(transSource, 'en', '1'));
   }
 }

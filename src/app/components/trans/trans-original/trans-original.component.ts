@@ -6,7 +6,7 @@ import { TransCommonService, ITransCommonService } from '../../../services/trans
 import { filter } from 'rxjs/operators';
 import { TRANS_SERVICE } from '../../../services/injection-tokens';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { ITransItemEntity } from '../../../services/data.service';
+import { ITransItemEntity } from "../../../services/ITransItemEntity";
 
 
 @Component({

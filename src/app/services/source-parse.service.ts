@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ITransEntity } from './data.service';
+import { ITransEntity } from "./ITransItemEntity";
 
 export interface ISourceParseService {
   parse(source: string, language: string, autorId: string): ITransEntity;
