@@ -4,7 +4,7 @@ import { TransCommonService, ITransCommonService } from '../services/trans-commo
 import { ITranslateData, ISelectedTranslateString, EEvents } from './common';
 import { getTextNodes } from './dom';
 import { filter, tap } from 'rxjs/operators';
-import { ITransItemEntity } from '../services/data.service';
+import { ITransItemEntity } from "../services/ITransItemEntity";
 
 export abstract class TransContentAbstract {
 
