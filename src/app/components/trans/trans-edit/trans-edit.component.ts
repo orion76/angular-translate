@@ -11,7 +11,6 @@ import { ITranslatedService } from '../../../services/translated.service';
 
 
 
-
 @Component({
   selector: 'app-trans-edit',
   template: `

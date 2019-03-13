@@ -1,0 +1,22 @@
+[
+    {
+        "command": "monaco.editor.action.formatDocument",
+        "keybinding": "alt+shift+f",
+        "context": "strictEditorTextFocus"
+    },
+    {
+        "command": "core.saveAll",
+        "keybinding": "ctrlcmd+s",
+        "context": ""
+    },
+    {
+        "command": "typescript.edit.organizeImports",
+        "keybinding": "ctrl+shift+i",
+        "context": "typescriptEditorTextFocus"
+    },
+    {
+        "command": "monaco.editor.action.referenceSearch.trigger",
+        "keybinding": "alt+f7",
+        "context": "strictEditorTextFocus"
+    }
+]

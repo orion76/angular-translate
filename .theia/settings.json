@@ -1,0 +1,15 @@
+{
+   "workspace.preserveWindow": true,
+   "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true
+   },
+   "editor.autoSave": "off",
+   "editor.suggestOnTriggerCharacters": false,
+   "editor.tabSize": 2,
+   "editor.minimap.enabled": true,
+   "workspace.supportMultiRootWorkspace": true,
+   "editor.quickSuggestions": false,
+   "editor.fontSize": 12
+}

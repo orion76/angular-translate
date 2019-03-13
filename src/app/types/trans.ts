@@ -1,6 +1,7 @@
 import { ELanguage } from './common';
 import { EnumFlagged } from '../library/enum-flagged';
 import { EOriginalStatus } from '../app-store/trans/original-status/actions';
+import { ETranslatedStatus } from '../app-store/trans/translated-status/actions';
 
 export enum ESources {
   SOURCE = 'translate-source',
@@ -50,7 +51,11 @@ export interface ITranslateTranslatedEntity extends IEntity {
 export interface IEntityOriginalStatus {
   entityId: string,
   status: EnumFlagged<EOriginalStatus>
+}
 
+export interface IEntityTranslatedStatus {
+  entityId: string,
+  status: EnumFlagged<ETranslatedStatus>
 }
 
 export type TTranslateEntity = ITranslateOriginalEntity | ITranslateTranslatedEntity

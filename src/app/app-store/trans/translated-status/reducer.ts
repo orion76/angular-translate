@@ -2,7 +2,7 @@ import { StoreState } from './state';
 
 import initialState = StoreState.initialState;
 import State = StoreState.State;
-import { StoreActions, EOriginalStatus } from './actions';
+import { StoreActions, ETranslatedStatus } from './actions';
 
 import featureAdapter = StoreState.featureAdapter;
 import { EnumFlagged } from '../../../library/enum-flagged';
@@ -10,23 +10,23 @@ import { StoreSelectors } from './selectors';
 
 
 function statusAdd(state: State, action: StoreActions.Actions) {
-  const oldstatus = StoreSelectors.getOriginal(state.entities, action).status;
+  const oldstatus = StoreSelectors.getTranslated(state.entities, action).status;
   const status = (action as StoreActions.statusAdd).status;
   return featureAdapter.updateOne({
     id: action.entityId,
     changes: {
-      status: (oldstatus.add(status)) as EnumFlagged<EOriginalStatus>
+      status: (oldstatus.add(status)) as EnumFlagged<ETranslatedStatus>
     }
   }, state);
 }
 
 function statusReplace(state: State, action: StoreActions.Actions) {
-  const oldstatus = StoreSelectors.getOriginal(state.entities, action).status;
+  const oldstatus = StoreSelectors.getTranslated(state.entities, action).status;
   const { statusOld, statusNew } = (action as StoreActions.statusReplace);
   return featureAdapter.updateOne({
     id: action.entityId,
     changes: {
-      status: (oldstatus.replace(statusOld, statusNew)) as EnumFlagged<EOriginalStatus>
+      status: (oldstatus.replace(statusOld, statusNew)) as EnumFlagged<ETranslatedStatus>
     }
   }, state);
 }
@@ -39,10 +39,10 @@ export function reducer(state: State = initialState, action: StoreActions.Action
 
   switch (action.type) {
 
-    case StoreActions.Types.ORIGINAL_ADD:
+    case StoreActions.Types.TRANSLATED_ADD:
       stateNew = featureAdapter.addOne({
         entityId: action.entityId,
-        status: new EnumFlagged(EOriginalStatus.ORIGINAL_NEW)
+        status: new EnumFlagged(ETranslatedStatus.TRANSLATED_NEW)
       }, state);
       break;
 

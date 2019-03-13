@@ -1,17 +1,17 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { IEntityOriginalStatus } from '../../../types/trans';
+import { IEntityTranslatedStatus } from '../../../types/trans';
 
 export namespace StoreState {
 
   export const featureName = 'TRANSLATE_ORIGINAL_STATUS';
 
 
-  export const featureAdapter: EntityAdapter<IEntityOriginalStatus> = createEntityAdapter<IEntityOriginalStatus>({
+  export const featureAdapter: EntityAdapter<IEntityTranslatedStatus> = createEntityAdapter<IEntityTranslatedStatus>({
     selectId: model => model.entityId,
   });
 
 
-  export interface State extends EntityState<IEntityOriginalStatus> {
+  export interface State extends EntityState<IEntityTranslatedStatus> {
 
 
   }

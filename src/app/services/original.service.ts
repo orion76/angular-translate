@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ISelectedTranslateString, EEvents } from '../library/common';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
+import { EEvents, ISelectedTranslateString } from '../library/common';
 
 export interface IOriginalService {
   do(event: EEvents, transId: string, data?: any): void

@@ -1,6 +1,3 @@
-import { ITranslateOriginalEntity } from '../../../types/trans';
-import { EnumFlagged } from '../../../library/enum-flagged';
-
 
 export enum EOriginalStatus {
   ORIGINAL_NEW = 1 << 0,
@@ -11,34 +8,34 @@ export enum EOriginalStatus {
 
 export namespace StoreActions {
   export enum Types {
-    ORIGINAL_NEW = '[STATUS] ORIGINAL_NEW',
-    ORIGINAL_LOAD = '[STATUS] ORIGINAL_LOAD',
-    ORIGINAL_LOAD_SUCCESS = '[STATUS] ORIGINAL_LOAD_SUCCESS',
-    ORIGINAL_LOAD_ERROR = '[STATUS] ORIGINAL_LOAD_ERROR',
+    ORIGINAL_ADD = '[STATUS] ORIGINAL_ADD',
+    STATUS_SET = '[STATUS] SET',
+    STATUS_ADD = '[STATUS] ADD',
+    STATUS_REPLACE = '[STATUS] REPLACE',
   }
 
-  export class originalNew {
-    readonly type = Types.ORIGINAL_NEW;
+  export class originalAdd {
+    readonly type = Types.ORIGINAL_ADD;
     constructor(public entityId: string) { }
   }
 
-  export class originalLoad {
-    readonly type = Types.ORIGINAL_LOAD;
-    constructor(public entityId: string) { }
+  export class statusSet {
+    readonly type = Types.STATUS_SET;
+    constructor(public entityId: string, public status: EOriginalStatus) { }
   }
 
-  export class originalLoadSuccess {
-    readonly type = Types.ORIGINAL_LOAD_SUCCESS;
-    constructor(public entityId: string) { }
+  export class statusAdd {
+    readonly type = Types.STATUS_ADD;
+    constructor(public entityId: string, public status: EOriginalStatus) { }
   }
 
-  export class originalLoadError {
-    readonly type = Types.ORIGINAL_LOAD_ERROR;
-    constructor(public entityId: string) { }
+  export class statusReplace {
+    readonly type = Types.STATUS_REPLACE;
+    constructor(public entityId: string, public statusOld: EOriginalStatus, public statusNew: EOriginalStatus) { }
   }
 
-  export type Actions = originalNew
-    | originalLoad
-    | originalLoadSuccess
-    | originalLoadError;
+  export type Actions = originalAdd
+    | statusSet
+    | statusAdd
+    | statusReplace;
 }
