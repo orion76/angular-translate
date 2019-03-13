@@ -1,21 +1,20 @@
 
-import { ElementRef, EventEmitter, Renderer2 } from '@angular/core';
-import { TransCommonService, ITransCommonService } from '../services/trans-common.service';
-import { ITranslateData, ISelectedTranslateString, EEvents } from './common';
-import { getTextNodes } from './dom';
-import { filter, tap } from 'rxjs/operators';
-import { ITransItemEntity } from "../services/ITransItemEntity";
+import { ElementRef, Renderer2 } from '@angular/core';
+import { ITranslatedService } from '../services/translated.service';
+import { TTranslateLineEntity } from '../types/trans';
+import { EEvents, ISelectedTranslateString } from './common';
+
 
 export abstract class TransContentAbstract {
 
   dom: HTMLElement;
-  data: Map<string, ITransItemEntity>;
+  lines: Map<string, TTranslateLineEntity>;
   elements: Map<string, HTMLElement>;
   content: ElementRef;
   protected _selectedId: any;
 
 
-  constructor(protected service: ITransCommonService, protected renderer: Renderer2) { }
+  constructor(protected service: ITranslatedService, protected renderer: Renderer2) { }
 
   ngOnInit() {
 
@@ -30,7 +29,7 @@ export abstract class TransContentAbstract {
       })
     this.elements = this.getTransElements();
     this.elements.forEach((node: HTMLElement, transId: string) => {
-      node.textContent = this.data.get(transId).content;
+      node.textContent = this.lines.get(transId).content;
     })
 
     this.service.onEvent(EEvents.MOUSE_DOWN)
@@ -51,7 +50,7 @@ export abstract class TransContentAbstract {
     Array.from(this.dom.getElementsByTagName('trans'))
       .forEach((trans: HTMLElement) => {
 
-        trans.innerHTML = this.data.get(trans.id).content;
+        trans.innerHTML = this.lines.get(trans.id).content;
 
         trans.addEventListener('mouseenter', (event: MouseEvent) => this.onMouseEvent(
           EEvents.MOUSE_ENTER, (event.target as HTMLElement).id)

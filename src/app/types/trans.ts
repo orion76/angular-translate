@@ -16,7 +16,7 @@ export interface IEntity {
 /**
  *
  */
-export interface ITranslatedLineEntity extends IEntity {
+export interface ILineTranslatedEntity extends IEntity {
   // entityId: string,
   // authorId: string,
   transId: string, // ITranslateOriginalEntity entityId
@@ -24,7 +24,7 @@ export interface ITranslatedLineEntity extends IEntity {
   translated: boolean,
 }
 
-export interface IOriginalLineEntity extends IEntity {
+export interface ILineOriginalEntity extends IEntity {
   // entityId: string,
   // authorId: string,
   content: string,
@@ -35,7 +35,7 @@ export interface ITranslateOriginalEntity extends IEntity {
   // entityId: string,
   // authorId: string,
   language: ELanguage,
-  lines: Map<string, IOriginalLineEntity>,
+  lines: Map<string, ILineOriginalEntity>,
   template: string
 }
 
@@ -44,7 +44,7 @@ export interface ITranslateTranslatedEntity extends IEntity {
   // authorId: string,
   originalId: string,
   language: ELanguage,
-  lines: Map<string, ITranslatedLineEntity>
+  lines: Map<string, ILineTranslatedEntity>
 }
 
 export interface IEntityOriginalStatus {
@@ -53,7 +53,11 @@ export interface IEntityOriginalStatus {
 
 }
 
+export type TTranslateEntity = ITranslateOriginalEntity | ITranslateTranslatedEntity
+
+export type TTranslateLineEntity = ILineOriginalEntity | ILineTranslatedEntity
+
 export type TEntity = ITranslateOriginalEntity
   | ITranslateTranslatedEntity
-  | IOriginalLineEntity
-  | ITranslatedLineEntity;
+  | ILineOriginalEntity
+  | ILineTranslatedEntity;

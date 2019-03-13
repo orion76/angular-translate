@@ -1,6 +1,7 @@
 
 
 export enum EEvents {
+
   MOUSE_ENTER = 'mouseenter',
   MOUSE_OUT = 'mouseout',
   MOUSE_DOWN = 'mousedown',

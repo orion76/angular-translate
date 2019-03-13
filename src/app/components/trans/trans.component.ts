@@ -1,17 +1,17 @@
-import { Component, OnInit, NgModule, Inject } from '@angular/core';
-import { transSource } from './source';
 import { CommonModule } from '@angular/common';
+import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
-import { ITranslateData, EEvents, ISelectedTranslateString } from '../../library/common';
-import { getTextNodes } from '../../library/dom';
+import { EEvents, ISelectedTranslateString, ITranslateData } from '../../library/common';
+import { DataService, IDataService } from '../../services/data.service';
+import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_SERVICE, USER_SERVICE } from '../../services/injection-tokens';
+import { SourceParseService } from '../../services/source-parse.service';
+import { ITranslatedService, TranslatedService } from '../../services/translated.service';
+import { ESources, ITranslateOriginalEntity, ITranslateTranslatedEntity } from '../../types/trans';
+import { IUserService } from '../../types/user';
+import { TransEditModule } from './trans-edit/trans-edit.component';
 import { TransOriginalModule } from './trans-original/trans-original.component';
 import { TransTranslatedModule } from './trans-translated/trans-translated.component';
-import { TransEditModule } from './trans-edit/trans-edit.component';
-import { TransCommonService, ITransCommonService } from '../../services/trans-common.service';
-import { TRANS_SERVICE, DATA_SERVICE, SOURFCE_PARSE_SERVICE } from '../../services/injection-tokens';
-import { DataService, IDataService } from '../../services/data.service';
-import { ITransEntity } from "../../services/ITransItemEntity";
-import { SourceParseService } from '../../services/source-parse.service';
+
 
 
 @Component({
@@ -20,11 +20,11 @@ import { SourceParseService } from '../../services/source-parse.service';
   <p-card header="Content" >
     <div class="trans-wrapper">
       <div class="trans-original-wrapper  trans-content-block trans-block">
-        <app-trans-original class="trans-original" [dom]="getDOM()"  [data]="entity.original"></app-trans-original>
+        <app-trans-original class="trans-original" [dom]="getDOM()"  [lines]="entityOriginal.lines"></app-trans-original>
       </div>
 
       <div class="trans-translated-wrapper  trans-content-block trans-block">
-        <app-trans-translated class="trans-translated" [dom]="getDOM()" [data]="entity.translated"></app-trans-translated>
+        <app-trans-translated class="trans-translated" [dom]="getDOM()" [lines]="entityTranslated.lines"></app-trans-translated>
       </div>
 
       <div class="trans-edit-wrapper  trans-block">
@@ -40,31 +40,43 @@ export class TransComponent implements OnInit {
 
   selected: ITranslateData;
 
-  private entity: ITransEntity;
+  private entityOriginal: ITranslateOriginalEntity;
+  private entityTranslated: ITranslateTranslatedEntity;
 
   translateData: Map<string, ITranslateData> = new Map();
 
   constructor(
-    @Inject(TRANS_SERVICE) private service: ITransCommonService,
+    @Inject(USER_SERVICE) private user: IUserService,
+    @Inject(TRANSLATED_SERVICE) private service: ITranslatedService,
     @Inject(DATA_SERVICE) private data: IDataService
   ) { }
 
   ngOnInit() {
-    this.source = transSource;
+
     /** TODO Реализовать загрузку реальной Entity */
-    this.entity = this.data.getItem('');
+    this.data.getItem(ESources.ORIGINAL, '111')
+      .subscribe((entity: ITranslateOriginalEntity) => {
+        this.entityOriginal = entity
+      });
+
+    this.data.getItem(ESources.TRANSLATED, '111')
+      .subscribe((entity: ITranslateTranslatedEntity) => {
+        this.entityTranslated = entity
+      });
+
+
     this.service.onEvent(EEvents.MOUSE_DOWN).subscribe((event: ISelectedTranslateString) => {
       const { transId } = event;
       this.selected = {
         transId,
-        original: this.entity.original.get(transId).content,
-        translated: this.entity.translated.get(transId).content,
+        original: this.entityOriginal.lines.get(transId).content,
+        translated: this.entityTranslated.lines.get(transId).content,
       }
     })
 
     this.service.onEvent(EEvents.TRANSLATED_UPDATE).subscribe((event: ISelectedTranslateString) => {
       const { transId, data } = event;
-      this.entity.translated.get(transId).content = data;
+      this.entityOriginal.lines.get(transId).content = data;
       this.service.do(EEvents.TRANSLATED_UPDATE_COMPLETE, transId);
       console.log('[TRANSLATED_UPDATE]', transId, data);
     })
@@ -73,7 +85,7 @@ export class TransComponent implements OnInit {
 
   getDOM() {
     const parser = new DOMParser();
-    return parser.parseFromString(this.entity.template, 'text/html').body;
+    return parser.parseFromString(this.entityOriginal.template, 'text/html').body;
   }
 
 }
@@ -89,7 +101,7 @@ export class TransComponent implements OnInit {
   ],
   exports: [TransComponent],
   providers: [
-    { provide: TRANS_SERVICE, useClass: TransCommonService },
+    { provide: TRANSLATED_SERVICE, useClass: TranslatedService },
     { provide: DATA_SERVICE, useClass: DataService },
     { provide: SOURFCE_PARSE_SERVICE, useClass: SourceParseService },
   ]

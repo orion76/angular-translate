@@ -1,15 +1,15 @@
-import { Component, OnInit, NgModule, Input, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Component, Inject, Input, NgModule, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { FormsModule } from '@angular/forms';
-
-import { ITranslateData, EEvents } from '../../../library/common';
-import { TRANS_SERVICE } from '../../../services/injection-tokens';
-import { ITransCommonService } from '../../../services/trans-common.service';
 import { ToolbarModule } from 'primeng/toolbar';
-import { ButtonModule } from 'primeng/button';
+import { EEvents, ITranslateData } from '../../../library/common';
+import { TRANSLATED_SERVICE } from '../../../services/injection-tokens';
+import { ITranslatedService } from '../../../services/translated.service';
+
+
 
 
 @Component({
@@ -49,7 +49,7 @@ export class TransEditComponent implements OnInit, OnChanges {
   @Input() data: ITranslateData;
 
   constructor(
-    @Inject(TRANS_SERVICE) protected service: ITransCommonService,
+    @Inject(TRANSLATED_SERVICE) protected service: ITranslatedService,
   ) { }
 
   ngOnInit() {

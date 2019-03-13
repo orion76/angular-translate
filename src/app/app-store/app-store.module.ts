@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateSourceState } from './trans/translate-source/state';
+import { StoreState as TranslateOriginalState } from './trans/translate-original/state';
 
 
 export interface IAppState {
-  TRANSLATE_SOURCE: TranslateSourceState.State,
+  TRANSLATE_SOURCE: TranslateOriginalState.State,
 }
 
 

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnInit, ElementRef, Renderer2, Output, EventEmitter, ViewChild, Inject } from '@angular/core';
-import { TransContentAbstract } from '../../../library/trans-content-abstract';
-import { ITranslateData, ISelectedTranslateString } from '../../../library/common';
-import { TransCommonService, ITransCommonService } from '../../../services/trans-common.service';
-import { filter } from 'rxjs/operators';
-import { TRANS_SERVICE } from '../../../services/injection-tokens';
+import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { ITransItemEntity } from "../../../services/ITransItemEntity";
+import { TransContentAbstract } from '../../../library/trans-content-abstract';
+import { TRANSLATED_SERVICE, USER_SERVICE } from '../../../services/injection-tokens';
+import { ITranslatedService } from '../../../services/translated.service';
+import { ILineOriginalEntity } from '../../../types/trans';
+import { IUserService } from '../../../types/user';
+
 
 
 @Component({
@@ -20,13 +20,14 @@ import { ITransItemEntity } from "../../../services/ITransItemEntity";
 })
 export class TransOriginalComponent extends TransContentAbstract implements OnInit {
   @Input() dom: HTMLElement;
-  @Input() data: Map<string, ITransItemEntity>;
+  @Input() lines: Map<string, ILineOriginalEntity>;
   @ViewChild("content")
   content: ElementRef;
 
 
   constructor(
-    @Inject(TRANS_SERVICE) protected service: ITransCommonService,
+    @Inject(USER_SERVICE) private user: IUserService,
+    @Inject(TRANSLATED_SERVICE) protected service: ITranslatedService,
     protected renderer: Renderer2
   ) {
     super(service, renderer);

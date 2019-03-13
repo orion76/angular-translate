@@ -1,12 +1,14 @@
-import { Component, OnInit, NgModule, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TransContentAbstract } from '../../../library/trans-content-abstract';
-
-import { ITransCommonService } from '../../../services/trans-common.service';
-import { TRANS_SERVICE } from '../../../services/injection-tokens';
+import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { ITransItemEntity } from "../../../services/ITransItemEntity";
 import { EEvents, ISelectedTranslateString } from '../../../library/common';
+import { TransContentAbstract } from '../../../library/trans-content-abstract';
+import { TRANSLATED_SERVICE, USER_SERVICE } from '../../../services/injection-tokens';
+import { ITranslatedService } from '../../../services/translated.service';
+import { ILineTranslatedEntity } from '../../../types/trans';
+import { IUserService } from '../../../types/user';
+
+
 
 @Component({
   selector: 'app-trans-translated',
@@ -19,14 +21,15 @@ import { EEvents, ISelectedTranslateString } from '../../../library/common';
 })
 export class TransTranslatedComponent extends TransContentAbstract implements OnInit {
   @Input() dom: HTMLElement;
-  @Input() data: Map<string, ITransItemEntity>;
+  @Input() lines: Map<string, ILineTranslatedEntity>;
 
   @ViewChild("content")
   content: ElementRef;
 
 
   constructor(
-    @Inject(TRANS_SERVICE) protected service: ITransCommonService,
+    @Inject(USER_SERVICE) private user: IUserService,
+    @Inject(TRANSLATED_SERVICE) protected service: ITranslatedService,
     protected renderer: Renderer2
   ) {
     super(service, renderer);
@@ -37,7 +40,7 @@ export class TransTranslatedComponent extends TransContentAbstract implements On
     this.service.onEvent(EEvents.TRANSLATED_UPDATE_COMPLETE).subscribe((event: ISelectedTranslateString) => {
       const { transId } = event;
 
-      this.elements.get(transId).textContent = this.data.get(transId).content;
+      this.elements.get(transId).textContent = this.lines.get(transId).content;
       console.log('[TRANSLATED_UPDATE_COMPLETE]', transId);
     })
   }

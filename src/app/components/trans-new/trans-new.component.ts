@@ -1,14 +1,14 @@
-import { Component, OnInit, NgModule, Inject } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
+import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TRANSLATED_SERVICE } from '../../services/injection-tokens';
+import { ITranslatedService } from '../../services/translated.service';
 
-import { TRANS_SERVICE } from '../../services/injection-tokens';
-import { ITransCommonService } from '../../services/trans-common.service';
+
+
 
 
 @Component({
@@ -40,7 +40,7 @@ export class TransNewComponent implements OnInit {
   public url: string = '';
 
   constructor(
-    @Inject(TRANS_SERVICE) protected service: ITransCommonService,
+    @Inject(TRANSLATED_SERVICE) protected service: ITranslatedService,
   ) { }
 
   ngOnInit() {

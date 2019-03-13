@@ -3,14 +3,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ISelectedTranslateString, EEvents } from '../library/common';
 import { filter, tap } from 'rxjs/operators';
 
-export interface ITransCommonService {
+export interface ITranslatedService {
   do(event: EEvents, transId: string, data?: any): void
   onEvent(event: EEvents): Observable<ISelectedTranslateString>;
 
 }
 
 @Injectable()
-export class TransCommonService implements ITransCommonService {
+export class TranslatedService implements ITranslatedService {
   private _onSelectSubject: BehaviorSubject<ISelectedTranslateString> = new BehaviorSubject(null);
 
   private onEvent$: Observable<ISelectedTranslateString> = this._onSelectSubject.asObservable();

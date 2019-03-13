@@ -1,15 +1,17 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-
+import { MenubarModule } from 'primeng/menubar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { MenubarModule } from 'primeng/menubar';
-import { TransModule } from './components/trans/trans.component';
-
-import { TransCommonService } from './services/trans-common.service';
 import { TransNewModule } from './components/trans-new/trans-new.component';
+import { TransModule } from './components/trans/trans.component';
+import { USER_SERVICE } from './services/injection-tokens';
+import { TranslatedService } from './services/translated.service';
+import { UserService } from './services/user.service';
+
+
+
 
 
 @NgModule({
@@ -25,7 +27,10 @@ import { TransNewModule } from './components/trans-new/trans-new.component';
     TransModule,
     TransNewModule
   ],
-  providers: [TransCommonService],
+  providers: [
+    TranslatedService,
+    { provide: USER_SERVICE, useClass: UserService }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
-import { TranslateSource } from './translate-source';
+import { TranslateOriginal } from './translate-original';
 import { EffectsModule } from '@ngrx/effects';
-import { TranslateSourceEffects } from './translate-source/effects';
+
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    StoreModule.forFeature(TranslateSource.featureName, TranslateSource.reducer),
-    EffectsModule.forFeature([TranslateSourceEffects])
+    StoreModule.forFeature(TranslateOriginal.featureName, TranslateOriginal.reducer),
+    EffectsModule.forFeature([TranslateOriginal.effects])
   ]
 })
 export class TransStoreModule { }
