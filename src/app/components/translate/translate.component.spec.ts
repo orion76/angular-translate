@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransEditComponent } from './trans-edit.component';
+import { TransComponent } from './translate.component';
 
-describe('TransEditComponent', () => {
-  let component: TransEditComponent;
-  let fixture: ComponentFixture<TransEditComponent>;
+describe('TransComponent', () => {
+  let component: TransComponent;
+  let fixture: ComponentFixture<TransComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransEditComponent ]
+      declarations: [ TransComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TransEditComponent);
+    fixture = TestBed.createComponent(TransComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { SOURFCE_PARSE_SERVICE } from './injection-tokens';
 import { ISourceParseService } from './source-parse.service';
-import { transSource } from '../components/trans/source';
+import { transSource } from '../components/translate/source';
 
 import { Observable, of } from 'rxjs';
 import { TEntity } from '../types/trans';

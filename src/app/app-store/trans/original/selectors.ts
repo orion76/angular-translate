@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelect
 
 import { Dictionary } from '@ngrx/entity/src/models';
 
-import { ITranslateOriginalEntity } from '../../../types/trans';
+import { IOriginalEntity } from '../../../types/trans';
 import { StoreState } from './state';
 import { IEntityProps } from '../../../types/common';
 import { IAppState } from '../../app-store.module';
@@ -25,7 +25,7 @@ export namespace StoreSelectors {
   } = featureAdapter.getSelectors();
 
 
-  export const getOriginal = (entities: Dictionary<ITranslateOriginalEntity>, props: IEntityProps): ITranslateOriginalEntity => {
+  export const getOriginal = (entities: Dictionary<IOriginalEntity>, props: IEntityProps): IOriginalEntity => {
     if (props.entityId === undefined || !entities[props.entityId]) {
       // console.warn('getValue', values, props);
       return;
@@ -36,10 +36,10 @@ export namespace StoreSelectors {
 
   export const selectFeatureState: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
 
-  export type TOriginalEntities = MemoizedSelector<IAppState, Dictionary<ITranslateOriginalEntity>>;
+  export type TOriginalEntities = MemoizedSelector<IAppState, Dictionary<IOriginalEntity>>;
   export const OriginalEntities: TOriginalEntities = createSelector(selectFeatureState, selectEntities);
 
-  export type TOriginalEntity = MemoizedSelectorWithProps<IAppState, IEntityProps, ITranslateOriginalEntity>;
+  export type TOriginalEntity = MemoizedSelectorWithProps<IAppState, IEntityProps, IOriginalEntity>;
   export const OriginalEntity: TOriginalEntity = createSelector(OriginalEntities, getOriginal);
 
 

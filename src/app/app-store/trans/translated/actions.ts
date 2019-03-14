@@ -1,26 +1,27 @@
-import { ITranslateTranslatedEntity } from '../../../types/trans';
+import { ITranslatedEntity } from '../../../types/trans';
+import { ELanguage } from '@app-types/common';
 
 export namespace StoreActions {
   export enum Types {
     TRANSLATED_NEW = '[TRANSLATED] NEW',
-    TRANSLATED_LOAD = '[TRANSLATED] LOAD',
+    TRANSLATED_FIND = '[TRANSLATED] LOAD',
     TRANSLATED_LOAD_SUCCESS = '[TRANSLATED] LOAD_SUCCESFULL',
     TRANSLATED_LOAD_ERROR = '[TRANSLATED] LOAD_ERROR',
   }
 
   export class translatedNew {
     readonly type = Types.TRANSLATED_NEW;
-    constructor(public entity: ITranslateTranslatedEntity) { }
+    constructor(public entity: ITranslatedEntity) { }
   }
 
-  export class translatedLoad {
-    readonly type = Types.TRANSLATED_LOAD;
-    constructor(public entityId: string) { }
+  export class translatedFind {
+    readonly type = Types.TRANSLATED_FIND;
+    constructor(public userId: string, public originalId: string, public language: ELanguage) { }
   }
 
   export class translatedLoadSuccess {
     readonly type = Types.TRANSLATED_LOAD_SUCCESS;
-    constructor(public entity: ITranslateTranslatedEntity) { }
+    constructor(public entity: ITranslatedEntity) { }
   }
 
   export class translatedLoadError {
@@ -28,5 +29,5 @@ export namespace StoreActions {
     constructor(public entityId: string) { }
   }
 
-  export type Actions = translatedNew | translatedLoad | translatedLoadSuccess | translatedLoadError;
+  export type Actions = translatedNew | translatedFind | translatedLoadSuccess | translatedLoadError;
 }

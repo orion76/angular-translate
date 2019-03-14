@@ -1,7 +1,10 @@
 import { ELanguage } from './common';
-import { ITranslateOriginalEntity } from './trans';
+import { IOriginalEntity, ITranslatedEntity } from './trans';
+import { EnumFlagged } from '@app-lib/enum-flagged';
+import { ETranslatedStatus } from '@app-store/trans/translated-status/actions';
 
 
-export interface ITransState extends ITranslateOriginalEntity {
-  translateLanguage: ELanguage;
+export interface ITranslatedState extends ITranslatedEntity {
+  status: EnumFlagged<ETranslatedStatus>;
+  readonly entity: ITranslatedEntityж
 }

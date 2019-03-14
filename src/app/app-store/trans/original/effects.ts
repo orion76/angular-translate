@@ -7,7 +7,7 @@ import { of, concat, merge } from 'rxjs';
 import { DATA_SERVICE } from '../../../services/injection-tokens';
 import { IDataService } from '../../../services/data.service';
 import { StoreActions } from './actions';
-import { ESources, ITranslateOriginalEntity } from '../../../types/trans';
+import { ESources, IOriginalEntity } from '../../../types/trans';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../app-store.module';
 import { StoreActions as StatusActions, EOriginalStatus } from '../original-status/actions';
@@ -24,7 +24,7 @@ export class TranslateOriginalEffects {
     ),
     switchMap((action: StoreActions.originalLoad) => {
       return this.data.getItem(ESources.SOURCE, action.entityId).pipe(
-        map((entity: ITranslateOriginalEntity) => new StoreActions.originalLoadSuccess(entity)),
+        map((entity: IOriginalEntity) => new StoreActions.originalLoadSuccess(entity)),
         catchError(() => of(new StoreActions.originalLoadError(action.entityId))),
       )
     })

@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { EEvents, ISelectedTranslateString } from '../../../library/common';
+import { ETranslatedEvents, ISelectedTranslateString } from '../../../library/common';
 import { TransContentAbstract } from '../../../library/trans-content-abstract';
 import { TRANSLATED_SERVICE, USER_SERVICE } from '../../../services/injection-tokens';
 import { ITranslatedService } from '../../../services/translated.service';
-import { ILineTranslatedEntity } from '../../../types/trans';
+import { ITranslatedLineEntity } from '../../../types/trans';
 import { IUserService } from '../../../types/user';
 
 
@@ -21,7 +21,7 @@ import { IUserService } from '../../../types/user';
 })
 export class TransTranslatedComponent extends TransContentAbstract implements OnInit {
   @Input() dom: HTMLElement;
-  @Input() lines: Map<string, ILineTranslatedEntity>;
+  @Input() lines: Map<string, ITranslatedLineEntity>;
 
   @ViewChild("content")
   content: ElementRef;
@@ -37,7 +37,7 @@ export class TransTranslatedComponent extends TransContentAbstract implements On
 
   ngOnInit() {
     super.ngOnInit()
-    this.service.onEvent(EEvents.TRANSLATED_UPDATE_COMPLETE).subscribe((event: ISelectedTranslateString) => {
+    this.service.onEvent(ETranslatedEvents.TRANSLATED_UPDATE_COMPLETE).subscribe((event: ISelectedTranslateString) => {
       const { transId } = event;
 
       this.elements.get(transId).textContent = this.lines.get(transId).content;

@@ -42,7 +42,7 @@ export function reducer(state: State = initialState, action: StoreActions.Action
     case StoreActions.Types.TRANSLATED_ADD:
       stateNew = featureAdapter.addOne({
         entityId: action.entityId,
-        status: new EnumFlagged(ETranslatedStatus.TRANSLATED_NEW)
+        status: new EnumFlagged(ETranslatedStatus.NEW)
       }, state);
       break;
 

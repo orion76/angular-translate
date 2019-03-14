@@ -17,7 +17,7 @@ export interface IEntity {
 /**
  *
  */
-export interface ILineTranslatedEntity extends IEntity {
+export interface ITranslatedLineEntity extends IEntity {
   // entityId: string,
   // authorId: string,
   transId: string, // ITranslateOriginalEntity entityId
@@ -25,27 +25,27 @@ export interface ILineTranslatedEntity extends IEntity {
   translated: boolean,
 }
 
-export interface ILineOriginalEntity extends IEntity {
+export interface IOriginalLineEntity extends IEntity {
   // entityId: string,
   // authorId: string,
   content: string,
 }
 
 
-export interface ITranslateOriginalEntity extends IEntity {
+export interface IOriginalEntity extends IEntity {
   // entityId: string,
   // authorId: string,
   language: ELanguage,
-  lines: Map<string, ILineOriginalEntity>,
+  lines: Map<string, IOriginalLineEntity>,
   template: string
 }
 
-export interface ITranslateTranslatedEntity extends IEntity {
+export interface ITranslatedEntity extends IEntity {
   // entityId: string,
   // authorId: string,
   originalId: string,
   language: ELanguage,
-  lines: Map<string, ILineTranslatedEntity>
+  lines: Map<string, ITranslatedLineEntity>
 }
 
 export interface IEntityOriginalStatus {
@@ -58,11 +58,11 @@ export interface IEntityTranslatedStatus {
   status: EnumFlagged<ETranslatedStatus>
 }
 
-export type TTranslateEntity = ITranslateOriginalEntity | ITranslateTranslatedEntity
+export type TTranslateEntity = IOriginalEntity | ITranslatedEntity
 
-export type TTranslateLineEntity = ILineOriginalEntity | ILineTranslatedEntity
+export type TTranslateLineEntity = IOriginalLineEntity | ITranslatedLineEntity
 
-export type TEntity = ITranslateOriginalEntity
-  | ITranslateTranslatedEntity
-  | ILineOriginalEntity
-  | ILineTranslatedEntity;
+export type TEntity = IOriginalEntity
+  | ITranslatedEntity
+  | IOriginalLineEntity
+  | ITranslatedLineEntity;

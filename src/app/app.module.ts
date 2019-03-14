@@ -5,7 +5,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TransNewModule } from './components/trans-new/trans-new.component';
-import { TransModule } from './components/trans/trans.component';
+import { TransModule } from './components/translate/translate.component';
 import { USER_SERVICE } from './services/injection-tokens';
 import { TranslatedService } from './services/translated.service';
 import { UserService } from './services/user.service';

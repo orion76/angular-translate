@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
-import { EEvents, ISelectedTranslateString, ITranslateData } from '../../library/common';
+import { ETranslatedEvents, ISelectedTranslateString, ITranslateData } from '../../library/common';
 import { DataService, IDataService } from '../../services/data.service';
-import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_SERVICE, USER_SERVICE } from '../../services/injection-tokens';
+import { DATA_SERVICE, ORIGINAL_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_SERVICE, USER_SERVICE } from '../../services/injection-tokens';
+import { IOriginalService, OriginalService } from '../../services/original.service';
 import { SourceParseService } from '../../services/source-parse.service';
 import { ITranslatedService, TranslatedService } from '../../services/translated.service';
-import { ESources, ITranslateOriginalEntity, ITranslateTranslatedEntity } from '../../types/trans';
+import { ESources, IOriginalEntity, ITranslatedEntity } from '../../types/trans';
 import { IUserService } from '../../types/user';
-import { TransEditModule } from './trans-edit/trans-edit.component';
-import { TransOriginalModule } from './trans-original/trans-original.component';
-import { TransTranslatedModule } from './trans-translated/trans-translated.component';
+import { TransEditModule } from './edit/translate-edit.component';
+import { TransOriginalModule } from './original/translate-original.component';
+import { TransTranslatedModule } from './translated/translate-translated.component';
 
 
 
@@ -40,14 +41,15 @@ export class TransComponent implements OnInit {
 
   selected: ITranslateData;
 
-  private entityOriginal: ITranslateOriginalEntity;
-  private entityTranslated: ITranslateTranslatedEntity;
+  private entityOriginal: IOriginalEntity;
+  private entityTranslated: ITranslatedEntity;
 
   translateData: Map<string, ITranslateData> = new Map();
 
   constructor(
     @Inject(USER_SERVICE) private user: IUserService,
-    @Inject(TRANSLATED_SERVICE) private service: ITranslatedService,
+    @Inject(ORIGINAL_SERVICE) private original: IOriginalService,
+    @Inject(TRANSLATED_SERVICE) private translated: ITranslatedService,
     @Inject(DATA_SERVICE) private data: IDataService
   ) { }
 
@@ -55,17 +57,17 @@ export class TransComponent implements OnInit {
 
     /** TODO Реализовать загрузку реальной Entity */
     this.data.getItem(ESources.ORIGINAL, '111')
-      .subscribe((entity: ITranslateOriginalEntity) => {
+      .subscribe((entity: IOriginalEntity) => {
         this.entityOriginal = entity
       });
 
     this.data.getItem(ESources.TRANSLATED, '111')
-      .subscribe((entity: ITranslateTranslatedEntity) => {
+      .subscribe((entity: ITranslatedEntity) => {
         this.entityTranslated = entity
       });
 
 
-    this.service.onEvent(EEvents.MOUSE_DOWN).subscribe((event: ISelectedTranslateString) => {
+    this.translated.onEvent(ETranslatedEvents.MOUSE_DOWN).subscribe((event: ISelectedTranslateString) => {
       const { transId } = event;
       this.selected = {
         transId,
@@ -74,10 +76,10 @@ export class TransComponent implements OnInit {
       }
     })
 
-    this.service.onEvent(EEvents.TRANSLATED_UPDATE).subscribe((event: ISelectedTranslateString) => {
+    this.translated.onEvent(ETranslatedEvents.TRANSLATED_UPDATE).subscribe((event: ISelectedTranslateString) => {
       const { transId, data } = event;
       this.entityOriginal.lines.get(transId).content = data;
-      this.service.do(EEvents.TRANSLATED_UPDATE_COMPLETE, transId);
+      this.translated.do(ETranslatedEvents.TRANSLATED_UPDATE_COMPLETE, transId);
       console.log('[TRANSLATED_UPDATE]', transId, data);
     })
 
@@ -101,6 +103,7 @@ export class TransComponent implements OnInit {
   ],
   exports: [TransComponent],
   providers: [
+    { provide: ORIGINAL_SERVICE, useClass: OriginalService },
     { provide: TRANSLATED_SERVICE, useClass: TranslatedService },
     { provide: DATA_SERVICE, useClass: DataService },
     { provide: SOURFCE_PARSE_SERVICE, useClass: SourceParseService },

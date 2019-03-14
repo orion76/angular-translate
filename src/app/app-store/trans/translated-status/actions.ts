@@ -1,10 +1,10 @@
 
 
 export enum ETranslatedStatus {
-  TRANSLATED_NEW = 1 << 0,
-  TRANSLATED_LOAD = 1 << 1,
-  TRANSLATED_LOAD_SUCCESS = 1 << 2,
-  TRANSLATED_LOAD_ERROR = 1 << 3,
+  NEW = 1 << 0,
+  LOAD = 1 << 1,
+  LOAD_SUCCESS = 1 << 2,
+  LOAD_ERROR = 1 << 3,
 }
 
 

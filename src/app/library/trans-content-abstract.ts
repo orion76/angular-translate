@@ -2,7 +2,7 @@
 import { ElementRef, Renderer2 } from '@angular/core';
 import { ITranslatedService } from '../services/translated.service';
 import { TTranslateLineEntity } from '../types/trans';
-import { EEvents, ISelectedTranslateString } from './common';
+import { ETranslatedEvents, ISelectedTranslateString } from './common';
 
 
 export abstract class TransContentAbstract {
@@ -32,19 +32,19 @@ export abstract class TransContentAbstract {
       node.textContent = this.lines.get(transId).content;
     })
 
-    this.service.onEvent(EEvents.MOUSE_DOWN)
+    this.service.onEvent(ETranslatedEvents.MOUSE_DOWN)
       .subscribe((selected: ISelectedTranslateString) => this.onMouseDownHandler(selected.transId))
 
-    this.service.onEvent(EEvents.MOUSE_ENTER)
+    this.service.onEvent(ETranslatedEvents.MOUSE_ENTER)
       .subscribe((selected: ISelectedTranslateString) => this.onMouseEnterHandler(selected.transId))
 
-    this.service.onEvent(EEvents.MOUSE_OUT)
+    this.service.onEvent(ETranslatedEvents.MOUSE_OUT)
       .subscribe((selected: ISelectedTranslateString) => this.onMouseOutHandler(selected.transId))
 
   }
 
   InitEvents() {
-    this.service.onEvent(EEvents.MOUSE_ENTER)
+    this.service.onEvent(ETranslatedEvents.MOUSE_ENTER)
       .subscribe((item: ISelectedTranslateString) => this.onMouseEnterHandler(item.transId))
 
     Array.from(this.dom.getElementsByTagName('trans'))
@@ -53,13 +53,13 @@ export abstract class TransContentAbstract {
         trans.innerHTML = this.lines.get(trans.id).content;
 
         trans.addEventListener('mouseenter', (event: MouseEvent) => this.onMouseEvent(
-          EEvents.MOUSE_ENTER, (event.target as HTMLElement).id)
+          ETranslatedEvents.MOUSE_ENTER, (event.target as HTMLElement).id)
         );
         trans.addEventListener('mouseout', (event: MouseEvent) => this.onMouseEvent(
-          EEvents.MOUSE_OUT, (event.target as HTMLElement).id)
+          ETranslatedEvents.MOUSE_OUT, (event.target as HTMLElement).id)
         );
         trans.addEventListener('mousedown', (event: MouseEvent) => this.onMouseEvent(
-          EEvents.MOUSE_DOWN, (event.target as HTMLElement).id)
+          ETranslatedEvents.MOUSE_DOWN, (event.target as HTMLElement).id)
         );
       })
 
@@ -112,7 +112,7 @@ export abstract class TransContentAbstract {
     this.renderer.removeClass(target, 'trans-mouse-enter');
   }
 
-  onMouseEvent(event: EEvents, transId: string) {
+  onMouseEvent(event: ETranslatedEvents, transId: string) {
     this.service.do(event, transId);
   }
 

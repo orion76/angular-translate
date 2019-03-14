@@ -4,7 +4,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TransContentAbstract } from '../../../library/trans-content-abstract';
 import { TRANSLATED_SERVICE, USER_SERVICE } from '../../../services/injection-tokens';
 import { ITranslatedService } from '../../../services/translated.service';
-import { ILineOriginalEntity } from '../../../types/trans';
+import { IOriginalLineEntity } from '../../../types/trans';
 import { IUserService } from '../../../types/user';
 
 
@@ -20,7 +20,7 @@ import { IUserService } from '../../../types/user';
 })
 export class TransOriginalComponent extends TransContentAbstract implements OnInit {
   @Input() dom: HTMLElement;
-  @Input() lines: Map<string, ILineOriginalEntity>;
+  @Input() lines: Map<string, IOriginalLineEntity>;
   @ViewChild("content")
   content: ElementRef;
 

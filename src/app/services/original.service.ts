@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { EEvents, ISelectedTranslateString } from '../library/common';
+import { ETranslatedEvents, ISelectedTranslateString } from '../library/common';
 
 export interface IOriginalService {
-  do(event: EEvents, transId: string, data?: any): void
-  onEvent(event: EEvents): Observable<ISelectedTranslateString>;
+  do(event: ETranslatedEvents, transId: string, data?: any): void
+  on(event: ETranslatedEvents): Observable<ISelectedTranslateString>;
 
 }
 
@@ -15,7 +15,7 @@ export class OriginalService implements IOriginalService {
 
   private onEvent$: Observable<ISelectedTranslateString> = this._onSelectSubject.asObservable();
 
-  public onEvent(event: EEvents) {
+  public on(event: ETranslatedEvents) {
     return this.onEvent$.pipe(
       filter(Boolean),
       filter((item: ISelectedTranslateString) => item.event === event),
@@ -23,7 +23,7 @@ export class OriginalService implements IOriginalService {
     )
   }
 
-  public do(event: EEvents, transId: string, data?: any): void {
+  public do(event: ETranslatedEvents, transId: string, data?: any): void {
     this._onSelectSubject.next({ transId, event, data })
   }
 

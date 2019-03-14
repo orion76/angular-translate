@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ITranslateOriginalEntity } from '../types/trans';
+import { IOriginalEntity } from '../types/trans';
 import { ELanguage } from '../types/common';
 
 
 export interface ISourceParseService {
-  parse(source: string, language: string, authorId: string): ITranslateOriginalEntity;
+  parse(source: string, language: string, authorId: string): IOriginalEntity;
 }
 
 @Injectable()
 export class SourceParseService implements ISourceParseService {
 
-  public parse(source: string, language: ELanguage, authorId: string): ITranslateOriginalEntity {
+  public parse(source: string, language: ELanguage, authorId: string): IOriginalEntity {
 
 
-    const entity: ITranslateOriginalEntity = {
+    const entity: IOriginalEntity = {
       entityId: null,
       authorId,
       language,

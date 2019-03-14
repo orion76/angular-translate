@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { DATA_SERVICE } from '../../../services/injection-tokens';
 import { IDataService } from '../../../services/data.service';
 import { StoreActions } from './actions';
-import { ESources, ITranslateTranslatedEntity } from '../../../types/trans';
+import { ESources, ITranslatedEntity } from '../../../types/trans';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../app-store.module';
 
@@ -18,11 +18,11 @@ export class TranslateOriginalEffects {
 
   @Effect()
   loadOriginal$ = this.actions$.pipe(
-    ofType<StoreActions.translatedLoad>(StoreActions.Types.TRANSLATED_LOAD),
-    switchMap((action: StoreActions.translatedLoad) => {
-      return this.data.getItem(ESources.SOURCE, action.entityId).pipe(
-        map((entity: ITranslateTranslatedEntity) => new StoreActions.translatedLoadSuccess(entity)),
-        catchError(() => of(new StoreActions.translatedLoadError(action.entityId)))
+    ofType<StoreActions.translatedFind>(StoreActions.Types.TRANSLATED_FIND),
+    switchMap((action: StoreActions.translatedFind) => {
+      return this.data.getItem(ESources.SOURCE, action.originalId).pipe(
+        map((entity: ITranslatedEntity) => new StoreActions.translatedLoadSuccess(entity)),
+        catchError(() => of(new StoreActions.translatedLoadError(action.originalId)))
       )
     })
   );
