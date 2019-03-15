@@ -6,5 +6,5 @@ import { ETranslatedStatus } from '@app-store/trans/translated-status/actions';
 
 export interface ITranslatedState extends ITranslatedEntity {
   status: EnumFlagged<ETranslatedStatus>;
-  readonly entity: ITranslatedEntityж
+  readonly entity: ITranslatedEntity
 }

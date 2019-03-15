@@ -1,3 +1,7 @@
+# Open in gitpod.io
+
+[angular-translate](https://gitpod.io/#https://github.com/orion76/angular-translate)
+
 # AngularTranslate
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.5.

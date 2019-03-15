@@ -2,4 +2,3 @@ ports:
 - port: 4200
 tasks:
 - command: npm i
-- command: npm install -g @angular/cli
