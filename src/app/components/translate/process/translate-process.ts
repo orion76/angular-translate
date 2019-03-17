@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 import { IAppState } from '@app-store/app-store.module';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { IUser } from '@app-types/user';
@@ -18,6 +18,7 @@ import { ITranslatedState } from '@app-types/trans-state';
 import { ETranslatedStatus } from '@app-store/trans/translated-status/actions';
 
 export interface ITranslateProcess {
+  dispatch(action: Action) ;
 }
 
 
@@ -31,6 +32,10 @@ export class TranslateProcess implements ITranslateProcess {
     private store: Store<IAppState>,
   ) {
 
+  }
+
+  dispatch(action: Action) {
+    this.store.dispatch(action);
   }
 
   Init() {
@@ -78,7 +83,7 @@ export class TranslateProcess implements ITranslateProcess {
   }
 
   _onUserLoaded(): Observable<IUser> {
-    const user: IUser = { userId: '1', name: 'user-loaded', language: ELanguage.RU };
+    const user: IUser = { uid: '1', name: 'user-loaded', language: ELanguage.RU };
     return of(user).pipe(take(1));
   }
 

@@ -1,4 +1,6 @@
-
+export interface Action {
+  readonly type: string;
+}
 
 export enum ETranslatedEvents {
 

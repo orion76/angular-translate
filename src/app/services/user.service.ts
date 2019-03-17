@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { EUserEvents, IUser, IUserEvent, IUserService } from '../types/user';
+import { EUserEvent, IUser, IUserEvent, IUserService } from '../types/user';
+import { ELanguage } from '@app-types/common';
 
 
 @Injectable()
@@ -10,16 +11,38 @@ export class UserService implements IUserService {
 
   private onEvent$: Observable<IUserEvent> = this._UserSubject.asObservable();
 
-  public on(eventType: EUserEvents): Observable<IUser> {
+
+  constructor() {
+    this.init();
+  }
+
+
+  init() {
+    this._UserSubject.next({
+      type: EUserEvent.UID, uid: '0', name: 'anonym', language: ELanguage.RU
+    })
+
+    this._UserSubject.next({
+      type: EUserEvent.LOADED, uid: '111', name: 'pasha', language: ELanguage.RU
+    })
+  }
+
+  onUID(): Observable<string> {
+    return this.on(EUserEvent.UID);
+  }
+
+  public on(eventType: EUserEvent): Observable<any> {
     return this.onEvent$.pipe(
       filter(Boolean),
       filter((event: IUserEvent) => event.type === eventType),
-      map((event: IUserEvent) => event.user)
-      // tap((item: ISelectedTranslateString) => console.log('onEvent', EEvents[item.event], item))
     )
   }
 
-  public do(eventType: EUserEvents, user: IUser): void {
+  public onLoaded(): Observable<IUser> {
+    return this.on(EUserEvent.LOADED);
+  }
+
+  public do(eventType: EUserEvent, user: IUser): void {
     this._UserSubject.next({ type: eventType, user })
   }
 

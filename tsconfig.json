@@ -6,17 +6,8 @@
       "@app-lib/*": [
         "app/library/*"
       ],
-      "@app-types/*": [
-        "app/types/*"
-      ],
-      "@app-store/*": [
-        "app/app-store/*"
-      ],
-      "@components/*": [
-        "app/components/*"
-      ],
-      "@services/*": [
-        "app/services/*"
+      "@app/*": [
+        "app/*"
       ]
     },
     "outDir": "./dist/out-tsc",

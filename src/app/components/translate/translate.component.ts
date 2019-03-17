@@ -3,15 +3,16 @@ import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ETranslatedEvents, ISelectedTranslateString, ITranslateData } from '../../library/common';
 import { DataService, IDataService } from '../../services/data.service';
-import { DATA_SERVICE, ORIGINAL_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_SERVICE, USER_SERVICE } from '../../services/injection-tokens';
+import { DATA_SERVICE, ORIGINAL_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_SERVICE, USER_SERVICE, TRANSLATED_PROCESS } from '../../services/injection-tokens';
 import { IOriginalService, OriginalService } from '../../services/original.service';
 import { SourceParseService } from '../../services/source-parse.service';
 import { ITranslatedService, TranslatedService } from '../../services/translated.service';
 import { ESources, IOriginalEntity, ITranslatedEntity } from '../../types/trans';
-import { IUserService } from '../../types/user';
+import { IUserService, IUser } from '../../types/user';
 import { TransEditModule } from './edit/translate-edit.component';
 import { TransOriginalModule } from './original/translate-original.component';
 import { TransTranslatedModule } from './translated/translate-translated.component';
+import { TranslateProcess, ITranslateProcess } from '@components/translate/process/translate-process';
 
 
 
@@ -47,6 +48,7 @@ export class TransComponent implements OnInit {
   translateData: Map<string, ITranslateData> = new Map();
 
   constructor(
+    @Inject(TRANSLATED_PROCESS) private process: ITranslateProcess,
     @Inject(USER_SERVICE) private user: IUserService,
     @Inject(ORIGINAL_SERVICE) private original: IOriginalService,
     @Inject(TRANSLATED_SERVICE) private translated: ITranslatedService,
@@ -54,6 +56,10 @@ export class TransComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.user.onLoaded().subscribe((user: IUser) => {
+      this.process.dispatch(new )
+    })
 
     /** TODO Реализовать загрузку реальной Entity */
     this.data.getItem(ESources.ORIGINAL, '111')
@@ -107,6 +113,7 @@ export class TransComponent implements OnInit {
     { provide: TRANSLATED_SERVICE, useClass: TranslatedService },
     { provide: DATA_SERVICE, useClass: DataService },
     { provide: SOURFCE_PARSE_SERVICE, useClass: SourceParseService },
+    { provide: TRANSLATED_PROCESS, useClass: TranslateProcess },
   ]
 })
 export class TransModule { }

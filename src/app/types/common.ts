@@ -6,3 +6,7 @@ export enum ELanguage {
 export interface IEntityProps {
   entityId: string;
 }
+
+export interface IUserProps {
+  uid: string;
+}
