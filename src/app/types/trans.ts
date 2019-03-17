@@ -1,7 +1,7 @@
 import { ELanguage } from './common';
-import { EnumFlagged } from '../library/enum-flagged';
-import { EOriginalStatus } from '../app-store/trans/original-status/actions';
-import { ETranslatedStatus } from '../app-store/trans/translated-status/actions';
+import { EnumFlagged } from '@app/library/enum-flagged';
+import { EOriginalStatus } from '@app/app-store/trans/original-status/actions';
+import { ETranslatedStatus } from '@app/app-store/trans/translated-status/actions';
 
 export enum ESources {
   SOURCE = 'translate-source',
@@ -38,6 +38,13 @@ export interface IOriginalEntity extends IEntity {
   language: ELanguage,
   lines: Map<string, IOriginalLineEntity>,
   template: string
+}
+
+export interface ISyncState {
+  originalId: string,
+  selectedTransId: string,
+  originalScroll: number,
+  translatedScroll: number,
 }
 
 export interface ITranslatedEntity extends IEntity {

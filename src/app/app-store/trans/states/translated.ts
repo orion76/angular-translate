@@ -1,8 +1,6 @@
-import { ITranslatedState } from '@app-types/trans-state';
-import { ITranslatedEntity } from '@app-types/trans';
 import { EnumFlagged } from '@app-lib/enum-flagged';
-import { ETranslatedStatus } from '@app-store/trans/translated-status/actions';
-import { ELanguage } from '@app-types/common';
+import { ETranslatedStatus } from '@app/app-store/trans/translated-status/actions';
+import { ELanguage, ITranslatedEntity, ITranslatedState } from '@app/types';
 
 export class TranslatedState implements ITranslatedState {
 

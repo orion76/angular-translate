@@ -1,7 +1,4 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { IOriginalEntity } from '../../../types/trans';
-import { IUser } from '@app-types/user';
-import { ELanguage } from '@app-types/common';
+import { ELanguage, IUser } from '@app/types';
 
 export namespace StoreState {
   export const featureName = 'USER';

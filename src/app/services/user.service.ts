@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { EUserEvent, IUser, IUserEvent, IUserService } from '../types/user';
-import { ELanguage } from '@app-types/common';
+import { ELanguage } from '@app/types/common';
 
 
 @Injectable()
@@ -43,7 +43,7 @@ export class UserService implements IUserService {
   }
 
   public do(eventType: EUserEvent, user: IUser): void {
-    this._UserSubject.next({ type: eventType, user })
+    this._UserSubject.next({ type: eventType, ...user })
   }
 
 }

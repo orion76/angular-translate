@@ -1,7 +1,7 @@
 import { ELanguage } from './common';
 import { Observable } from 'rxjs';
 import { EnumFlagged, IEnumFlagged } from '@app-lib/enum-flagged';
-import { EUserStatus } from '@app-store/trans/user-status';
+import { EUserStatus } from '@app/app-store/trans/user-status';
 
 export enum EUserEvent {
   UID = 'UID COMPLETE',

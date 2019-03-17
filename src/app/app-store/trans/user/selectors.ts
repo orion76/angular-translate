@@ -1,4 +1,4 @@
-import { IUser } from '@app-types/user';
+import { IUser } from '@app/types/user';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
 import { IUserProps } from '../../../types/common';
@@ -16,19 +16,12 @@ export namespace StoreSelectors {
   import featureName = StoreState.featureName;
 
 
-  export const getEntity = (entities: Dictionary<IUser>, props: IUserProps): IUser => {
-    if (props.uid === undefined || !entities[props.uid]) {
-      // console.warn('getValue', values, props);
-      return;
-    }
-    return entities[props.uid];
-  };
 
 
-  export const selectFeatureState: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
+  export const selectFeatureState: MemoizedSelector<IAppState, IUser> = createFeatureSelector<State>(featureName);
 
 
-  export type TEntity = MemoizedSelectorWithProps<IAppState, IUserProps, IUser>;
+  export type TEntity = MemoizedSelector<IAppState, IUser>;
   export const Entity: TEntity = selectFeatureState;
 
 

@@ -3,10 +3,14 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { Original } from './original';
 import { OriginalStatus } from './original-status';
-import { Translated } from './translated';
-import { TranslatedStatus } from './translated-status';
 import { EffectsModule } from '@ngrx/effects';
+import { reducer as reducerTranslated, StoreState as TranslatedState } from './translated';
+import { reducer as reducerTranslatedStatus, StoreState as TranslatedStatusState } from './translated-status'
 
+import { reducer as reducerSyncState, StoreState as SuncState } from './sync-state';
+
+import { reducer as reducerUser, StoreState as UserState } from './user';
+import { reducer as reducerUserStatus, StoreState as UserStatusState } from './user-status';
 
 @NgModule({
   declarations: [],
@@ -14,10 +18,16 @@ import { EffectsModule } from '@ngrx/effects';
     CommonModule,
 
     StoreModule.forFeature(Original.featureName, Original.reducer),
-    StoreModule.forFeature(Translated.featureName, Translated.reducer),
+    StoreModule.forFeature(TranslatedState.featureName, reducerTranslated),
 
     StoreModule.forFeature(OriginalStatus.featureName, OriginalStatus.reducer),
-    StoreModule.forFeature(TranslatedStatus.featureName, TranslatedStatus.reducer),
+    StoreModule.forFeature(TranslatedStatusState.featureName, reducerTranslatedStatus),
+
+    StoreModule.forFeature(SuncState.featureName, reducerSyncState),
+
+
+    StoreModule.forFeature(UserState.featureName, reducerUser),
+    StoreModule.forFeature(UserStatusState.featureName, reducerUserStatus),
 
     EffectsModule.forFeature([Original.effects])
   ]

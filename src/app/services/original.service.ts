@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ETranslatedEvents, ISelectedTranslateString, EOriginalEvents } from '../library/common';
+import { ETranslateEvents, ISelectedLine, EOriginalEvents } from '../library/common';
 
 
 export namespace Actions {
@@ -22,20 +22,20 @@ export namespace Actions {
 
 export interface IOriginalService {
   do(event: EOriginalEvents, transId: string, data?: any): void
-  on(event: EOriginalEvents): Observable<ISelectedTranslateString>;
+  on(event: EOriginalEvents): Observable<ISelectedLine>;
 
 }
 
 @Injectable()
 export class OriginalService implements IOriginalService {
-  private _onSelectSubject: BehaviorSubject<ETranslatedEvents> = new BehaviorSubject(null);
+  private _onSelectSubject: BehaviorSubject<ISelectedLine> = new BehaviorSubject(null);
 
-  private onEvent$: Observable<ETranslatedEvents> = this._onSelectSubject.asObservable();
+  private onEvent$: Observable<ISelectedLine> = this._onSelectSubject.asObservable();
 
-  public on(event: ETranslatedEvents) {
+  public on(event: EOriginalEvents) {
     return this.onEvent$.pipe(
       filter(Boolean),
-      filter((item: ISelectedTranslateString) => item.event === event),
+      filter((item: ISelectedLine) => item.event === event),
       // tap((item: ISelectedTranslateString) => console.log('onEvent', EEvents[item.event], item))
     )
   }
@@ -44,11 +44,7 @@ export class OriginalService implements IOriginalService {
     // IOriginalEntity
   }
 
-  onLoaded(): Observable<IOriginalEntity> {
-
-  }
-
-  public do(event: ETranslatedEvents, transId: string, data?: any): void {
+  public do(event: ETranslateEvents, transId: string, data?: any): void {
     this._onSelectSubject.next({ transId, event, data })
   }
 

@@ -1,6 +1,6 @@
-import { EnumFlagged } from '@app-lib/enum-flagged';
-import { EUserStatus } from '@app-store/trans/user-status/actions';
-import { IUserStatus } from '@app-types/user';
+import { EnumFlagged } from '@app/library/enum-flagged';
+import { EUserStatus } from '@app/app-store/trans/user-status/actions';
+import { IUserStatus } from '@app/types/user';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 export namespace StoreState {

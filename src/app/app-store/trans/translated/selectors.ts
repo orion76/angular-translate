@@ -1,13 +1,13 @@
 import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
-import { ELanguage } from '../../../types/common';
-import { ITranslatedEntity, IEntityTranslatedStatus } from '../../../types/trans';
-import { IAppState } from '../../app-store.module';
+import { ELanguage } from '@app/types/common';
+import { ITranslatedEntity, IEntityTranslatedStatus } from '@app/types/trans';
+import { IAppState } from '@app/app-store/app-store.module';
 import { StoreState } from './state';
 
 import { StoreSelectors as StatusSelectors } from '../translated-status/selectors';
-import { ITranslatedState } from '@app-types/trans-state';
-import { TranslatedState } from '@app-store/trans/states/translated';
+import { ITranslatedState } from '@app/types/trans-state';
+import { TranslatedState } from '@app/app-store/trans/states/translated';
 
 // import IFormProps = FormSelectors.IFormProps;
 

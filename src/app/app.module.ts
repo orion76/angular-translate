@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { TransNewModule } from './components/trans-new/trans-new.component';
 import { TransModule } from './components/translate/translate.component';
 import { USER_SERVICE } from './services/injection-tokens';
-import { TranslatedService } from './services/translated.service';
+import { TranslateService } from './services/translated.service';
 import { UserService } from './services/user.service';
 
 
@@ -28,7 +28,7 @@ import { UserService } from './services/user.service';
     TransNewModule
   ],
   providers: [
-    TranslatedService,
+    TranslateService,
     { provide: USER_SERVICE, useClass: UserService }
   ],
   bootstrap: [AppComponent]

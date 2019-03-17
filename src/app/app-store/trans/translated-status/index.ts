@@ -1,9 +1,4 @@
-
-import { reducer } from './reducer';
-import { StoreState } from './state';
-import featureName = StoreState.featureName
-
-export const TranslatedStatus = {
-  reducer,
-  featureName
-};
+export * from './actions';
+export * from './reducer';
+export * from './selectors';
+export * from './state';
