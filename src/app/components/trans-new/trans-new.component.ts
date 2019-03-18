@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TRANSLATED_SERVICE } from '../../services/injection-tokens';
-import { ITranslatedService } from '../../services/translated.service';
+import { TRANSLATE_SERVICE } from '@app/services/injection-tokens';
+import { ITranslateService } from '@app/services/translate.service';
 
 
 
@@ -40,7 +40,7 @@ export class TransNewComponent implements OnInit {
   public url: string = '';
 
   constructor(
-    @Inject(TRANSLATED_SERVICE) protected service: ITranslatedService,
+    @Inject(TRANSLATE_SERVICE) protected service: ITranslateService,
   ) { }
 
   ngOnInit() {

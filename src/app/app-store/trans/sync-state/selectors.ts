@@ -1,11 +1,8 @@
-import { TranslatedState } from '@app/app-store/trans/states/translated';
 import { ISyncState } from '@app/types/trans';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
-import { ELanguage, IEntityProps } from '../../../types/common';
-import { IEntityTranslatedStatus, ITranslatedEntity } from '../../../types/trans';
+import { IEntityProps } from '../../../types/common';
 import { IAppState } from '../../app-store.module';
-import { StoreSelectors as StatusSelectors } from '../translated-status/selectors';
 import { StoreState } from './state';
 
 // import IFormProps = FormSelectors.IFormProps;

@@ -1,13 +1,12 @@
 import { InjectionToken } from "@angular/core";
 import { IUserService } from '../types/user';
 import { IDataService } from './data.service';
-import { IOriginalService } from './original.service';
-import { ISourceParseService } from './source-parse.service';
-import { ITranslatedService } from './translated.service';
-import { ITranslateProcess } from '@components/translate/process/translate-process';
 
-export const ORIGINAL_SERVICE = new InjectionToken<IOriginalService>('ORIGINAL_SERVICE');
-export const TRANSLATED_SERVICE = new InjectionToken<ITranslatedService>('TRANS_SERVICE');
+import { ISourceParseService } from './source-parse.service';
+import { ITranslateService } from './translate.service';
+import { ITranslateProcess } from '@app/components/translate/process/translate-process';
+
+export const TRANSLATE_SERVICE = new InjectionToken<ITranslateService>('TRANS_SERVICE');
 //ITranslateProcess
 export const TRANSLATED_PROCESS = new InjectionToken<ITranslateProcess>('TRANSLATED_PROCESS');
 export const USER_SERVICE = new InjectionToken<IUserService>('USER_SERVICE');

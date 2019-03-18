@@ -10,7 +10,7 @@ import { StoreSelectors } from './selectors';
 
 
 function statusAdd(state: State, action: StoreActions.Actions) {
-  const oldstatus = StoreSelectors.getTranslated(state.entities, action).status;
+  const oldstatus = StoreSelectors.getEntity(state.entities, action).status;
   const status = (action as StoreActions.statusAdd).status;
   return featureAdapter.updateOne({
     id: action.entityId,
@@ -21,7 +21,7 @@ function statusAdd(state: State, action: StoreActions.Actions) {
 }
 
 function statusReplace(state: State, action: StoreActions.Actions) {
-  const oldstatus = StoreSelectors.getTranslated(state.entities, action).status;
+  const oldstatus = StoreSelectors.getEntity(state.entities, action).status;
   const { statusOld, statusNew } = (action as StoreActions.statusReplace);
   return featureAdapter.updateOne({
     id: action.entityId,

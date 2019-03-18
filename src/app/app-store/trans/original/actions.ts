@@ -2,10 +2,16 @@ import { IOriginalEntity } from '../../../types/trans';
 
 export namespace StoreActions {
   export enum Types {
+    ORIGINAL_ID = '[ORIGINAL] ID',
     ORIGINAL_NEW = '[ORIGINAL] NEW',
     ORIGINAL_LOAD = '[ORIGINAL] LOAD',
     ORIGINAL_LOAD_SUCCESS = '[ORIGINAL] LOAD_SUCCESFULL',
     ORIGINAL_LOAD_ERROR = '[ORIGINAL] LOAD_ERROR',
+  }
+
+  export class originalId {
+    readonly type = Types.ORIGINAL_ID;
+    constructor(public entityId: string) { }
   }
 
   export class originalNew {
@@ -28,5 +34,5 @@ export namespace StoreActions {
     constructor(public entityId: string) { }
   }
 
-  export type Actions = originalNew | originalLoad | originalLoadSuccess | originalLoadError;
+  export type Actions = originalId | originalNew | originalLoad | originalLoadSuccess | originalLoadError;
 }

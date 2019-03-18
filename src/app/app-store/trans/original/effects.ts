@@ -17,6 +17,13 @@ export class TranslateOriginalEffects {
 
 
   @Effect()
+  originalId$ = this.actions$.pipe(
+    ofType<StoreActions.originalId>(StoreActions.Types.ORIGINAL_ID),
+    map((action: StoreActions.originalId) => new StoreActions.originalLoad(action.entityId))
+  );
+
+
+  @Effect()
   loadOriginal$ = this.actions$.pipe(
     ofType<StoreActions.originalLoad>(StoreActions.Types.ORIGINAL_LOAD),
     tap((action: StoreActions.originalLoad) => this.store.dispatch(

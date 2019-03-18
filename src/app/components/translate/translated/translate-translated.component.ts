@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { ETranslateEvents, ISelectedLine } from '../../../library/common';
-import { TransContentAbstract } from '../../../library/trans-content-abstract';
-import { TRANSLATED_SERVICE, USER_SERVICE } from '../../../services/injection-tokens';
-import { ITranslatedService } from '../../../services/translated.service';
-import { ITranslatedLineEntity } from '../../../types/trans';
-import { IUserService } from '../../../types/user';
+import { ELineEvent, ISelectedLine, ILineEvent } from '@app-lib/common';
+import { TransContentAbstract } from '@app-lib/trans-content-abstract';
+import { TRANSLATE_SERVICE, USER_SERVICE } from '@app/services/injection-tokens';
+import { ITranslateService } from '@app/services/translate.service';
+import { IUserService, ITranslatedLineEntity } from '@app/types';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -28,21 +28,22 @@ export class TransTranslatedComponent extends TransContentAbstract implements On
 
 
   constructor(
+    protected route: ActivatedRoute,
     @Inject(USER_SERVICE) private user: IUserService,
-    @Inject(TRANSLATED_SERVICE) protected service: ITranslatedService,
+    @Inject(TRANSLATE_SERVICE) protected service: ITranslateService,
     protected renderer: Renderer2
   ) {
-    super(service, renderer);
+    super(route, service, renderer);
   }
 
   ngOnInit() {
     super.ngOnInit()
-    this.service.onEvent(ETranslateEvents.TRANSLATED_UPDATE_COMPLETE).subscribe((event: ISelectedLine) => {
-      const { transId } = event;
+    // this.service.onEvent(ELineEvent.TRANSLATED_UPDATE_COMPLETE).subscribe((event: ILineEvent) => {
+    //   const { lineId } = event;
 
-      this.elements.get(transId).textContent = this.lines.get(transId).content;
-      console.log('[TRANSLATED_UPDATE_COMPLETE]', transId);
-    })
+    //   this.elements.get(lineId).textContent = this.lines.get(lineId).content;
+    //   console.log('[TRANSLATED_UPDATE_COMPLETE]', lineId);
+    // })
   }
 
 }

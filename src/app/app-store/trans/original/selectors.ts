@@ -37,10 +37,10 @@ export namespace StoreSelectors {
   export const selectFeatureState: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
 
   export type TOriginalEntities = MemoizedSelector<IAppState, Dictionary<IOriginalEntity>>;
-  export const OriginalEntities: TOriginalEntities = createSelector(selectFeatureState, selectEntities);
+  export const Entities: TOriginalEntities = createSelector(selectFeatureState, selectEntities);
 
   export type TOriginalEntity = MemoizedSelectorWithProps<IAppState, IEntityProps, IOriginalEntity>;
-  export const OriginalEntity: TOriginalEntity = createSelector(OriginalEntities, getOriginal);
+  export const Entity: TOriginalEntity = createSelector(Entities, getOriginal);
 
 
 }

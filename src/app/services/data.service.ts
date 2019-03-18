@@ -4,9 +4,7 @@ import { ISourceParseService } from './source-parse.service';
 import { transSource } from '../components/translate/source';
 
 import { Observable, of } from 'rxjs';
-import { TEntity } from '../types/trans';
-import { IUser } from '@app-types/user';
-import { ELanguage } from '@app-types/common';
+import { TEntity, ELanguage, IUser } from '@app/types';
 
 export interface IDataService {
   getItem(source: string, entityId: string): Observable<TEntity>;

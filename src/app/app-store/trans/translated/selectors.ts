@@ -1,6 +1,6 @@
 import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
-import { ELanguage } from '@app/types/common';
+import { ELanguage, IEntityProps } from '@app/types/common';
 import { ITranslatedEntity, IEntityTranslatedStatus } from '@app/types/trans';
 import { IAppState } from '@app/app-store/app-store.module';
 import { StoreState } from './state';
@@ -34,16 +34,10 @@ export namespace StoreSelectors {
   } = featureAdapter.getSelectors();
 
 
-  export const getOranslated = (entities: Dictionary<ITranslatedEntity>, props: ITranslatedProps): ITranslatedEntity => {
-
-    const { userId, originalId, language } = props;
-
-    return Object.values(entities).find((entity: ITranslatedEntity) => {
-      return entity.authorId === userId
-        && entity.originalId === originalId
-        && entity.language === language
-    })
+  export const getEntity = (entities: Dictionary<ITranslatedEntity>, props: IEntityProps): ITranslatedEntity => {
+    return props.entityId === undefined && entities[props.entityId] ? entities[props.entityId] : null;
   };
+
 
 
   export const selectFeatureState: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
@@ -51,15 +45,15 @@ export namespace StoreSelectors {
   export type TTranslatedEntities = MemoizedSelector<IAppState, Dictionary<ITranslatedEntity>>;
   export const TranslatedEntities: TTranslatedEntities = createSelector(selectFeatureState, selectEntities);
 
-  export type TTranslatedEntity = MemoizedSelectorWithProps<IAppState, ITranslatedProps, ITranslatedEntity>;
-  export const Entity: TTranslatedEntity = createSelector(TranslatedEntities, getOranslated);
+  export type TTranslatedEntity = MemoizedSelectorWithProps<IAppState, IEntityProps, ITranslatedEntity>;
+  export const Entity: TTranslatedEntity = createSelector(TranslatedEntities, getEntity);
 
-  export type TTranslatedState = MemoizedSelectorWithProps<IAppState, ITranslatedProps, ITranslatedState>;
+  export type TTranslatedState = MemoizedSelectorWithProps<IAppState, IEntityProps, ITranslatedState>;
   export const State: TTranslatedEntity = createSelector(
     Entity,
     StatusSelectors.Entities,
     (entity: ITranslatedEntity, statuses: Dictionary<IEntityTranslatedStatus>) => {
-      const statusState = StatusSelectors.getTranslated(statuses, entity)
+      const statusState = StatusSelectors.getEntity(statuses, entity)
       return new TranslatedState(entity, statusState.status)
     }
   );

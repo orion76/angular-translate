@@ -24,12 +24,8 @@ export namespace StoreSelectors {
   } = featureAdapter.getSelectors();
 
 
-  export const getTranslated = (entities: Dictionary<IEntityTranslatedStatus>, props: IEntityProps): IEntityTranslatedStatus => {
-    if (props.entityId === undefined || !entities[props.entityId]) {
-      // console.warn('getValue', values, props);
-      return;
-    }
-    return entities[props.entityId];
+  export const getEntity = (entities: Dictionary<IEntityTranslatedStatus>, props: IEntityProps): IEntityTranslatedStatus => {
+    return props.entityId === undefined && entities[props.entityId] ? entities[props.entityId] : null;
   };
 
 
@@ -39,7 +35,7 @@ export namespace StoreSelectors {
   export const Entities: TEntities = createSelector(selectFeatureState, selectEntities);
 
   export type TTranslatedStatus = MemoizedSelectorWithProps<IAppState, IEntityProps, IEntityTranslatedStatus>;
-  export const Status: TTranslatedStatus = createSelector(Entities, getTranslated);
+  export const Entity: TTranslatedStatus = createSelector(Entities, getEntity);
 
 
 }

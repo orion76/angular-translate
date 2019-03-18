@@ -14,7 +14,7 @@ export function reducer(state: State = initialState, action: StoreActions.Action
     case StoreActions.Types.ADD_STATE:
       stateNew = featureAdapter.addOne({
         originalId: action.originalId,
-        selectedTransId: null,
+        lineId: null,
         originalScroll: 0,
         translatedScroll: 0
       }, state);
@@ -23,7 +23,7 @@ export function reducer(state: State = initialState, action: StoreActions.Action
 
       stateNew = featureAdapter.updateOne<State>({
         id: action.originalId,
-        changes: { selectedTransId: action.transId }
+        changes: { lineId: action.transId }
       }, state);
       break;
     case StoreActions.Types.SCROLL_ORIGINAL:

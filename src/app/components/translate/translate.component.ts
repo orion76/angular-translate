@@ -1,19 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, NgModule, OnInit } from '@angular/core';
+import { ITranslateProcess, TranslateProcess } from '@app/components/translate/process/translate-process';
+import { ITranslateService, TranslateService } from '@app/services/translate.service';
 import { CardModule } from 'primeng/card';
-import { ETranslateEvents, ISelectedLine, ITranslateData } from '../../library/common';
+import { ITranslateData } from '../../library/common';
 import { DataService, IDataService } from '../../services/data.service';
-import { DATA_SERVICE, ORIGINAL_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_SERVICE, USER_SERVICE, TRANSLATED_PROCESS } from '../../services/injection-tokens';
-import { IOriginalService, OriginalService } from '../../services/original.service';
+import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_PROCESS, TRANSLATE_SERVICE, USER_SERVICE } from '../../services/injection-tokens';
 import { SourceParseService } from '../../services/source-parse.service';
-import { ITranslatedService, TranslateService } from '../../services/translated.service';
-import { ESources, IOriginalEntity, ITranslatedEntity } from '../../types/trans';
-import { IUserService, IUser } from '../../types/user';
+import { IOriginalEntity, ITranslatedEntity } from '../../types/trans';
+import { IUserService } from '../../types/user';
 import { TransEditModule } from './edit/translate-edit.component';
 import { TransOriginalModule } from './original/translate-original.component';
 import { TransTranslatedModule } from './translated/translate-translated.component';
-import { TranslateProcess, ITranslateProcess } from '@app/components/translate/process/translate-process';
-import {StoreActions as UserActions} from '@app/app-store/trans/user';
 
 
 @Component({
@@ -50,40 +48,13 @@ export class TransComponent implements OnInit {
   constructor(
     @Inject(TRANSLATED_PROCESS) private process: ITranslateProcess,
     @Inject(USER_SERVICE) private user: IUserService,
-    @Inject(ORIGINAL_SERVICE) private original: IOriginalService,
-    @Inject(TRANSLATED_SERVICE) private translated: ITranslatedService,
+
+    @Inject(TRANSLATE_SERVICE) private service: ITranslateService,
     @Inject(DATA_SERVICE) private data: IDataService
   ) { }
 
   ngOnInit() {
 
-    /** TODO Реализовать загрузку реальной Entity */
-    this.data.getItem(ESources.ORIGINAL, '111')
-      .subscribe((entity: IOriginalEntity) => {
-        this.entityOriginal = entity
-      });
-
-    this.data.getItem(ESources.TRANSLATED, '111')
-      .subscribe((entity: ITranslatedEntity) => {
-        this.entityTranslated = entity
-      });
-
-
-    this.translated.onEvent(ETranslateEvents.MOUSE_DOWN).subscribe((event: ISelectedLine) => {
-      const { transId } = event;
-      this.selected = {
-        transId,
-        original: this.entityOriginal.lines.get(transId).content,
-        translated: this.entityTranslated.lines.get(transId).content,
-      }
-    })
-
-    this.translated.onEvent(ETranslateEvents.TRANSLATED_UPDATE).subscribe((event: ISelectedLine) => {
-      const { transId, data } = event;
-      this.entityOriginal.lines.get(transId).content = data;
-      this.translated.do(ETranslateEvents.TRANSLATED_UPDATE_COMPLETE, transId);
-      console.log('[TRANSLATED_UPDATE]', transId, data);
-    })
 
   }
 
@@ -105,8 +76,8 @@ export class TransComponent implements OnInit {
   ],
   exports: [TransComponent],
   providers: [
-    { provide: ORIGINAL_SERVICE, useClass: OriginalService },
-    { provide: TRANSLATED_SERVICE, useClass: TranslateService },
+
+    { provide: TRANSLATE_SERVICE, useClass: TranslateService },
     { provide: DATA_SERVICE, useClass: DataService },
     { provide: SOURFCE_PARSE_SERVICE, useClass: SourceParseService },
     { provide: TRANSLATED_PROCESS, useClass: TranslateProcess },

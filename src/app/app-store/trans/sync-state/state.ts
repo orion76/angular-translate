@@ -1,4 +1,4 @@
-import { ISyncState } from '@app/types/trans';
+import { ISyncState, ISyncStateID } from '@app/types/trans';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 export namespace StoreState {

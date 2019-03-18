@@ -7,7 +7,7 @@ export namespace StoreState {
 
 
   export const featureAdapter: EntityAdapter<IEntityTranslatedStatus> = createEntityAdapter<IEntityTranslatedStatus>({
-    selectId: model => model.entityId,
+    selectId: model => model.en,
   });
 
 

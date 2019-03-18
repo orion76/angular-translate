@@ -1,11 +1,5 @@
-
-import { reducer } from './reducer';
-import { StoreState } from './state';
-import { TranslateOriginalEffects as effects } from './effects';
-import featureName = StoreState.featureName
-
-export const Original = {
-  reducer,
-  featureName,
-  effects
-};
+export * from './actions';
+export * from './effects';
+export * from './reducer';
+export * from './selectors';
+export * from './state';

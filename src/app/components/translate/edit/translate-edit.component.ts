@@ -5,9 +5,9 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToolbarModule } from 'primeng/toolbar';
-import { ETranslateEvents, ITranslateData } from '../../../library/common';
-import { TRANSLATED_SERVICE } from '../../../services/injection-tokens';
-import { ITranslatedService } from '../../../services/translated.service';
+import { ELineEvent, ITranslateData } from '@app-lib/common';
+import { TRANSLATE_SERVICE } from '@app/services/injection-tokens';
+import { ITranslateService } from '@app/services/translate.service';
 
 
 
@@ -48,7 +48,7 @@ export class TransEditComponent implements OnInit, OnChanges {
   @Input() data: ITranslateData;
 
   constructor(
-    @Inject(TRANSLATED_SERVICE) protected service: ITranslatedService,
+    @Inject(TRANSLATE_SERVICE) protected service: ITranslateService,
   ) { }
 
   ngOnInit() {
@@ -62,7 +62,7 @@ export class TransEditComponent implements OnInit, OnChanges {
   }
 
   handleOnUpdate(event: any) {
-    this.service.do(ETranslateEvents.TRANSLATED_UPDATE, this.data.transId, this.translated)
+    // this.service.do(ELineEvent.TRANSLATED_UPDATE, this.data.transId, this.translated)
   }
 
   private initData(data: ITranslateData) {

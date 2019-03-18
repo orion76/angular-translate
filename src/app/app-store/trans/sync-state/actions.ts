@@ -14,7 +14,7 @@ export namespace StoreActions {
     constructor(public originalId: string) { }
   }
 
-  export class selectTranslateLine {
+  export class selectLine {
     readonly type = Types.SELECT_TRANSLATE_LINE;
     constructor(public originalId: string, public transId: string) { }
   }
@@ -32,5 +32,5 @@ export namespace StoreActions {
 
 
 
-  export type Actions = addState | selectTranslateLine | scrollOriginal | scrollTranslated;
+  export type Actions = addState | selectLine | scrollOriginal | scrollTranslated;
 }

@@ -2,7 +2,7 @@ export interface Action {
   readonly type: string;
 }
 
-export enum ETranslateEvents {
+export enum ELineEvent {
 
   MOUSE_ENTER = 'mouseenter',
   MOUSE_OUT = 'mouseout',
@@ -21,12 +21,15 @@ export enum EOriginalEvents {
 }
 
 export interface ISelectedLine {
-  event: ETranslateEvents;
+
   originalId: string,
-  transId: string;
-  data?: any
+  lineId: string;
 }
 
+export interface ILineEvent {
+  event: ELineEvent;
+  line: ISelectedLine
+}
 
 export interface ITranslateData {
   transId: string,

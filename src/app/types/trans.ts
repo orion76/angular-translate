@@ -40,9 +40,12 @@ export interface IOriginalEntity extends IEntity {
   template: string
 }
 
+
+
 export interface ISyncState {
   originalId: string,
-  selectedTransId: string,
+  translatedId: string,
+  lineId: string,
   originalScroll: number,
   translatedScroll: number,
 }
