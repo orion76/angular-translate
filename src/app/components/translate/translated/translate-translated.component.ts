@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { ELineEvent, ISelectedLine, ILineEvent } from '@app-lib/common';
+import { ActivatedRoute } from '@angular/router';
 import { TransContentAbstract } from '@app-lib/trans-content-abstract';
 import { TRANSLATE_SERVICE, USER_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
-import { IUserService, ITranslatedLineEntity } from '@app/types';
-import { ActivatedRoute } from '@angular/router';
+import { ITranslatedLineEntity, IUserService } from '@app/types';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 
 

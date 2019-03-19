@@ -11,7 +11,7 @@ export namespace StoreActions {
 
   export class addState {
     readonly type = Types.ADD_STATE;
-    constructor(public originalId: string) { }
+    constructor(public originalId: string, public translatedId: string) { }
   }
 
   export class selectLine {

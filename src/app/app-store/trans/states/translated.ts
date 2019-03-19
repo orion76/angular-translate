@@ -1,9 +1,9 @@
 import { EnumFlagged } from '@app-lib/enum-flagged';
 import { ETranslatedStatus } from '@app/app-store/trans/translated-status/actions';
-import { ELanguage, ITranslatedEntity, ITranslatedState } from '@app/types';
+import { ELanguage, ITranslatedEntity, ITranslatedState, TEntityType } from '@app/types';
 
 export class TranslatedState implements ITranslatedState {
-
+  type: "translated";
 
   constructor(private _entity: ITranslatedEntity, public status: EnumFlagged<ETranslatedStatus>) {
 

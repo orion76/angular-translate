@@ -13,7 +13,7 @@ import { IAppState } from '../../app-store.module';
 
 
 @Injectable()
-export class TranslateOriginalEffects {
+export class TranslatedStoreEffects {
 
 
   @Effect()

@@ -1,5 +1,4 @@
-import { IOriginalEntity } from '../../../types/trans';
-import { IUser } from '@app-types/user';
+import { IUser } from '@app/types/user';
 
 export enum EUserStatus {
   ANONYM = 1 << 0,

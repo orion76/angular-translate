@@ -14,6 +14,7 @@ export class SourceParseService implements ISourceParseService {
 
 
     const entity: IOriginalEntity = {
+      type: 'original',
       entityId: null,
       authorId,
       language,
@@ -34,15 +35,11 @@ export class SourceParseService implements ISourceParseService {
       trans.id = `trans-id-${transId}`;
       trans.textContent = '';
 
-
       entity.lines.set(trans.id, {
         entityId: transId.toString(),
-        authorId,
+        type: 'original',
         content: node.textContent,
-
       })
-
-
 
       node.parentNode.replaceChild(trans, node);
       transId++;

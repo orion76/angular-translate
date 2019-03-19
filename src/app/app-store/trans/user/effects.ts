@@ -3,19 +3,19 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { IDataService } from '../../../services/data.service';
-import { DATA_SERVICE } from '../../../services/injection-tokens';
-import { ESources, IOriginalEntity } from '../../../types/trans';
-import { IAppState } from '../../app-store.module';
+import { IDataService } from '@app/services/data.service';
+import { DATA_SERVICE } from '@app/services/injection-tokens';
+import { ESources, IOriginalEntity } from '@app/types/trans';
+import { IAppState } from '@app/app-store/app-store.module';
 import { StoreActions as UserActions } from './actions';
 import { StoreActions as StatusActions } from '../user-status/actions';
-import { IUser } from '@app-types/user';
+import { IUser } from '@app/types/user';
 
 
 
 
 @Injectable()
-export class TranslateOriginalEffects {
+export class UserEffects {
 
   @Effect()
   Login$ = this.actions$.pipe(

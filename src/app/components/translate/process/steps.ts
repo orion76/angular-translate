@@ -1,7 +1,6 @@
+import { ELanguage } from '@app/types/common';
+import { IOriginalEntity, ITranslatedEntity } from '@app/types/trans';
 import { Action } from "@ngrx/store";
-import { IUser } from '@app-types/user';
-import { IOriginalEntity, ITranslatedEntity } from '@app-types/trans';
-import { ELanguage } from '@app-types/common';
 
 export namespace Steps {
 

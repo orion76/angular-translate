@@ -13,7 +13,7 @@ import { IAppState } from '../../app-store.module';
 import { StoreActions as StatusActions, EOriginalStatus } from '../original-status/actions';
 
 @Injectable()
-export class TranslateOriginalEffects {
+export class UserStatusEffects {
 
 
   constructor(

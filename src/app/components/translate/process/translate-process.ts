@@ -1,44 +1,18 @@
 import { Injectable } from '@angular/core';
+import { ISelectedLine } from '@app-lib/common';
 import { selectNotEmpty } from '@app-lib/rxjs-helper';
 import { IAppState } from '@app/app-store/app-store.module';
-import { ETranslatedStatus } from '@app/app-store/trans/translated-status';
-import {
-  StoreActions as OriginalActions,
-  StoreSelectors as OriginalSelectors
-} from '@app/app-store/trans/original';
-
-import {
-  StoreActions as OriginalStatusActions,
-  StoreSelectors as OriginalStatusSelectors
-} from '@app/app-store/trans/original-status';
-
-
-import {
-  StoreActions as TranslatedActions,
-  StoreSelectors as TranslatedSelectors
-} from '@app/app-store/trans/translated';
-
-import {
-  StoreActions as TranslatedStatusActions,
-  StoreSelectors as TranslatedStatusSelectors
-} from '@app/app-store/trans/translated-status';
-
-import {
-  StoreActions as SyncStateActions,
-  StoreSelectors as SyncStateSelectors
-} from '@app/app-store/trans/sync-state';
-
-
-import { ELanguage, IUser, ITranslatedState, ITranslatedEntity, IOriginalEntity, ISyncState } from '@app/types';
+import { StoreActions as OriginalActions, StoreSelectors as OriginalSelectors } from '@app/app-store/trans/original';
+import { StoreSelectors as OriginalStatusSelectors } from '@app/app-store/trans/original-status';
+import { StoreActions as SyncStateActions, StoreSelectors as SyncStateSelectors } from '@app/app-store/trans/sync-state';
+import { StoreActions as TranslatedActions, StoreSelectors as TranslatedSelectors } from '@app/app-store/trans/translated';
+import { StoreSelectors as TranslatedStatusSelectors } from '@app/app-store/trans/translated-status';
+import { ELanguage, IOriginalEntity, ISyncState, ITranslatedEntity, ITranslatedState, IUser } from '@app/types';
 import { Action, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, take, withLatestFrom, map, combineLatest, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, take, withLatestFrom } from 'rxjs/operators';
 import { Steps } from './steps';
-import { StoreSelectors as UserActions } from '@app/app-store/trans/user';
-
-
 import Step = Steps.EStep;
-import { ISelectedLine } from '@app-lib/common';
 
 export interface ITranslateProcess {
   dispatch(action: Action);
@@ -61,7 +35,7 @@ export class TranslateProcess implements ITranslateProcess {
   private step$: Observable<Steps.TSteps> = this.stepSubject.asObservable();
 
   constructor(
-    private store: Store<IAppState>,
+    private store: Store<IAppState>
   ) {
 
   }
@@ -94,8 +68,8 @@ export class TranslateProcess implements ITranslateProcess {
         selectNotEmpty(SyncStateSelectors.Entity, { entityId: originalId }),
         distinctUntilChanged(),
         map((state: ISyncState) => {
-          const { originalId, lineId } = state;
-          return { originalId, lineId }
+          const { originalId, lineId, lineIdPrev } = state;
+          return { originalId, lineId, lineIdPrev }
         })
       )
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api'
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,10 @@ export class AppComponent implements OnInit {
 
   menuBar: MenuItem[];
   title = 'trans';
+
+  constructor() {
+
+  }
 
   ngOnInit() {
     this.menuBar = [

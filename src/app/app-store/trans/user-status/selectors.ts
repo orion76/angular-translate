@@ -1,6 +1,6 @@
-import { IUserStatus } from '@app-types/user';
+import { IUserProps } from '@app/types/common';
+import { IUserStatus } from '@app/types/user';
 import { createFeatureSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
-import { IUserProps } from '../../../types/common';
 import { IAppState } from '../../app-store.module';
 import { StoreState } from './state';
 

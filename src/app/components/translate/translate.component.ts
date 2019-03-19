@@ -3,8 +3,8 @@ import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { ITranslateProcess, TranslateProcess } from '@app/components/translate/process/translate-process';
 import { ITranslateService, TranslateService } from '@app/services/translate.service';
 import { CardModule } from 'primeng/card';
-import { ITranslateData } from '../../library/common';
-import { DataService, IDataService } from '../../services/data.service';
+import { ITranslateData } from '@app-lib/common';
+import { DataService, IDataService } from '@app/services/data.service';
 import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_PROCESS, TRANSLATE_SERVICE, USER_SERVICE } from '../../services/injection-tokens';
 import { SourceParseService } from '../../services/source-parse.service';
 import { IOriginalEntity, ITranslatedEntity } from '../../types/trans';
@@ -76,11 +76,11 @@ export class TransComponent implements OnInit {
   ],
   exports: [TransComponent],
   providers: [
-
+   { provide: TRANSLATED_PROCESS, useClass: TranslateProcess },
     { provide: TRANSLATE_SERVICE, useClass: TranslateService },
     { provide: DATA_SERVICE, useClass: DataService },
     { provide: SOURFCE_PARSE_SERVICE, useClass: SourceParseService },
-    { provide: TRANSLATED_PROCESS, useClass: TranslateProcess },
+
   ]
 })
 export class TransModule { }

@@ -2,7 +2,7 @@
 import { ElementRef, Renderer2 } from '@angular/core';
 import { ITranslateService } from '@app/services/translate.service';
 import { TTranslateLineEntity, IEntity } from '@app/types/trans';
-import { ELineEvent, ISelectedLine } from './common';
+import { EMouseEvent, ISelectedLine, ILineEvent } from './common';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { map, filter, switchMap } from 'rxjs/operators';
@@ -39,6 +39,30 @@ export abstract class TransContentAbstract {
 
 
   }
+
+  InitEvents(originalId: string) {
+    this.service.onEvent(EMouseEvent.MOUSE_ENTER).subscribe((event: ILineEvent) => {
+      const target: HTMLElement = this.getElement( event.line.lineId);
+      this.renderer.addClass(target, 'trans-mouse-enter');
+    })
+
+
+    this.service.onEvent(EMouseEvent.MOUSE_OUT).subscribe((event: ILineEvent) => {
+      const target: HTMLElement = this.getElement( event.line.lineId);
+      this.renderer.removeClass(target, 'trans-mouse-enter');
+    })
+
+
+    this.service.onLineSelect(originalId).subscribe((line: ISelectedLine) => {
+      if (line.lineIdPrev) {
+        this.renderer.removeClass(this.getElement( line.lineIdPrev), 'trans-selected');
+      }
+      this.renderer.addClass(this.getElement(line.lineId), 'trans-selected');
+    })
+
+  }
+
+
 
   initOriginalId() {
     this.route.paramMap

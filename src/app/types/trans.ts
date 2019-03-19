@@ -9,15 +9,26 @@ export enum ESources {
   TRANSLATED = 'translate-translated',
 }
 
+export type TEntityType = 'original' | 'translated';
+
 export interface IEntity {
-  entityId: string | null,
+  entityId: string,
   authorId: string,
+  type: TEntityType
 }
+
+export interface ILineEntity {
+  entityId: string,
+
+  type: TEntityType
+}
+
 
 /**
  *
  */
-export interface ITranslatedLineEntity extends IEntity {
+export interface ITranslatedLineEntity extends ILineEntity {
+
   // entityId: string,
   // authorId: string,
   transId: string, // ITranslateOriginalEntity entityId
@@ -25,7 +36,8 @@ export interface ITranslatedLineEntity extends IEntity {
   translated: boolean,
 }
 
-export interface IOriginalLineEntity extends IEntity {
+export interface IOriginalLineEntity extends ILineEntity {
+
   // entityId: string,
   // authorId: string,
   content: string,
@@ -33,6 +45,7 @@ export interface IOriginalLineEntity extends IEntity {
 
 
 export interface IOriginalEntity extends IEntity {
+
   // entityId: string,
   // authorId: string,
   language: ELanguage,
@@ -40,22 +53,21 @@ export interface IOriginalEntity extends IEntity {
   template: string
 }
 
-
-
-export interface ISyncState {
-  originalId: string,
-  translatedId: string,
-  lineId: string,
-  originalScroll: number,
-  translatedScroll: number,
-}
-
 export interface ITranslatedEntity extends IEntity {
+
   // entityId: string,
   // authorId: string,
   originalId: string,
   language: ELanguage,
   lines: Map<string, ITranslatedLineEntity>
+}
+export interface ISyncState {
+  originalId: string,
+  translatedId: string,
+  lineIdPrev: string,
+  lineId: string,
+  originalScroll: number,
+  translatedScroll: number,
 }
 
 export interface IEntityOriginalStatus {

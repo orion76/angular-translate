@@ -5,7 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToolbarModule } from 'primeng/toolbar';
-import { ELineEvent, ITranslateData } from '@app-lib/common';
+import { EMouseEvent, ITranslateData } from '@app-lib/common';
 import { TRANSLATE_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
 

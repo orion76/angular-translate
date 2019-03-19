@@ -8,7 +8,7 @@ import { StoreActions } from './actions';
 
 
 @Injectable()
-export class SyncStateStoreEffects {
+export class OriginalStatusEffects {
 
   constructor(
     private store: Store<IAppState>,
