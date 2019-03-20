@@ -3,10 +3,9 @@ import { ISelectedLine } from '@app-lib/common';
 import { selectNotEmpty } from '@app-lib/rxjs-helper';
 import { IAppState } from '@app/app-store/app-store.module';
 import { StoreActions as OriginalActions, StoreSelectors as OriginalSelectors } from '@app/app-store/trans/original';
-import { StoreSelectors as OriginalStatusSelectors } from '@app/app-store/trans/original-status';
+
 import { StoreActions as SyncStateActions, StoreSelectors as SyncStateSelectors } from '@app/app-store/trans/sync-state';
 import { StoreActions as TranslatedActions, StoreSelectors as TranslatedSelectors } from '@app/app-store/trans/translated';
-import { StoreSelectors as TranslatedStatusSelectors } from '@app/app-store/trans/translated-status';
 import { ELanguage, IOriginalEntity, ISyncState, ITranslatedEntity, ITranslatedState, IUser } from '@app/types';
 import { Action, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -40,19 +39,22 @@ export class TranslateProcess implements ITranslateProcess {
 
   }
   onOriginalLoaded(entityId: string): Observable<IOriginalEntity> {
-    return this.store.pipe(
-      selectNotEmpty(OriginalStatusSelectors.Entity, { entityId }),
-      withLatestFrom(this.store.pipe(selectNotEmpty(OriginalSelectors.Entity, { entityId }))),
-      map(([_, entity]) => entity)
-    )
+    return null;
+    // return this.store.pipe(
+    //   selectNotEmpty(OriginalStatusSelectors.Entity, { entityId }),
+    //   withLatestFrom(this.store.pipe(selectNotEmpty(OriginalSelectors.Entity, { entityId }))),
+    //   map(([_, entity]) => entity)
+    // )
   }
 
   onTranslatedLoaded(entityId: string): Observable<ITranslatedEntity> {
-    return this.store.pipe(
-      selectNotEmpty(TranslatedStatusSelectors.Entity, { entityId }),
-      withLatestFrom(this.store.pipe(selectNotEmpty(TranslatedSelectors.Entity, { entityId }))),
-      map(([_, entity]) => entity)
-    )
+
+    return null;
+    // return this.store.pipe(
+    //   selectNotEmpty(TranslatedStatusSelectors.Entity, { entityId }),
+    //   withLatestFrom(this.store.pipe(selectNotEmpty(TranslatedSelectors.Entity, { entityId }))),
+    //   map(([_, entity]) => entity)
+    // )
   }
   completeOriginalId(originalId: string) {
     this.store.dispatch(new OriginalActions.originalId(originalId));
@@ -118,7 +120,7 @@ export class TranslateProcess implements ITranslateProcess {
   }
 
   _onUserLoaded(): Observable<IUser> {
-    const user: IUser = { uid: '1', name: 'user-loaded', language: ELanguage.RU };
+    const user: IUser = { entityId: '1', name: 'user-loaded', language: ELanguage.RU };
     return of(user).pipe(take(1));
   }
 

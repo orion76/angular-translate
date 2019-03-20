@@ -1,10 +1,9 @@
 import { ELanguage } from './common';
 import { IOriginalEntity, ITranslatedEntity } from './trans';
 import { EnumFlagged } from '@app-lib/enum-flagged';
-import { ETranslatedStatus } from '@app/app-store/trans/translated-status/actions';
 
 
 export interface ITranslatedState extends ITranslatedEntity {
-  status: EnumFlagged<ETranslatedStatus>;
+  status: any;
   readonly entity: ITranslatedEntity
 }

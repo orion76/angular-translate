@@ -25,7 +25,7 @@ export class DataService implements IDataService {
 
   getUser(uid: string): Observable<IUser> {
     return of({
-      uid: uid,
+      entityId: uid,
       name: 'user',
       language: ELanguage.RU
     });

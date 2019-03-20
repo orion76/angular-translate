@@ -1,13 +1,11 @@
+import { IAppState } from '@app/app-store/app-store.module';
+import { ELanguage, IEntityProps } from '@app/types/common';
+import { ITranslatedEntity } from '@app/types/trans';
 import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
-import { ELanguage, IEntityProps } from '@app/types/common';
-import { ITranslatedEntity, IEntityTranslatedStatus } from '@app/types/trans';
-import { IAppState } from '@app/app-store/app-store.module';
 import { StoreState } from './state';
 
-import { StoreSelectors as StatusSelectors } from '../translated-status/selectors';
-import { ITranslatedState } from '@app/types/trans-state';
-import { TranslatedState } from '@app/app-store/trans/states/translated';
+
 
 // import IFormProps = FormSelectors.IFormProps;
 
@@ -48,15 +46,15 @@ export namespace StoreSelectors {
   export type TTranslatedEntity = MemoizedSelectorWithProps<IAppState, IEntityProps, ITranslatedEntity>;
   export const Entity: TTranslatedEntity = createSelector(TranslatedEntities, getEntity);
 
-  export type TTranslatedState = MemoizedSelectorWithProps<IAppState, IEntityProps, ITranslatedState>;
-  export const State: TTranslatedEntity = createSelector(
-    Entity,
-    StatusSelectors.Entities,
-    (entity: ITranslatedEntity, statuses: Dictionary<IEntityTranslatedStatus>) => {
-      const statusState = StatusSelectors.getEntity(statuses, entity)
-      return new TranslatedState(entity, statusState.status)
-    }
-  );
+  // export type TTranslatedState = MemoizedSelectorWithProps<IAppState, IEntityProps, ITranslatedState>;
+  // export const State: TTranslatedEntity = createSelector(
+  //   Entity,
+  //   StatusSelectors.Entities,
+  //   (entity: ITranslatedEntity, statuses: Dictionary<IEntityTranslatedStatus>) => {
+  //     const statusState = StatusSelectors.getEntity(statuses, entity)
+  //     return new TranslatedState(entity, statusState.status)
+  //   }
+  // );
 
 
 }

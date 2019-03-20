@@ -1,7 +1,7 @@
-import { ELanguage } from './common';
+import { IEnumFlagged } from '@app-lib/enum-flagged';
 import { Observable } from 'rxjs';
-import { EnumFlagged, IEnumFlagged } from '@app-lib/enum-flagged';
-import { EUserStatus } from '@app/app-store/trans/user-status';
+import { ELanguage, IEntityStatus } from './common';
+
 
 export enum EUserEvent {
   UID = 'UID COMPLETE',
@@ -14,14 +14,13 @@ export interface IUserEvent extends IUser {
 }
 
 export interface IUser {
-  uid: string;
+  entityId: string;
   name: string;
   language: ELanguage
 }
 
-export interface IUserStatus {
-  uid: string;
-  status: IEnumFlagged<EUserStatus>
+export interface IUserStatus extends IEntityStatus {
+
 }
 
 export interface IUserService {

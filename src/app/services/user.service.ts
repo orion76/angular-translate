@@ -19,11 +19,11 @@ export class UserService implements IUserService {
 
   init() {
     this._UserSubject.next({
-      type: EUserEvent.UID, uid: '0', name: 'anonym', language: ELanguage.RU
+      type: EUserEvent.UID, entityId: '0', name: 'anonym', language: ELanguage.RU
     })
 
     this._UserSubject.next({
-      type: EUserEvent.LOADED, uid: '111', name: 'pasha', language: ELanguage.RU
+      type: EUserEvent.LOADED, entityId: '111', name: 'pasha', language: ELanguage.RU
     })
   }
 

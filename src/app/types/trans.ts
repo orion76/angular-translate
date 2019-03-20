@@ -1,7 +1,5 @@
-import { ELanguage } from './common';
-import { EnumFlagged } from '@app/library/enum-flagged';
+import { ELanguage, IEntityStatus } from './common';
 
-import { ETranslatedStatus } from '@app/app-store/trans/translated-status/actions';
 
 export enum ESources {
   SOURCE = 'translate-source',
@@ -70,14 +68,11 @@ export interface ISyncState {
   translatedScroll: number,
 }
 
-export interface IEntityOriginalStatus {
-  entityId: string,
-  status: EnumFlagged<EOriginalStatus>
+export interface IEntityOriginalStatus extends IEntityStatus {
 }
 
-export interface IEntityTranslatedStatus {
-  entityId: string,
-  status: EnumFlagged<ETranslatedStatus>
+export interface IEntityTranslatedStatus extends IEntityStatus {
+
 }
 
 export type TTranslateEntity = IOriginalEntity | ITranslatedEntity
