@@ -1,4 +1,4 @@
-import { IOriginalEntity } from '../../../types/trans';
+import { ITranslateEntityOriginal } from '../../../types/trans';
 
 export namespace StoreActions {
   export enum Types {
@@ -16,7 +16,7 @@ export namespace StoreActions {
 
   export class originalNew {
     readonly type = Types.ORIGINAL_NEW;
-    constructor(public entity: IOriginalEntity) { }
+    constructor(public entity: ITranslateEntityOriginal) { }
   }
 
   export class originalLoad {
@@ -26,7 +26,7 @@ export namespace StoreActions {
 
   export class originalLoadSuccess {
     readonly type = Types.ORIGINAL_LOAD_SUCCESS;
-    constructor(public entity: IOriginalEntity) { }
+    constructor(public entity: ITranslateEntityOriginal) { }
   }
 
   export class originalLoadError {

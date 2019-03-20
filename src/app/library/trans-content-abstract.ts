@@ -1,7 +1,7 @@
 
 import { ElementRef, Renderer2 } from '@angular/core';
 import { ITranslateService } from '@app/services/translate.service';
-import { TTranslateLineEntity, IEntity } from '@app/types/trans';
+import { ILineEntity, IEntity, ITranslateEntity, TEntityType } from '@app/types/trans';
 import { EMouseEvent, ISelectedLine, ILineEvent } from './common';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -10,8 +10,12 @@ import { map, filter, switchMap } from 'rxjs/operators';
 
 export abstract class TransContentAbstract {
 
-  dom: HTMLElement;
-  lines: Map<string, TTranslateLineEntity>;
+  entityId$: Observable<string>;
+  type: TEntityType;
+
+
+  entity$: Observable<ITranslateEntity>;
+  lines: Map<string, ILineEntity>;
   elements: Map<string, HTMLElement>;
   content: ElementRef;
   protected _selectedId: any;
@@ -24,38 +28,44 @@ export abstract class TransContentAbstract {
   ) { }
 
   ngOnInit() {
+    this.entityId$.subscribe((entityId: string) => {
+      this.service.onEntityLoaded(this.type, entityId).subscribe((entity: ITranslateEntity) => {
 
-    this.clearLinkEvent(this.dom);
+        this.clearLinkEvent(entity.template);
 
-    Array.from(this.dom.childNodes)
-      .reverse()
-      .forEach((node: Node) => {
-        this.renderer.appendChild(this.content.nativeElement, node);
+        Array.from(entity.template.childNodes)
+          .reverse()
+          .forEach((node: Node) => {
+            this.renderer.appendChild(this.content.nativeElement, node);
+          })
+        this.elements = this.getTransElements();
+        this.elements.forEach((node: HTMLElement, transId: string) => {
+          node.textContent = this.lines.get(transId).content;
+        })
+
       })
-    this.elements = this.getTransElements();
-    this.elements.forEach((node: HTMLElement, transId: string) => {
-      node.textContent = this.lines.get(transId).content;
     })
+
 
 
   }
 
   InitEvents(originalId: string) {
     this.service.onEvent(EMouseEvent.MOUSE_ENTER).subscribe((event: ILineEvent) => {
-      const target: HTMLElement = this.getElement( event.line.lineId);
+      const target: HTMLElement = this.getElement(event.line.lineId);
       this.renderer.addClass(target, 'trans-mouse-enter');
     })
 
 
     this.service.onEvent(EMouseEvent.MOUSE_OUT).subscribe((event: ILineEvent) => {
-      const target: HTMLElement = this.getElement( event.line.lineId);
+      const target: HTMLElement = this.getElement(event.line.lineId);
       this.renderer.removeClass(target, 'trans-mouse-enter');
     })
 
 
     this.service.onLineSelect(originalId).subscribe((line: ISelectedLine) => {
       if (line.lineIdPrev) {
-        this.renderer.removeClass(this.getElement( line.lineIdPrev), 'trans-selected');
+        this.renderer.removeClass(this.getElement(line.lineIdPrev), 'trans-selected');
       }
       this.renderer.addClass(this.getElement(line.lineId), 'trans-selected');
     })

@@ -6,7 +6,7 @@ import { StoreActions as OriginalActions, StoreSelectors as OriginalSelectors } 
 
 import { StoreActions as SyncStateActions, StoreSelectors as SyncStateSelectors } from '@app/app-store/trans/sync-state';
 import { StoreActions as TranslatedActions, StoreSelectors as TranslatedSelectors } from '@app/app-store/trans/translated';
-import { ELanguage, IOriginalEntity, ISyncState, ITranslatedEntity, ITranslatedState, IUser } from '@app/types';
+import { ELanguage, ISyncState, IUser, ITranslateEntityOriginal, ITranslateEntityTranslated, ITranslateEntity, TEntityType, IEntityStatusProps } from '@app/types';
 import { Action, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, take, withLatestFrom } from 'rxjs/operators';
@@ -20,10 +20,11 @@ export interface ITranslateProcess {
   // outLine(originalId: string, lineId: string);
   selectLine(originalId: string, lineId: string);
   onLineSelect(originalId: string): Observable<ISelectedLine>;
-  onOriginalLoaded(entityId: string): Observable<IOriginalEntity>;
-  onTranslatedLoaded(entityId: string): Observable<ITranslatedEntity>;
+  onOriginalLoaded(entityId: string): Observable<ITranslateEntityOriginal>;
+  onTranslatedLoaded(entityId: string): Observable<ITranslateEntityTranslated>;
 
   completeOriginalId(originalId: string);
+  onEntityStatus(type: TEntityType, entityId: string, status: string, value: any): Observable<ITranslateEntity>;
 }
 
 
@@ -38,7 +39,7 @@ export class TranslateProcess implements ITranslateProcess {
   ) {
 
   }
-  onOriginalLoaded(entityId: string): Observable<IOriginalEntity> {
+  onOriginalLoaded(entityId: string): Observable<ITranslateEntityOriginal> {
     return null;
     // return this.store.pipe(
     //   selectNotEmpty(OriginalStatusSelectors.Entity, { entityId }),
@@ -47,7 +48,22 @@ export class TranslateProcess implements ITranslateProcess {
     // )
   }
 
-  onTranslatedLoaded(entityId: string): Observable<ITranslatedEntity> {
+  onEntityStatus(type: TEntityType, entityId: string, name: string, value: any): Observable<ITranslateEntity> {
+
+    const props: IEntityStatusProps = { entityId, name, value };
+    let selector: any;
+    switch (type) {
+      case 'original':
+        selector = TranslatedSelectors.entityStatus;
+        break;
+      case 'translated':
+        selector = OriginalSelectors.entityStatus;
+        break;
+    }
+    return this.store.pipe(selectNotEmpty(selector, props));
+  }
+
+  onTranslatedLoaded(entityId: string): Observable<ITranslateEntityTranslated> {
 
     return null;
     // return this.store.pipe(
@@ -89,8 +105,8 @@ export class TranslateProcess implements ITranslateProcess {
       this.store.dispatch(new TranslatedActions.translatedFind(userId, originalId, language));
 
       this.onTranslatedLoaded(originalId)
-        .subscribe((state: ITranslatedState) => {
-          this.nextStep(new Steps.translatedLoaded(state.entity));
+        .subscribe((entity: ITranslateEntityTranslated) => {
+          this.nextStep(new Steps.translatedLoaded(entity));
         })
     })
 

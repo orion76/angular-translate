@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { IOriginalEntity } from '../types/trans';
 import { ELanguage } from '../types/common';
+import { ITranslateEntityOriginal } from '@app/types';
 
 
 export interface ISourceParseService {
-  parse(source: string, language: string, authorId: string): IOriginalEntity;
+  parse(source: string, language: string, authorId: string): ITranslateEntityOriginal;
 }
 
 @Injectable()
 export class SourceParseService implements ISourceParseService {
 
-  public parse(source: string, language: ELanguage, authorId: string): IOriginalEntity {
+  public parse(source: string, language: ELanguage, authorId: string): ITranslateEntityOriginal {
 
 
-    const entity: IOriginalEntity = {
+    const entity: ITranslateEntityOriginal = {
       type: 'original',
       entityId: null,
       authorId,
@@ -36,6 +36,7 @@ export class SourceParseService implements ISourceParseService {
       trans.textContent = '';
 
       entity.lines.set(trans.id, {
+        authorId,
         entityId: transId.toString(),
         type: 'original',
         content: node.textContent,
@@ -45,7 +46,7 @@ export class SourceParseService implements ISourceParseService {
       transId++;
     })
 
-    entity.template = dom.body.innerHTML;
+    entity.template = dom.body;
     return entity;
   }
 

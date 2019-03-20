@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 import { EMouseEvent, ISelectedLine, ILineEvent } from '../library/common';
 import { TRANSLATED_PROCESS } from '@app/services/injection-tokens';
 import { ITranslateProcess } from '@app/components/translate/process/translate-process';
-import { TTranslateLineEntity } from '@app/types';
+import { ILineEntity, TEntityType, ITranslateEntity } from '@app/types';
 
 export interface ITranslateService {
   do(event: EMouseEvent, line: ISelectedLine): void
@@ -13,6 +13,7 @@ export interface ITranslateService {
   onTranslatedLoaded(translatedId: string);
   onLineSelect(originalId: string);
   completeOriginalId(originalId: string);
+  onEntityLoaded(type: TEntityType, entityId: string): Observable<ITranslateEntity> ;
 }
 
 @Injectable()
@@ -28,7 +29,11 @@ export class TranslateService implements ITranslateService {
 
   }
 
-  initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, TTranslateLineEntity>
+  onEntityLoaded(type: TEntityType, entityId: string): Observable<ITranslateEntity> {
+    return this.process.onEntityStatus(type, entityId, 'loaded', true);
+  }
+
+  initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, ILineEntity>
   ) {
     Array.from(dom.getElementsByTagName('trans'))
       .forEach((trans: HTMLElement) => {

@@ -7,11 +7,12 @@ import { ITranslateData } from '@app-lib/common';
 import { DataService, IDataService } from '@app/services/data.service';
 import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_PROCESS, TRANSLATE_SERVICE, USER_SERVICE } from '../../services/injection-tokens';
 import { SourceParseService } from '../../services/source-parse.service';
-import { IOriginalEntity, ITranslatedEntity } from '../../types/trans';
+
 import { IUserService } from '../../types/user';
 import { TransEditModule } from './edit/translate-edit.component';
 import { TransOriginalModule } from './original/translate-original.component';
 import { TransTranslatedModule } from './translated/translate-translated.component';
+import { ITranslateEntityOriginal, ITranslateEntityTranslated } from '@app/types';
 
 
 @Component({
@@ -20,11 +21,11 @@ import { TransTranslatedModule } from './translated/translate-translated.compone
   <p-card header="Content" >
     <div class="trans-wrapper">
       <div class="trans-original-wrapper  trans-content-block trans-block">
-        <app-trans-original class="trans-original" [dom]="getDOM()"  [lines]="entityOriginal.lines"></app-trans-original>
+        <app-trans-original class="trans-original" ></app-trans-original>
       </div>
 
       <div class="trans-translated-wrapper  trans-content-block trans-block">
-        <app-trans-translated class="trans-translated" [dom]="getDOM()" [lines]="entityTranslated.lines"></app-trans-translated>
+        <app-trans-translated class="trans-translated" ></app-trans-translated>
       </div>
 
       <div class="trans-edit-wrapper  trans-block">
@@ -34,14 +35,15 @@ import { TransTranslatedModule } from './translated/translate-translated.compone
   </p-card>
   `
 })
-export class TransComponent implements OnInit {
+export class TranslateComponent implements OnInit {
 
   source: string;
 
   selected: ITranslateData;
 
-  private entityOriginal: IOriginalEntity;
-  private entityTranslated: ITranslatedEntity;
+
+  private entityOriginal: ITranslateEntityOriginal;
+  private entityTranslated: ITranslateEntityTranslated;
 
   translateData: Map<string, ITranslateData> = new Map();
 
@@ -58,15 +60,15 @@ export class TransComponent implements OnInit {
 
   }
 
-  getDOM() {
+  getDOM(template: string) {
     const parser = new DOMParser();
-    return parser.parseFromString(this.entityOriginal.template, 'text/html').body;
+    return parser.parseFromString(template, 'text/html').body;
   }
 
 }
 
 @NgModule({
-  declarations: [TransComponent],
+  declarations: [TranslateComponent],
   imports: [
     CommonModule,
     CardModule,
@@ -74,9 +76,9 @@ export class TransComponent implements OnInit {
     TransTranslatedModule,
     TransEditModule
   ],
-  exports: [TransComponent],
+  exports: [TranslateComponent],
   providers: [
-   { provide: TRANSLATED_PROCESS, useClass: TranslateProcess },
+    { provide: TRANSLATED_PROCESS, useClass: TranslateProcess },
     { provide: TRANSLATE_SERVICE, useClass: TranslateService },
     { provide: DATA_SERVICE, useClass: DataService },
     { provide: SOURFCE_PARSE_SERVICE, useClass: SourceParseService },

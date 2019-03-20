@@ -7,6 +7,11 @@ export interface IEntityProps {
   entityId: string;
 }
 
+export interface IEntityStatusProps extends IEntityProps {
+  name: string;
+  value: any
+}
+
 export interface IUserProps {
   uid: string;
 }

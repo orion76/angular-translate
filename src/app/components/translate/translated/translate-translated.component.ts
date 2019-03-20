@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TransContentAbstract } from '@app-lib/trans-content-abstract';
 import { TRANSLATE_SERVICE, USER_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
-import { ITranslatedLineEntity, IUserService } from '@app/types';
+import { ILineEntityTranslated, IUserService, ITranslateEntityTranslated } from '@app/types';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 
@@ -19,8 +19,8 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
   `
 })
 export class TransTranslatedComponent extends TransContentAbstract implements OnInit {
-  @Input() dom: HTMLElement;
-  @Input() lines: Map<string, ITranslatedLineEntity>;
+  @Input() translate: ITranslateEntityTranslated;
+  @Input() lines: Map<string, ILineEntityTranslated>;
 
   @ViewChild("content")
   content: ElementRef;

@@ -1,4 +1,3 @@
-import { ITranslatedEntity } from '../../../types/trans';
 import { ELanguage } from '@app/types/common';
 
 export namespace StoreActions {

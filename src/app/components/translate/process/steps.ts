@@ -1,6 +1,6 @@
 import { ELanguage } from '@app/types/common';
-import { IOriginalEntity, ITranslatedEntity } from '@app/types/trans';
 import { Action } from "@ngrx/store";
+import { ITranslateEntityOriginal, ITranslateEntityTranslated, ITranslateEntity } from '@app/types';
 
 export namespace Steps {
 
@@ -18,19 +18,19 @@ export namespace Steps {
   }
   export class originalLoaded implements Action {
     readonly type = EStep.ORIGINAL_LOADED;
-    constructor(public entity: IOriginalEntity) {
+    constructor(public entity: ITranslateEntityOriginal) {
     }
   }
 
   export class translatedLoaded implements Action {
     readonly type = EStep.TRANSLATE_LOADED;
-    constructor(public entity: ITranslatedEntity) {
+    constructor(public entity: ITranslateEntityTranslated) {
     }
   }
 
   export class translatedChanged implements Action {
     readonly type = EStep.TRANSLATE_CHANGED;
-    constructor(public entity: ITranslatedEntity) {
+    constructor(public entity: ITranslateEntity) {
     }
   }
 

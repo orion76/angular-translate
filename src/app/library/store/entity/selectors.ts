@@ -1,6 +1,6 @@
 import { Dictionary, EntityAdapter } from '@ngrx/entity';
 import { MemoizedSelector, MemoizedSelectorWithProps, createFeatureSelector, createSelector } from '@ngrx/store';
-import { IEntityProps } from '@app/types';
+import { IEntityProps, IEntityStatusProps } from '@app/types';
 import { IEntityState } from '@app-lib/store/entity';
 
 export namespace EntityStore {
@@ -10,6 +10,7 @@ export namespace EntityStore {
     entity: MemoizedSelectorWithProps<AppState, IEntityProps, EntityType>,
     stasuses: MemoizedSelector<AppState, Dictionary<StatusType>>,
     stasus: MemoizedSelectorWithProps<AppState, IEntityProps, StatusType>,
+    entityStatus: MemoizedSelectorWithProps<AppState, IEntityStatusProps, EntityType>,
   }
 
 
@@ -29,17 +30,32 @@ export namespace EntityStore {
     return entities[props.entityId];
   };
 
+  export function getEntityStatus<EntityType, StatusType>(
+    statuses: Dictionary<StatusType>,
+    entities: Dictionary<EntityType>,
+    props: IEntityStatusProps) {
+    const { entityId, name, value } = props;
+
+    if (!statuses[entityId]) {
+      return;
+    }
+    const status: StatusType = statuses[entityId];
+    if (status[name] === value) {
+      return entities[entityId]
+    }
+
+  }
+
   export function createSelectors<AppState, EntityType, StatusType>(
     featureName: keyof AppState,
     featureAdapter: EntityAdapter<EntityType>
   ): IEntitySelectors<AppState, EntityType, StatusType> {
 
     const {
-      selectAll,
+      // selectAll,
       selectEntities,
-      selectIds,
-      selectTotal
-
+      // selectIds,
+      // selectTotal
     } = featureAdapter.getSelectors();
 
     type TState = IEntityState<EntityType, StatusType>;
@@ -57,9 +73,17 @@ export namespace EntityStore {
     type TStasuses = MemoizedSelector<AppState, Dictionary<StatusType>>;
     const stasuses: TStasuses = createSelector(selectFeatureState, getStasuses) as TStasuses;
 
+
+    type TEntityStasus = MemoizedSelectorWithProps<AppState, IEntityStatusProps, EntityType>;
+    const entityStatus: TEntityStasus = createSelector(
+      stasuses,
+      entities,
+      getEntityStatus
+    );
+
     type TStasus = MemoizedSelectorWithProps<AppState, IEntityProps, StatusType>;
     const stasus: TStasus = createSelector(stasuses, getStatus);
 
-    return { entities, entity, stasuses, stasus }
+    return { entities, entity, stasuses, stasus, entityStatus }
   }
 }
