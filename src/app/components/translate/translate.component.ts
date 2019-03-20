@@ -12,7 +12,7 @@ import { IUserService } from '../../types/user';
 import { TransEditModule } from './edit/translate-edit.component';
 import { TransOriginalModule } from './original/translate-original.component';
 import { TransTranslatedModule } from './translated/translate-translated.component';
-import { ITranslateEntityOriginal, ITranslateEntityTranslated } from '@app/types';
+import { IEntityOriginal, IEntityTranslated } from '@app/types';
 
 
 @Component({
@@ -42,8 +42,8 @@ export class TranslateComponent implements OnInit {
   selected: ITranslateData;
 
 
-  private entityOriginal: ITranslateEntityOriginal;
-  private entityTranslated: ITranslateEntityTranslated;
+  private entityOriginal: IEntityOriginal;
+  private entityTranslated: IEntityTranslated;
 
   translateData: Map<string, ITranslateData> = new Map();
 

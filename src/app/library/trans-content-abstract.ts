@@ -1,7 +1,7 @@
 
 import { ElementRef, Renderer2 } from '@angular/core';
 import { ITranslateService } from '@app/services/translate.service';
-import { ILineEntity, IEntity, ITranslateEntity, TEntityType } from '@app/types/trans';
+import { ILineEntity, IEntity, ITranslateEntity, EEntityType } from '@app/types/trans';
 import { EMouseEvent, ISelectedLine, ILineEvent } from './common';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -11,7 +11,7 @@ import { map, filter, switchMap } from 'rxjs/operators';
 export abstract class TransContentAbstract {
 
   entityId$: Observable<string>;
-  type: TEntityType;
+  type: EEntityType;
 
 
   entity$: Observable<ITranslateEntity>;
@@ -28,6 +28,7 @@ export abstract class TransContentAbstract {
   ) { }
 
   ngOnInit() {
+
     this.entityId$.subscribe((entityId: string) => {
       this.service.onEntityLoaded(this.type, entityId).subscribe((entity: ITranslateEntity) => {
 

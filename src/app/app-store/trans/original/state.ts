@@ -1,6 +1,6 @@
 import { IEntityState } from '@app-lib/store/entity';
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
-import { ITranslateEntityOriginal as EntityType, IEntityOriginalStatus as StatusType } from '@app/types/trans';
+import { IEntityOriginal as EntityType, IEntityOriginalStatus as StatusType } from '@app/types/trans';
 
 
 

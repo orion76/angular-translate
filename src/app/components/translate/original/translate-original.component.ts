@@ -5,7 +5,7 @@ import { TransContentAbstract } from '@app-lib/trans-content-abstract';
 import { TRANSLATE_SERVICE, USER_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
 import { ActivatedRoute } from '@angular/router';
-import { IUserService, ITranslateEntityOriginal } from '@app/types';
+import { IUserService, IEntityOriginal } from '@app/types';
 
 
 
@@ -19,7 +19,7 @@ import { IUserService, ITranslateEntityOriginal } from '@app/types';
   `
 })
 export class TransOriginalComponent extends TransContentAbstract implements OnInit {
-  @Input() entity: ITranslateEntityOriginal;
+  @Input() entity: IEntityOriginal;
   // @Input() lines: Map<string, IOriginalLineEntity>;
   @ViewChild("content")
   content: ElementRef;

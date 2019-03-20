@@ -7,12 +7,12 @@ export enum ESources {
   TRANSLATED = 'translate-translated',
 }
 
-export type TEntityType = 'original' | 'translated';
+export enum EEntityType { original, translated };
 
 export interface IEntity {
   entityId: string,
   authorId: string,
-  type: TEntityType
+  type: EEntityType
 }
 
 export interface ITranslateEntity extends IEntity {
@@ -21,21 +21,21 @@ export interface ITranslateEntity extends IEntity {
   lines: Map<string, ILineEntity>;
 }
 
-export interface ITranslateEntityOriginal extends ITranslateEntity {
-  type: 'original';
+export interface IEntityOriginal extends ITranslateEntity {
+  type: EEntityType.original;
   lines: Map<string, ILineEntity>;
 }
 
-export interface ITranslateEntityTranslated extends ITranslateEntity {
+export interface IEntityTranslated extends ITranslateEntity {
   originalId: string,
-  type: 'translated';
+  type: EEntityType.translated;
   lines: Map<string, ILineEntity>;
 }
 
 
 
 export interface ILineEntity extends IEntity {
-  type: TEntityType,
+  type: EEntityType,
   content: string
 }
 

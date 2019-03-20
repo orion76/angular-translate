@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { DATA_SERVICE } from '@app/services/injection-tokens';
 import { IDataService } from '@app/services/data.service';
 import { StoreActions } from './actions';
-import { ESources, ITranslateEntityTranslated } from '@app/types';
+import { ESources, IEntityTranslated } from '@app/types';
 import { Store } from '@ngrx/store';
 import { IAppState } from '../../app-store.module';
 
@@ -21,7 +21,7 @@ export class TranslatedStoreEffects {
     ofType<StoreActions.translatedFind>(StoreActions.Types.TRANSLATED_FIND),
     switchMap((action: StoreActions.translatedFind) => {
       return this.data.getItem(ESources.SOURCE, action.originalId).pipe(
-        map((entity: ITranslateEntityTranslated) => new StoreActions.translatedLoadSuccess(entity)),
+        map((entity: IEntityTranslated) => new StoreActions.translatedLoadSuccess(entity)),
         catchError(() => of(new StoreActions.translatedLoadError(action.originalId)))
       )
     })

@@ -1,4 +1,4 @@
-import { ITranslateEntityTranslated } from '../../../types/trans';
+import { IEntityTranslated } from '../../../types/trans';
 import { ELanguage } from '@app/types/common';
 
 export namespace StoreActions {
@@ -11,7 +11,7 @@ export namespace StoreActions {
 
   export class translatedNew {
     readonly type = Types.TRANSLATED_NEW;
-    constructor(public entity: ITranslateEntityTranslated) { }
+    constructor(public entity: IEntityTranslated) { }
   }
 
   export class translatedFind {
@@ -21,7 +21,7 @@ export namespace StoreActions {
 
   export class translatedLoadSuccess {
     readonly type = Types.TRANSLATED_LOAD_SUCCESS;
-    constructor(public entity: ITranslateEntityTranslated) { }
+    constructor(public entity: IEntityTranslated) { }
   }
 
   export class translatedLoadError {

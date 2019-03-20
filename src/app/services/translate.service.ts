@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 import { EMouseEvent, ISelectedLine, ILineEvent } from '../library/common';
 import { TRANSLATED_PROCESS } from '@app/services/injection-tokens';
 import { ITranslateProcess } from '@app/components/translate/process/translate-process';
-import { ILineEntity, TEntityType, ITranslateEntity } from '@app/types';
+import { ILineEntity, EEntityType, ITranslateEntity } from '@app/types';
 
 export interface ITranslateService {
   do(event: EMouseEvent, line: ISelectedLine): void
@@ -13,7 +13,7 @@ export interface ITranslateService {
   onTranslatedLoaded(translatedId: string);
   onLineSelect(originalId: string);
   completeOriginalId(originalId: string);
-  onEntityLoaded(type: TEntityType, entityId: string): Observable<ITranslateEntity> ;
+  onEntityLoaded(type: EEntityType, entityId: string): Observable<ITranslateEntity>;
 }
 
 @Injectable()
@@ -29,7 +29,11 @@ export class TranslateService implements ITranslateService {
 
   }
 
-  onEntityLoaded(type: TEntityType, entityId: string): Observable<ITranslateEntity> {
+  doEntityId(type: EEntityType, entityId: string, userId: string) {
+// this.process.dispatch()
+  }
+
+  onEntityLoaded(type: EEntityType, entityId: string): Observable<ITranslateEntity> {
     return this.process.onEntityStatus(type, entityId, 'loaded', true);
   }
 

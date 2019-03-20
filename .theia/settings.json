@@ -11,5 +11,8 @@
    "editor.minimap.enabled": true,
    "workspace.supportMultiRootWorkspace": true,
    "editor.quickSuggestions": false,
-   "editor.fontSize": 12
+   "editor.fontSize": 12,
+   "editor.rulers": [],
+   "notification.timeout": 5000,
+   "terminal.integrated.fontSize": 12
 }

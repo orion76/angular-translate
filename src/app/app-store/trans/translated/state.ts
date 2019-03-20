@@ -1,16 +1,16 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { ITranslateEntity, ITranslateEntityTranslated } from '@app/types';
+import { ITranslateEntity, IEntityTranslated } from '@app/types';
 
 export namespace StoreState {
   export const featureName = 'TRANSLATE_TRANSLATED';
 
 
-  export const featureAdapter: EntityAdapter<ITranslateEntityTranslated> = createEntityAdapter<ITranslateEntityTranslated>({
+  export const featureAdapter: EntityAdapter<IEntityTranslated> = createEntityAdapter<IEntityTranslated>({
     selectId: model => model.entityId,
   });
 
 
-  export interface State extends EntityState<ITranslateEntityTranslated> {
+  export interface State extends EntityState<IEntityTranslated> {
 
   }
 
