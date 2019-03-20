@@ -1,16 +1,16 @@
-import { StoreState } from './state';
+import { StatusState } from './state';
 
-import initialState = StoreState.initialState;
-import State = StoreState.State;
+import initialState = StatusState.initialState;
+import State = StatusState.State;
 import { StoreActions, EOriginalStatus } from './actions';
 
-import featureAdapter = StoreState.featureAdapter;
-import { EnumFlagged } from '../../../library/enum-flagged';
-import { StoreSelectors } from './selectors';
+import featureAdapter = StatusState.featureAdapter;
+import { EnumFlagged } from '@app-lib/enum-flagged';
+import { StatusSelectors } from './selectors';
 
 
 function statusAdd(state: State, action: StoreActions.Actions) {
-  const oldstatus = StoreSelectors.getOriginal(state.entities, action).status;
+  const oldstatus = StatusSelectors.getOriginal(state.entities, action).status;
   const status = (action as StoreActions.statusAdd).status;
   return featureAdapter.updateOne({
     id: action.entityId,
@@ -21,7 +21,7 @@ function statusAdd(state: State, action: StoreActions.Actions) {
 }
 
 function statusReplace(state: State, action: StoreActions.Actions) {
-  const oldstatus = StoreSelectors.getOriginal(state.entities, action).status;
+  const oldstatus = StatusSelectors.getOriginal(state.entities, action).status;
   const { statusOld, statusNew } = (action as StoreActions.statusReplace);
   return featureAdapter.updateOne({
     id: action.entityId,
@@ -32,13 +32,9 @@ function statusReplace(state: State, action: StoreActions.Actions) {
 }
 
 
-export function reducer(state: State = initialState, action: StoreActions.Actions) {
+export function reducerStatus(state: State = initialState, action: StoreActions.Actions) {
   let stateNew: State;
-
-
-
   switch (action.type) {
-
     case StoreActions.Types.ORIGINAL_ADD:
       stateNew = featureAdapter.addOne({
         entityId: action.entityId,

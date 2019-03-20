@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { IEntityOriginalStatus } from '../../../types/trans';
+import { IEntityOriginalStatus } from '@app/types/trans';
 
-export namespace StoreState {
+export namespace StatusState {
 
   export const featureName = 'TRANSLATE_ORIGINAL_STATUS';
 
