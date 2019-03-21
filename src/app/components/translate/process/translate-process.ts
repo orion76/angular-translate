@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ISelectedLine } from '@app-lib/common';
 import { selectNotEmpty } from '@app-lib/rxjs-helper';
-import { EntityStore } from '@app-lib/store/entity';
 import { IAppState } from '@app/app-store/app-store.module';
 import { EntitySelectors } from '@app/app-store/trans/entity-selectors';
 import { StoreActions as OriginalActions } from '@app/app-store/trans/original';
 import { StoreActions as SyncStateActions, StoreSelectors as SyncStateSelectors } from '@app/app-store/trans/sync-state';
 import { StoreActions as TranslatedActions } from '@app/app-store/trans/translated';
-import { EEntityType, ELanguage, IEntityStatusProps, ISyncState, ITranslateEntity, IEntityOriginal, IEntityTranslated, IUser } from '@app/types';
+import { EEntityType, ELanguage, IEntityOriginal, IEntityStatusProps, IEntityTranslated, ISyncState, ITranslateEntity, IUser } from '@app/types';
 import { Action, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
 import { Steps } from './steps';
+
 
 import Step = Steps.EStep;
 
@@ -91,7 +91,7 @@ export class TranslateProcess implements ITranslateProcess {
     this.store.dispatch(action);
   }
 
-  getSelector(type: EEntityType, selector: keyof EntityStore.IEntitySelectors<any, any, any>) {
+  getSelector(type: EEntityType, selector: string) {
     return this.selectors[type][selector];
   }
 

@@ -1,5 +1,13 @@
-import { getEntity, getEntityStatus, getStatus } from '@app-lib/store/entity/selectors/factory';
-import { ICollectionSelectors, IEntityListSelector, IEntitySelector, IEntitySelectors, IEntityState, IEntityStatusSelector, ISelectFeatureState, IStatusSelector } from '@app-lib/store/entity/selectors/original/types';
+import {
+  ICollectionSelectors,
+  IEntityListSelector,
+  IEntitySelector,
+  IEntitySelectors,
+  IEntityState,
+  IEntityStatusSelector,
+  ISelectFeatureState,
+  IStatusSelector
+} from '@app-lib/store/entity/selectors/types';
 import { IEntityProps } from '@app-lib/store/types';
 import { IAppState } from '@app/app-store/app-store.module';
 import { IEntityStatusProps } from '@app/types';
@@ -8,28 +16,10 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 // import { IEntityOriginal as EntityType, IEntityOriginalStatus as EntityStatus } from '@app/types';
 import { Observable, OperatorFunction } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { getEntity, getEntityStatus } from '@app-lib/store/entity/selectors/getters';
 
 
-export function collectionsSelectors<T, S>(
-  featureName: keyof IAppState,
-  featureAdapter: EntityAdapter<T>): ICollectionSelectors<T, S> {
-
-  const { selectEntities } = featureAdapter.getSelectors();
-  const selectStatuses: (state: IEntityState<T, S>) => Dictionary<S> = (state) => state.statuses;
-
-
-  const feature: ISelectFeatureState<T, S> = createFeatureSelector<IAppState, IEntityState<T, S>>(featureName);
-
-  const entities = createSelector(feature, selectEntities);
-  const stasuses = createSelector(feature, selectStatuses);
-
-  return { feature, entities, stasuses }
-}
-
-export function selectNotEmpty<T>(
-  selector: IEntitySelector<T>,
-  props: IEntityProps
-): OperatorFunction<IAppState, T> {
+export function selectNotEmpty<T>(selector: IEntitySelector<T>, props: IEntityProps): OperatorFunction<IAppState, T> {
 
   return (source$: Observable<IAppState>) => {
     let mapped$: Observable<T>;
@@ -62,18 +52,3 @@ export function selectyEntityStatus<T>(selector: IEntityStatusSelector<T>) {
 }
 
 
-
-export function entitySelectors<T, S>(
-  entities: IEntityListSelector<T>,
-  statuses: IEntityListSelector<S>): IEntitySelectors<T, S> {
-
-  const entitySelector: IEntitySelector<T> = createSelector(entities, getEntity);
-  const statusSelector: IEntitySelector<S> = createSelector(statuses, getStatus);
-  const entityStatusSelector = createSelector(statuses, entities, getEntityStatus);
-
-  return {
-    entity: selectEntity(entitySelector),
-    status: selectStatus(statusSelector),
-    entityStatus: selectyEntityStatus<T>(entityStatusSelector)
-  }
-}

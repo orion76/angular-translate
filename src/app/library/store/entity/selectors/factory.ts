@@ -1,40 +1,49 @@
-import { IEntityState } from '@app-lib/store/entity/selectors/original/types';
-import { IEntityProps, IEntityStatusProps } from '@app/types';
-import { Dictionary } from '@ngrx/entity';
+import { getEntity, getEntityStatus } from '@app-lib/store/entity/selectors/getters';
+import { selectEntity, selectStatus, selectyEntityStatus } from '@app-lib/store/entity/selectors/selectors';
+import { ICollectionSelectors, IEntityListSelector, IEntitySelector, IEntitySelectors, IEntityState, ISelectFeatureState, IStatusSelector } from '@app-lib/store/entity/selectors/types';
+import { IAppState } from '@app/app-store/app-store.module';
+import { Dictionary, EntityAdapter } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 
 
-export function getEntityStatus<T, S>(statuses: Dictionary<S>, entities: Dictionary<T>, props: IEntityStatusProps): T {
+export function collectionsSelectors<T, S>(
+  featureName: keyof IAppState,
+  featureAdapter: EntityAdapter<T>): ICollectionSelectors<T, S> {
 
-  const { entityId, name, value } = props;
+  const { selectEntities } = featureAdapter.getSelectors();
+  const selectStatuses: (state: IEntityState<T, S>) => Dictionary<S> = (state) => state.statuses;
 
-  if (!statuses[entityId]) {
-    return;
-  }
-  const status: S = statuses[entityId];
-  if (status[name] === value) {
-    return entities[entityId]
-  }
+
+  const feature: ISelectFeatureState<T, S> = createFeatureSelector<IAppState, IEntityState<T, S>>(featureName);
+
+  const entities = createSelector(feature, selectEntities);
+  const statuses = createSelector(feature, selectStatuses);
+
+  return { feature, entities, statuses }
 }
 
 
-export function getStasuses<EntityType, StatusType>(state: IEntityState<EntityType, StatusType>, props: IEntityProps): Dictionary<StatusType> {
-  return state.statuses;
-};
+export function entitySelectors<T, S>(featureName: keyof IAppState, featureAdapter: EntityAdapter<T>): IEntitySelectors<T, S> {
 
-export function getStatus<S>(stasuses: Dictionary<S>, props: IEntityProps): S {
-  return stasuses[props.entityId];
+  const { entities, statuses } = collectionsSelectors<T, S>(featureName, featureAdapter);
+
+  const entitySelector: IEntitySelector<T> = createSelector(entities, getEntity<T>());
+  const statusSelector: IStatusSelector<S> = createSelector(statuses, getEntity<S>());
+  const entityStatusSelector = createSelector(statuses, entities, getEntityStatus);
+
+  return {
+    entities,
+    statuses,
+    entity: selectEntity(entitySelector),
+    status: selectStatus(statusSelector),
+    entityStatus: selectyEntityStatus<T>(entityStatusSelector)
+  }
 }
 
-export function getEntity<T>(entities: Dictionary<T>, props: IEntityProps): T {
-  if (props.entityId === undefined || !entities[props.entityId]) {
-    // console.warn('getValue', values, props);
-    return;
-  }
-  return entities[props.entityId];
-};
+export function StoreSelectors() {
 
-
+}
 
 
 // export function createSelectors<T, S>(featureName: keyof IAppState, featureAdapter: EntityAdapter<T>): IEntitySelectors<IAppState, T, S> {

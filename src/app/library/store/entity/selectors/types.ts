@@ -1,26 +1,37 @@
-import { IEntityState } from '@app-lib/store/entity/selectors/original/types';
-import { IEntityOriginal, IEntityProps, IEntityStatusProps, IEntityTranslated, IEntityTranslatedStatus } from '@app/types';
-import { Dictionary, EntityAdapter } from '@ngrx/entity';
+import { IAppState } from '@app/app-store/app-store.module';
+import { IEntityProps, IEntityStatusProps } from '@app/types';
+import { Dictionary, EntityState } from '@ngrx/entity';
 import { MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
+import { Observable, OperatorFunction } from 'rxjs';
 
 
 
 
-export interface IEntityStateTranslated extends IEntityState<IEntityTranslated, IEntityTranslatedStatus> { };
-
-
-
-
-
-export interface IEntityAdapterOriginal extends EntityAdapter<IEntityOriginal> { };
-export interface TEntityAdapterTranslated extends EntityAdapter<IEntityTranslated> { };
-export type TEntityAdapter = IEntityAdapterOriginal | TEntityAdapterTranslated;
-
-
-export interface IEntitySelectors<AppState, T, S> {
-  entities: MemoizedSelector<AppState, Dictionary<T>>,
-  entity: (props: IEntityProps) => any,
-  stasuses: MemoizedSelector<AppState, Dictionary<S>>,
-  stasus: MemoizedSelectorWithProps<AppState, IEntityProps, S>,
-  entityStatus: MemoizedSelectorWithProps<AppState, IEntityStatusProps, T>,
+export interface IEntityState<T, S> extends EntityState<T> {
+  statuses: Dictionary<S>;
 }
+
+
+export interface ISelectFeatureState<T, S> extends MemoizedSelector<IAppState, IEntityState<T, S>> { };
+
+
+export interface IEntityListSelector<T> extends MemoizedSelector<IAppState, Dictionary<T>> { };
+
+
+export interface IEntitySelector<T> extends MemoizedSelectorWithProps<IAppState, IEntityProps, T> { };
+export interface IStatusSelector<S> extends MemoizedSelectorWithProps<IAppState, IEntityProps, S> { };
+export interface IEntityStatusSelector<T> extends MemoizedSelectorWithProps<IAppState, IEntityStatusProps, T> { };
+
+export interface ICollectionSelectors<T, S> {
+  feature?: ISelectFeatureState<T, S>,
+  entities?: IEntityListSelector<T>,
+  statuses?: IEntityListSelector<S>
+}
+
+export interface IEntitySelectors<T, S> extends ICollectionSelectors<T, S> {
+  entity?: (props: IEntityProps) => (source: Observable<IAppState>) => OperatorFunction<IAppState, T>,
+  status?: (props: IEntityProps) => (source: Observable<IAppState>) => OperatorFunction<IAppState, S>,
+  entityStatus?: (props: IEntityStatusProps) => (source: Observable<IAppState>) => OperatorFunction<IAppState, T>,
+}
+
+

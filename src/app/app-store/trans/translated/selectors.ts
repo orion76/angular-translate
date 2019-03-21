@@ -1,10 +1,10 @@
-import { EntityStore } from '@app-lib/store/entity';
 import { IAppState } from '@app/app-store/app-store.module';
-import { IEntityTranslatedStatus as StatusType, ITranslateEntityTranslated as EntityType } from '@app/types/trans';
+import { IEntityTranslatedStatus as StatusType, IEntityTranslated as EntityType } from '@app/types/trans';
 import { StoreState } from './state';
+import { entitySelectors } from '@app-lib/store/entity/selectors/factory';
 
 
-export const StoreSelectors = EntityStore.createSelectors<IAppState, EntityType, StatusType>(
+export const StoreSelectors = entitySelectors<EntityType, StatusType>(
   StoreState.featureName,
   StoreState.featureAdapter
 )
