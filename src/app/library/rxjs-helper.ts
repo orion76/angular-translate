@@ -4,13 +4,13 @@ import { IAppState } from '@app/app-store/app-store.module';
 import { map, distinctUntilChanged, filter } from 'rxjs/operators';
 
 export function selectNotEmpty<T, P>(
-  pathOrMapFn: MemoizedSelectorWithProps<IAppState, P, T>,
-  propsOrPath: P): (source$: Observable<IAppState>) => Observable<T> {
+  selector: MemoizedSelectorWithProps<IAppState, P, T>,
+  props?: P): (source$: Observable<IAppState>) => Observable<T> {
 
   return (source$: Observable<IAppState>): Observable<T> => {
     let mapped$: Observable<T>;
     mapped$ = source$.pipe(
-      map(source => pathOrMapFn(source, <P>propsOrPath)),
+      map(source => selector(source, <P>props)),
       distinctUntilChanged(),
       filter(Boolean)
     );

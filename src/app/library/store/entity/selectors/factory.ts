@@ -1,6 +1,6 @@
 import { getEntity, getEntityStatus } from '@app-lib/store/entity/selectors/getters';
 import { selectEntity, selectStatus, selectyEntityStatus } from '@app-lib/store/entity/selectors/selectors';
-import { ICollectionSelectors, IEntityListSelector, IEntitySelector, IEntitySelectors, IEntityState, ISelectFeatureState, IStatusSelector } from '@app-lib/store/entity/selectors/types';
+import { ICollectionSelectors, IEntitySelector, IEntitySelectors, IEntityState, ISelectFeatureState, IStatusSelector } from '@app-lib/store/entity/selectors/types';
 import { IAppState } from '@app/app-store/app-store.module';
 import { Dictionary, EntityAdapter } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';

@@ -1,7 +1,11 @@
-export enum ELanguage {
-  RU = 'RU',
-  EN = 'EN',
+import { EEntityType } from '@app/types/config';
+
+export interface IEntity {
+  entityId: string,
+
+  type: EEntityType
 }
+
 
 export interface IEntityProps {
   entityId: string;
@@ -17,7 +21,8 @@ export interface IUserProps {
 }
 
 export interface IEntityStatus {
-  load: boolean;
-  loadSucess: boolean;
-  loadError: boolean;
+  ADD: boolean;
+  LOAD: boolean;
+  LOAD_SUCCESS: boolean;
+  LOAD_ERROR: boolean;
 }

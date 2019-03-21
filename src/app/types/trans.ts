@@ -1,21 +1,10 @@
-import { ELanguage, IEntityStatus } from './common';
+import { IEntityStatus, IEntity } from './common';
+import { ELanguage, EEntityType } from '@app/types/config';
 
 
-export enum ESources {
-  SOURCE = 'translate-source',
-  ORIGINAL = 'translate-original',
-  TRANSLATED = 'translate-translated',
-}
-
-export enum EEntityType { original, translated };
-
-export interface IEntity {
-  entityId: string,
-  authorId: string,
-  type: EEntityType
-}
 
 export interface ITranslateEntity extends IEntity {
+  authorId: string,
   template: HTMLElement;
   language: ELanguage;
   lines: Map<string, ILineEntity>;

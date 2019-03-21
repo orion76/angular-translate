@@ -1,22 +1,10 @@
-import {
-  ICollectionSelectors,
-  IEntityListSelector,
-  IEntitySelector,
-  IEntitySelectors,
-  IEntityState,
-  IEntityStatusSelector,
-  ISelectFeatureState,
-  IStatusSelector
-} from '@app-lib/store/entity/selectors/types';
+import { IEntitySelector, IEntityStatusSelector, IStatusSelector } from '@app-lib/store/entity/selectors/types';
 import { IEntityProps } from '@app-lib/store/types';
 import { IAppState } from '@app/app-store/app-store.module';
 import { IEntityStatusProps } from '@app/types';
-import { Dictionary, EntityAdapter } from '@ngrx/entity';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 // import { IEntityOriginal as EntityType, IEntityOriginalStatus as EntityStatus } from '@app/types';
 import { Observable, OperatorFunction } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { getEntity, getEntityStatus } from '@app-lib/store/entity/selectors/getters';
 
 
 export function selectNotEmpty<T>(selector: IEntitySelector<T>, props: IEntityProps): OperatorFunction<IAppState, T> {

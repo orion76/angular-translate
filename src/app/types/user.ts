@@ -1,30 +1,23 @@
-import { IEnumFlagged } from '@app-lib/enum-flagged';
 import { Observable } from 'rxjs';
-import { ELanguage, IEntityStatus } from './common';
+import { IEntityStatus, IEntity } from './common';
+import { ELanguage } from '@app/types/config';
 
+export interface IUser extends IEntity {
 
-export enum EUserEvent {
-  UID = 'UID COMPLETE',
-  LOADED = 'LOADED'
-}
-
-export interface IUserEvent extends IUser {
-  type: EUserEvent;
-
-}
-
-export interface IUser {
-  entityId: string;
   name: string;
   language: ELanguage
 }
 
-export interface IUserStatus extends IEntityStatus {
 
+
+export interface IUserStatus extends IEntityStatus {
+  LOGIN: boolean,
 }
+
+export type TStatusName = keyof IUserStatus;
 
 export interface IUserService {
   onUID(): Observable<string>;
   onLoaded(): Observable<IUser>;
-  on(eventType: EUserEvent): Observable<IUser>
+  // on(eventType: EUserEvent): Observable<IUser>
 }

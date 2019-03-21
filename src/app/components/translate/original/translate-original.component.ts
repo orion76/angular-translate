@@ -5,7 +5,7 @@ import { TransContentAbstract } from '@app-lib/trans-content-abstract';
 import { TRANSLATE_SERVICE, USER_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
 import { ActivatedRoute } from '@angular/router';
-import { IUserService, IEntityOriginal } from '@app/types';
+import { IUserService, IEntityOriginal, IUser } from '@app/types';
 
 
 
@@ -36,6 +36,9 @@ export class TransOriginalComponent extends TransContentAbstract implements OnIn
 
   ngOnInit() {
     super.ngOnInit();
+    this.user.onLoaded().subscribe((user: IUser) => {
+
+    })
     this.initOriginalId();
 
   }

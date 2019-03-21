@@ -2,9 +2,12 @@ import { Inject, Injectable } from '@angular/core';
 import { IAppState } from '@app/app-store/app-store.module';
 import { IDataService } from '@app/services/data.service';
 import { DATA_SERVICE } from '@app/services/injection-tokens';
-import { Actions } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { StoreActions as UserActions } from './actions';
+import { catchError, tap, switchMap, map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { IUser } from '@app/types';
 
 
 
@@ -19,17 +22,17 @@ export class UserEffects {
   //   map((action: UserActions.Login) => new StatusActions.Login(action.entity)));
 
 
-  // @Effect()
-  // Load$ = this.actions$.pipe(
-  //   ofType<UserActions.Load>(UserActions.Types.LOAD),
-  //   tap((action: UserActions.Load) => this.store.dispatch(new StatusActions.Load(action.uid))),
-  //   switchMap((action: UserActions.Load) => {
-  //     return this.data.getUser(action.uid).pipe(
-  //       map((entity: IUser) => new UserActions.LoadSuccess(entity)),
-  //       catchError(() => of(new UserActions.LoadError(action.uid))),
-  //     )
-  //   })
-  // );
+  @Effect()
+  Load$ = this.actions$.pipe(
+    ofType<UserActions.Load>(UserActions.Types.LOAD),
+
+    switchMap((action: UserActions.Load) => {
+      return this.data.getUser(action.uid).pipe(
+        map((entity: IUser) => new UserActions.LoadSuccess(entity)),
+        catchError(() => of(new UserActions.LoadError(action.uid))),
+      )
+    })
+  );
 
   // @Effect()
   // LoadSuccess$ = this.actions$.pipe(
