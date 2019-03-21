@@ -2,6 +2,8 @@
   "name": "angular-translate",
   "version": "0.0.0",
   "scripts": {
+    "rest-server-install": "npm install -g json-server",
+    "rest-server": "json-server --host 0.0.0.0 --watch ./src/rest-server/database.json",
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check",
     "build": "ng build",
