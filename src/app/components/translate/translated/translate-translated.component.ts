@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TransContentAbstract } from '@app-lib/trans-content-abstract';
+
 import { TRANSLATE_SERVICE, USER_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
 import { ILineEntityTranslated, IUserService, IEntityTranslated } from '@app/types';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { TransContentAbstract } from '@app-library/trans-content-abstract';
+import { IIdsTranslated } from '@app-library/store/types';
 
 
 
@@ -44,7 +46,9 @@ export class TransTranslatedComponent extends TransContentAbstract implements On
     //   console.log('[TRANSLATED_UPDATE_COMPLETE]', lineId);
     // })
   }
-
+  onIds(): Observable<IIdsTranslated> {
+    this.service.onLo
+  }
 }
 @NgModule({
   declarations: [TransTranslatedComponent],

@@ -3,7 +3,7 @@ import { IUser } from '@app/types/user';
 export namespace StoreActions {
   export enum Types {
     UID = '[USER] UID',
-    LOGIN = '[USER] LOGIN',
+    // LOGIN = '[USER] LOGIN',
     LOAD = '[USER] LOAD',
     LOAD_SUCCESS = '[USER] LOAD_SUCCESFULL',
     LOAD_ERROR = '[USER] LOAD_ERROR',
@@ -15,10 +15,10 @@ export namespace StoreActions {
   }
 
 
-  export class Login {
-    readonly type = Types.LOGIN;
-    constructor(public entity: IUser) { }
-  }
+  // export class Login {
+  //   readonly type = Types.LOGIN;
+  //   constructor(public entity: IUser) { }
+  // }
 
   export class Load {
     readonly type = Types.LOAD;
@@ -35,5 +35,9 @@ export namespace StoreActions {
     constructor(public uid: string) { }
   }
 
-  export type Actions = ADD | Login | Load | LoadSuccess | LoadError;
+  export type Actions = ADD
+  // | Login
+  | Load
+  | LoadSuccess
+  | LoadError;
 }

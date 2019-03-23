@@ -1,38 +1,27 @@
+import { EntityActions } from '@app-library/store/entity/actions';
+import { IEntityRequestOriginal } from '@app-library/store/types';
 import { IEntityOriginal } from '../../../types/trans';
+import { StoreState } from './state';
 
 export namespace StoreActions {
-  export enum Types {
-    ORIGINAL_ID = '[ORIGINAL] ID',
-    ORIGINAL_NEW = '[ORIGINAL] NEW',
-    ORIGINAL_LOAD = '[ORIGINAL] LOAD',
-    ORIGINAL_LOAD_SUCCESS = '[ORIGINAL] LOAD_SUCCESFULL',
-    ORIGINAL_LOAD_ERROR = '[ORIGINAL] LOAD_ERROR',
+  import _featureName = StoreState.featureName;
+
+  export class REQUEST extends EntityActions.REQUEST<IEntityRequestOriginal> {
+    featureName = _featureName;
   }
 
-  export class originalId {
-    readonly type = Types.ORIGINAL_ID;
-    constructor(public entityId: string) { }
+  export class LOAD extends EntityActions.LOAD<IEntityRequestOriginal> {
+    featureName = _featureName;
   }
 
-  export class originalNew {
-    readonly type = Types.ORIGINAL_NEW;
-    constructor(public entity: IEntityOriginal) { }
+
+  export class LOAD_SUCCESS extends EntityActions.LOAD_SUCCESS<IEntityOriginal>{
+    featureName = _featureName;
   }
 
-  export class originalLoad {
-    readonly type = Types.ORIGINAL_LOAD;
-    constructor(public entityId: string) { }
+  export class LOAD_ERROR extends EntityActions.LOAD_ERROR {
+    featureName = _featureName;
   }
 
-  export class originalLoadSuccess {
-    readonly type = Types.ORIGINAL_LOAD_SUCCESS;
-    constructor(public entity: IEntityOriginal) { }
-  }
-
-  export class originalLoadError {
-    readonly type = Types.ORIGINAL_LOAD_ERROR;
-    constructor(public entityId: string) { }
-  }
-
-  export type Actions = originalId | originalNew | originalLoad | originalLoadSuccess | originalLoadError;
+  export type Actions = REQUEST | LOAD | LOAD_SUCCESS | LOAD_ERROR;
 }

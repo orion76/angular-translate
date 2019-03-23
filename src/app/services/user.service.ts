@@ -23,15 +23,6 @@ export class UserService implements IUserService {
       this.store.dispatch(new UserActions.ADD(entityId));
     })
 
-
-
-    // this._UserSubject.next({
-    //   type: EUserEvent.UID, entityId: '0', name: 'anonym', language: ELanguage.RU
-    // })
-
-    // this._UserSubject.next({
-    //   type: EUserEvent.LOADED, entityId: '111', name: 'pasha', language: ELanguage.RU
-    // })
   }
 
   onUID(): Observable<string> {
@@ -42,19 +33,6 @@ export class UserService implements IUserService {
     return this.store.pipe(this.selectors.entityStatus('LOAD_SUCCESS', true));
   }
 
-  // public on(eventType: EUserEvent): Observable<any> {
-  // return this.onEvent$.pipe(
-  //   filter(Boolean),
-  //   filter((event: IUserEvent) => event.type === eventType),
-  // )
-  // }
 
-  // public onLoaded(): Observable<IUser> {
-  // return this.on(EUserEvent.LOADED);
-  // }
-
-  // public do(eventType: EUserEvent, user: IUser): void {
-  //   this._UserSubject.next({ type: eventType, ...user })
-  // }
 
 }

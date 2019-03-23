@@ -18,11 +18,11 @@ export class TranslatedStoreEffects {
 
   @Effect()
   loadOriginal$ = this.actions$.pipe(
-    ofType<StoreActions.translatedFind>(StoreActions.Types.TRANSLATED_FIND),
-    switchMap((action: StoreActions.translatedFind) => {
+    ofType<StoreActions.LOAD>(StoreActions.Types.LOAD),
+    switchMap((action: StoreActions.LOAD) => {
       return this.data.getItem(ESources.SOURCE, action.originalId).pipe(
-        map((entity: IEntityTranslated) => new StoreActions.translatedLoadSuccess(entity)),
-        catchError(() => of(new StoreActions.translatedLoadError(action.originalId)))
+        map((entity: IEntityTranslated) => new StoreActions.LOAD_SUCCESS(entity)),
+        catchError(() => of(new StoreActions.LOAD_ERROR(action.originalId)))
       )
     })
   );

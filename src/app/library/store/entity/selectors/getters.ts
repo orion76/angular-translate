@@ -1,21 +1,26 @@
 import { Dictionary } from '@ngrx/entity';
-import { IEntityProps, IEntityStatusProps } from '@app/types';
+import { IStateProps, IEntityState, IEntityRequest, IEntityStatus, IStatusProps } from '@app-library/store/types';
+import { IEntity } from '@app-types/common';
 
-export function getEntity<T>(): (collection: Dictionary<T>, props: IEntityProps) => T {
-  return (collection: Dictionary<T>, props: IEntityProps) => collection[props.entityId];
+export function getState(): (collection: Dictionary<IEntityState>, props: IStateProps) => IEntityState {
+  return (collection: Dictionary<IEntityState>, props: IStateProps) => collection[props.stateId];
 }
 
-export function getEntityStatus<T, S>
-  (statuses: Dictionary<S>, entities: Dictionary<T>, props: IEntityStatusProps) {
+export function getRequest(): (state: IEntityState) => IEntityRequest {
+  return (state: IEntityState) => state.request;
+}
 
-  const { entityId, name, value } = props;
+export function getEntity(): (state: IEntityState) => IEntity {
+  return (state: IEntityState) => state.entity;
+}
 
-  if (!statuses[entityId]) {
-    return;
-  }
+export function getStatus(): (state: IEntityState) => IEntityStatus {
+  return (state: IEntityState) => state.status;
+}
 
-  const status: S = statuses[entityId];
-  if (status[name] === value) {
-    return entities[entityId]
+export function getEntityStatus(state: IEntityState, props: IStatusProps): IEntity {
+  const { status, value } = props;
+  if (state.status[status] && state.status[status] === value) {
+    return state.entity;
   }
 }

@@ -1,26 +1,28 @@
-import { IEntityStatus, IEntity } from './common';
+import { IEntity } from './common';
 import { ELanguage, EEntityType } from '@app/types/config';
+import { IEntityStatus } from '@app-library/store/types';
+
 
 
 
 export interface ITranslateEntity extends IEntity {
-  authorId: string,
-  template: HTMLElement;
-  language: ELanguage;
-  lines: Map<string, ILineEntity>;
+  authorId?: string,
+  template?: HTMLElement;
+  language?: ELanguage;
+  lines?: Map<string, ILineEntity>;
 }
 
 export interface IEntityOriginal extends ITranslateEntity {
   type: EEntityType.original;
-  lines: Map<string, ILineEntity>;
+  lines?: Map<string, ILineEntityOriginal>;
 }
 
 export interface IEntityTranslated extends ITranslateEntity {
   originalId: string,
   type: EEntityType.translated;
-  lines: Map<string, ILineEntity>;
+  lines: Map<string, ILineEntityTranslated>;
 }
-
+export type TTranslateEntity = IEntityOriginal | IEntityTranslated;
 
 
 export interface ILineEntity extends IEntity {

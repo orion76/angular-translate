@@ -1,19 +1,20 @@
-import { Injectable, Inject, Renderer2 } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ITranslateProcess } from '@app-components/translate/process/translate-process';
+import { EMouseEvent, ILineEvent, ISelectedLine } from '@app-library/common';
+import { IEntityIds, IEntityRequest } from '@app-library/store/types';
+import { TRANSLATED_PROCESS, USER_SERVICE } from '@app-services/injection-tokens';
+import { ILineEntity, IUser, IUserService, TTranslateEntity } from '@app/types';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { EMouseEvent, ISelectedLine, ILineEvent } from '../library/common';
-import { TRANSLATED_PROCESS } from '@app/services/injection-tokens';
-import { ITranslateProcess } from '@app/components/translate/process/translate-process';
-import { ILineEntity, EEntityType, ITranslateEntity } from '@app/types';
+import { combineLatest, filter, map, tap } from 'rxjs/operators';
+import { StoreActions as OriginalActions } from '@app-store/trans/original';
 
 export interface ITranslateService {
   do(event: EMouseEvent, line: ISelectedLine): void
   onEvent(event: EMouseEvent): Observable<ILineEvent>;
-  onOriginalLoad(originalId: string);
-  onTranslatedLoaded(translatedId: string);
   onLineSelect(originalId: string);
-  completeOriginalId(originalId: string);
-  onEntityLoaded(type: EEntityType, entityId: string): Observable<ITranslateEntity>;
+  load(request: IEntityRequest);
+  onLoad(request: IEntityRequest): Observable<TTranslateEntity>
 }
 
 @Injectable()
@@ -25,16 +26,40 @@ export class TranslateService implements ITranslateService {
 
   lineId: string;
 
-  constructor(@Inject(TRANSLATED_PROCESS) private process: ITranslateProcess) {
+  constructor(
+    protected route: ActivatedRoute,
+    @Inject(USER_SERVICE) private user: IUserService,
+    @Inject(TRANSLATED_PROCESS) private process: ITranslateProcess) {
 
   }
 
-  doEntityId(type: EEntityType, entityId: string, userId: string) {
-// this.process.dispatch()
+  initOriginalIds() {
+    // return this.user.onLoaded()
+    //   .pipe(
+    //     combineLatest(this.onOriginalId(), (user: IUser, originalId: string) => {
+    //       return { originalId, userId: user.entityId, language: user.language }
+    //     }),
+    //     tap((ids: IEntityIds) => {
+    //       this.process.dispatch(new OriginalActions.ADD(ids))
+    //     })
+    //   )
   }
 
-  onEntityLoaded(type: EEntityType, entityId: string): Observable<ITranslateEntity> {
-    return this.process.onEntityStatus(type, entityId, 'loaded', true);
+  onOriginalId(): Observable<string> {
+    return this.route.paramMap.pipe(
+      map((params: ParamMap) => params.get('originalId')),
+      filter(Boolean)
+    )
+  }
+
+
+  load(request: IEntityRequest) {
+    // this.process.load(request);
+  }
+
+  onLoad(request: IEntityRequest): Observable<TTranslateEntity> {
+    return null;
+    // return this.process.onLoad(request);
   }
 
   initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, ILineEntity>
@@ -99,11 +124,11 @@ export class TranslateService implements ITranslateService {
   }
 
   onOriginalLoad(originalId: string) {
-    return this.process.onOriginalLoaded(originalId);
+    // return this.process.onOriginalLoaded(originalId);
   }
 
   onTranslatedLoaded(translatedId: string) {
-    return this.process.onTranslatedLoaded(translatedId);
+    // return this.process.onTranslatedLoaded(translatedId);
   }
 
   completeOriginalId(originalId: string) {

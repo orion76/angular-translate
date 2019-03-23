@@ -14,5 +14,6 @@
    "editor.fontSize": 12,
    "editor.rulers": [],
    "notification.timeout": 5000,
-   "terminal.integrated.fontSize": 12
+   "terminal.integrated.fontSize": 12,
+   "typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -1,33 +1,30 @@
-import { IEntityTranslated } from '../../../types/trans';
-import { ELanguage } from '@app/types/common';
+
+import { IEntityTranslated, IEntityOriginal } from '../../../types/trans';
+import { IRequestTranslated, IEntityRequestOriginal } from '@app-library/store/types';
+import { Action } from '@ngrx/store';
+import { EntityActions } from '@app-library/store/entity/actions';
+import { StoreState } from './state';
 
 export namespace StoreActions {
-  export enum Types {
-    TRANSLATED_NEW = '[TRANSLATED] NEW',
-    TRANSLATED_FIND = '[TRANSLATED] LOAD',
-    TRANSLATED_LOAD_SUCCESS = '[TRANSLATED] LOAD_SUCCESFULL',
-    TRANSLATED_LOAD_ERROR = '[TRANSLATED] LOAD_ERROR',
+
+  import _featureName = StoreState.featureName;
+
+  export class REQUEST extends EntityActions.REQUEST<IRequestTranslated> {
+    featureName = _featureName;
   }
 
-  export class translatedNew {
-    readonly type = Types.TRANSLATED_NEW;
-    constructor(public entity: IEntityTranslated) { }
+  export class LOAD extends EntityActions.LOAD<IRequestTranslated> {
+    featureName = _featureName;
   }
 
-  export class translatedFind {
-    readonly type = Types.TRANSLATED_FIND;
-    constructor(public userId: string, public originalId: string, public language: ELanguage) { }
+
+  export class LOAD_SUCCESS extends EntityActions.LOAD_SUCCESS<IEntityTranslated>{
+    featureName = _featureName;
   }
 
-  export class translatedLoadSuccess {
-    readonly type = Types.TRANSLATED_LOAD_SUCCESS;
-    constructor(public entity: IEntityTranslated) { }
+  export class LOAD_ERROR extends EntityActions.LOAD_ERROR {
+    featureName = _featureName;
   }
 
-  export class translatedLoadError {
-    readonly type = Types.TRANSLATED_LOAD_ERROR;
-    constructor(public entityId: string) { }
-  }
-
-  export type Actions = translatedNew | translatedFind | translatedLoadSuccess | translatedLoadError;
+  export type Actions = REQUEST | LOAD | LOAD_SUCCESS | LOAD_ERROR;
 }

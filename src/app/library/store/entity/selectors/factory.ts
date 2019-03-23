@@ -1,63 +1,48 @@
-import { getEntity, getEntityStatus } from '@app-lib/store/entity/selectors/getters';
-import { selectEntity, selectStatus, selectyEntityStatus } from '@app-lib/store/entity/selectors/selectors';
-import { ICollectionSelectors, IEntitySelector, IEntitySelectors, IEntityState, ISelectFeatureState, IStatusSelector } from '@app-lib/store/entity/selectors/types';
+import { EntitySelectors } from '@app-library/store/entity/selectors';
+import { IEntityState } from '@app-library/store/types';
 import { IAppState } from '@app/app-store/app-store.module';
-import { Dictionary, EntityAdapter } from '@ngrx/entity';
+import { EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { getEntity, getEntityStatus, getState, getStatus, getRequest } from './getters';
+import { ICollectionSelectors, IEntitySelector, IEntitySelectors, ISelectFeatureState, IStateSelector, IStatusSelector, IRequestSelector } from './types';
 
 
 
-export function collectionsSelectors<T, S>(
-  featureName: keyof IAppState,
-  featureAdapter: EntityAdapter<T>): ICollectionSelectors<T, S> {
+
+export function collectionsSelectors(featureName: keyof IAppState, featureAdapter: EntityAdapter<IEntityState>): ICollectionSelectors {
 
   const { selectEntities } = featureAdapter.getSelectors();
-  const selectStatuses: (state: IEntityState<T, S>) => Dictionary<S> = (state) => state.statuses;
 
-
-  const feature: ISelectFeatureState<T, S> = createFeatureSelector<IAppState, IEntityState<T, S>>(featureName);
+  const feature: ISelectFeatureState = createFeatureSelector<IAppState, EntityState<IEntityState>>(featureName);
 
   const entities = createSelector(feature, selectEntities);
-  const statuses = createSelector(feature, selectStatuses);
 
-  return { feature, entities, statuses }
+
+  return { feature, entities }
 }
 
 
-export function entitySelectors<T, S>(featureName: keyof IAppState, featureAdapter: EntityAdapter<T>): IEntitySelectors<T, S> {
+export function entitySelectors<R, T, S>(
+  featureName: keyof IAppState,
+  featureAdapter: EntityAdapter<IEntityState>): IEntitySelectors<R, T, S> {
 
-  const { entities, statuses } = collectionsSelectors<T, S>(featureName, featureAdapter);
+  const { entities } = collectionsSelectors(featureName, featureAdapter);
 
-  const entitySelector: IEntitySelector<T> = createSelector(entities, getEntity<T>());
-  const statusSelector: IStatusSelector<S> = createSelector(statuses, getEntity<S>());
-  const entityStatusSelector = createSelector(statuses, entities, getEntityStatus);
+  const stateSelector: IStateSelector = createSelector(entities, getState());
+
+  const requestSelector: IRequestSelector = createSelector(stateSelector, getRequest());
+  const entitySelector: IEntitySelector = createSelector(stateSelector, getEntity());
+  const statusSelector: IStatusSelector = createSelector(stateSelector, getStatus());
+
+  const entityStatusSelector = createSelector(stateSelector, getEntityStatus);
 
   return {
     entities,
-    statuses,
-    entity: selectEntity(entitySelector),
-    status: selectStatus(statusSelector),
-    entityStatus: selectyEntityStatus<T>(entityStatusSelector)
+    request: EntitySelectors.selectRequest<R>(requestSelector),
+    entity: EntitySelectors.selectEntity<T>(entitySelector),
+    status: EntitySelectors.selectStatus<S>(statusSelector),
+    entityStatus: EntitySelectors.selectyEntityStatus<T>(entityStatusSelector)
   }
 }
 
-export function StoreSelectors() {
-
-}
-
-
-// export function createSelectors<T, S>(featureName: keyof IAppState, featureAdapter: EntityAdapter<T>): IEntitySelectors<IAppState, T, S> {
-
-//   const { entities, stasuses } = collectionsSelectors<T, S>(featureName, featureAdapter);
-
-//   const getEntity = (collection:) =>
-
-//   return {
-//     entities,
-//     stasuses,
-//     entity: selectEntity<T>(),
-//     stasus: selectStatus<T>(),
-//     entityStatus: selectyEntityStatus<T>()
-//   }
-//   }
 

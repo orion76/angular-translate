@@ -15,8 +15,8 @@ export class OriginalEffects {
 
   @Effect()
   originalId$ = this.actions$.pipe(
-    ofType<StoreActions.originalId>(StoreActions.Types.ORIGINAL_ID),
-    map((action: StoreActions.originalId) => new StoreActions.originalLoad(action.entityId))
+    ofType<StoreActions.ADD>(StoreActions.Types.ADD),
+    map((action: StoreActions.ADD) => new StoreActions.LOAD(action.entityId))
   );
 
 

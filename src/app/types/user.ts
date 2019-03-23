@@ -1,6 +1,6 @@
-import { Observable } from 'rxjs';
-import { IEntityStatus, IEntity } from './common';
 import { ELanguage } from '@app/types/config';
+import { Observable } from 'rxjs';
+import { IEntity } from './common';
 
 export interface IUser extends IEntity {
 
@@ -10,11 +10,11 @@ export interface IUser extends IEntity {
 
 
 
-export interface IUserStatus extends IEntityStatus {
-  LOGIN: boolean,
-}
+// export interface IUserStatus extends IEntityStatus {
+//   LOGIN: boolean,
+// }
 
-export type TStatusName = keyof IUserStatus;
+// export type TStatusName = keyof IUserStatus;
 
 export interface IUserService {
   onUID(): Observable<string>;

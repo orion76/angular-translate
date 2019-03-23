@@ -13,16 +13,16 @@ export function reducer(state: State = initialState, action: StoreActions.Action
 
   switch (action.type) {
 
-    case StoreActions.Types.TRANSLATED_NEW:
+    case StoreActions.Types.REQUEST:
       stateNew = featureAdapter.addOne(action.entity, state);
       break;
-    case StoreActions.Types.TRANSLATED_FIND:
+    case StoreActions.Types.LOAD:
       stateNew = state;
       break;
-    case StoreActions.Types.TRANSLATED_LOAD_SUCCESS:
+    case StoreActions.Types.LOAD_SUCCESS:
       stateNew = featureAdapter.addOne(action.entity, state);
       break;
-    case StoreActions.Types.TRANSLATED_LOAD_ERROR:
+    case StoreActions.Types.LOAD_ERROR:
       stateNew = state;
       break;
     default:

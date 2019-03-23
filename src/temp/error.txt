@@ -1,0 +1,11 @@
+Argument of type
+'{ stateId: string; request: IEntityRequest; status: { REQUEST: boolean; }; }'
+ is not assignable to parameter of type
+ 'IEntityState'.
+
+  Types of property
+  'status' are incompatible.
+
+  Type '{ REQUEST: boolean; }' is not assignable to type
+  'IEntityStatus'.
+      Property 'LOAD' is missing in type '{ REQUEST: boolean; }'.

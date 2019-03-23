@@ -1,11 +1,13 @@
 
 import { ElementRef, Renderer2 } from '@angular/core';
-import { ITranslateService } from '@app/services/translate.service';
-import { ILineEntity, IEntity, ITranslateEntity, EEntityType } from '@app/types/trans';
-import { EMouseEvent, ISelectedLine, ILineEvent } from './common';
-import { Observable } from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { map, filter, switchMap } from 'rxjs/operators';
+import { TIds } from '@app-library/store/types';
+import { ITranslateService } from '@app/services/translate.service';
+import { EEntityType, TTranslateEntity } from '@app/types';
+import { ILineEntity, ITranslateEntity } from '@app/types/trans';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { EMouseEvent, ILineEvent, ISelectedLine } from './common';
 
 
 export abstract class TransContentAbstract {
@@ -29,26 +31,31 @@ export abstract class TransContentAbstract {
 
   ngOnInit() {
 
-    this.entityId$.subscribe((entityId: string) => {
-      this.service.onEntityLoaded(this.type, entityId).subscribe((entity: ITranslateEntity) => {
-
-        this.clearLinkEvent(entity.template);
-
-        Array.from(entity.template.childNodes)
-          .reverse()
-          .forEach((node: Node) => {
-            this.renderer.appendChild(this.content.nativeElement, node);
-          })
-        this.elements = this.getTransElements();
-        this.elements.forEach((node: HTMLElement, transId: string) => {
-          node.textContent = this.lines.get(transId).content;
-        })
-
+    this.onIds()
+      .pipe(switchMap(this.service.load))
+      .subscribe((entity: ITranslateEntity) => {
+        this._clearLinkEvent(entity.template);
+        this._addContentDom(entity.template);
+        this._fillTranslateLines();
       })
+  }
+
+  abstract onIds(): Observable<TIds>
+
+
+  private _addContentDom(template: HTMLElement) {
+    Array.from(template.childNodes)
+      .reverse()
+      .forEach((node: Node) => {
+        this.renderer.appendChild(this.content.nativeElement, node);
+      })
+  }
+
+  private _fillTranslateLines() {
+    this.elements = this.getTransElements();
+    this.elements.forEach((node: HTMLElement, transId: string) => {
+      node.textContent = this.lines.get(transId).content;
     })
-
-
-
   }
 
   InitEvents(originalId: string) {
@@ -89,7 +96,7 @@ export abstract class TransContentAbstract {
 
 
 
-  clearLinkEvent(dom: HTMLElement) {
+  private _clearLinkEvent(dom: HTMLElement) {
     Array.from(dom.getElementsByTagName('a')).forEach((link: HTMLElement) => {
       link.addEventListener('click', (event: MouseEvent) => {
 
