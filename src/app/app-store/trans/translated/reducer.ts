@@ -5,25 +5,24 @@ import State = StoreState.State;
 import { StoreActions } from './actions';
 
 import featureAdapter = StoreState.featureAdapter;
+import { EntityReducer } from '@app-library/store/entity/reduce';
 
 export function reducer(state: State = initialState, action: StoreActions.Actions) {
   let stateNew: State;
 
-
-
   switch (action.type) {
 
     case StoreActions.Types.REQUEST:
-      stateNew = featureAdapter.addOne(action.entity, state);
+      stateNew = EntityReducer.addRequest(featureAdapter, action, state);
       break;
     case StoreActions.Types.LOAD:
-      stateNew = state;
+      stateNew = EntityReducer.load(featureAdapter, action, state);;
       break;
     case StoreActions.Types.LOAD_SUCCESS:
-      stateNew = featureAdapter.addOne(action.entity, state);
+      stateNew = EntityReducer.loadSuccess(featureAdapter, action, state);;
       break;
     case StoreActions.Types.LOAD_ERROR:
-      stateNew = state;
+      stateNew = EntityReducer.loadError(featureAdapter, action, state);;
       break;
     default:
       stateNew = state;

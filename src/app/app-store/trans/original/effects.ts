@@ -1,11 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
+import { ITranslateService } from '@app-services/translate.service';
+import { IEntityOriginal } from '@app/types';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
-import { IDataService } from '../../../services/data.service';
-import { DATA_SERVICE } from '../../../services/injection-tokens';
-import { IAppState } from '../../app-store.module';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+
 import { StoreActions } from './actions';
+import { IAppState } from '@app-store/app-store.module';
+import { TRANSLATE_SERVICE } from '@app-services/injection-tokens';
 
 
 
@@ -15,14 +18,11 @@ export class OriginalEffects {
 
   @Effect()
   LOAD$ = this.actions$.pipe(
-    ofType<StoreActions.LOAD>(StoreActions.Types.ORIGINAL_LOAD),
-    tap((action: StoreActions.originalLoad) => this.store.dispatch(
-      new StatusActions.statusSet(action.entityId, EOriginalStatus.ORIGINAL_LOAD))
-    ),
-    switchMap((action: StoreActions.originalLoad) => {
-      return this.data.getItem(ESources.SOURCE, action.entityId).pipe(
-        map((entity: IOriginalEntity) => new StoreActions.originalLoadSuccess(entity)),
-        catchError(() => of(new StoreActions.originalLoadError(action.entityId))),
+    ofType<StoreActions.LOAD>(StoreActions.Types.LOAD),
+    switchMap((action: StoreActions.LOAD) => {
+      return this.service.load(action.request).pipe(
+        map((entity: IEntityOriginal) => new StoreActions.LOAD_SUCCESS(action.stateId, entity)),
+        catchError(() => of(new StoreActions.LOAD_ERROR(action.stateId, action.request))),
       )
     })
   );
@@ -31,7 +31,7 @@ export class OriginalEffects {
   constructor(
     private store: Store<IAppState>,
     private actions$: Actions<StoreActions.Actions>,
-    @Inject(DATA_SERVICE) private data: IDataService
+    @Inject(TRANSLATE_SERVICE) private service: ITranslateService
   ) {
 
   }

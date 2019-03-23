@@ -1,6 +1,6 @@
-import { EntityActions } from '@app-library/store/entity/actions';
-import { IEntityRequest, IEntityState } from '@app-library/store/types';
-import { IEntity } from '@app-types/common';
+
+import { ILoad, ILoadError, ILoadSuccess, IRequest } from '@app-library/store/entity/actions';
+import { IEntityState } from '@app-library/store/types';
 import { EntityAdapter, EntityState } from '@ngrx/entity';
 
 
@@ -9,8 +9,8 @@ export namespace EntityReducer {
 
   export function addRequest(
     featureAdapter: EntityAdapter<IEntityState>,
-    action: EntityActions.REQUEST<IEntityRequest>,
-    state: EntityState<IEntityState>) {
+    action: IRequest<any>,
+    state: EntityState<any>) {
 
     const { stateId, request } = action;
     const status = { REQUEST: true };
@@ -19,8 +19,8 @@ export namespace EntityReducer {
 
   export function load(
     featureAdapter: EntityAdapter<IEntityState>,
-    action: EntityActions.LOAD<IEntityRequest>,
-    state: EntityState<IEntityState>) {
+    action: ILoad<any>,
+    state: EntityState<any>) {
 
     const { stateId } = action;
     const entityState = state.entities[stateId];
@@ -29,7 +29,11 @@ export namespace EntityReducer {
     return featureAdapter.updateOne({ id: stateId, changes: { status } }, state);
   }
 
-  export function loadSuccess(featureAdapter: EntityAdapter<IEntityState>, action: EntityActions.LOAD_SUCCESS<IEntity>, state: EntityState<IEntityState>) {
+  export function loadSuccess(
+    featureAdapter: EntityAdapter<IEntityState>,
+    action: ILoadSuccess<any>,
+    state: EntityState<any>) {
+
     const { stateId, entity } = action;
     const entityState = state.entities[stateId];
     const status = { ...entityState.status, LOAD_SUCCESS: true };
@@ -37,7 +41,11 @@ export namespace EntityReducer {
     return featureAdapter.updateOne({ id: stateId, changes: { status, entity } }, state);
   }
 
-  export function loadError(featureAdapter: EntityAdapter<IEntityState>, action: EntityActions.LOAD_ERROR, state: EntityState<IEntityState>) {
+  export function loadError(
+    featureAdapter: EntityAdapter<IEntityState>,
+    action: ILoadError,
+    state: EntityState<any>) {
+
     const { stateId } = action;
     const entityState = state.entities[stateId];
     const status = { ...entityState.status, LOAD_ERROR: true };

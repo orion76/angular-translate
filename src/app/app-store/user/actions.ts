@@ -1,29 +1,37 @@
-import { IUser } from '@app/types/user';
-import { StoreState } from './state';
-import { IActionType, createActionTypes, EntityActions } from '@app-library/store/entity/actions';
-import { IRequestTranslated, IRequestUser } from '@app-library/store/types';
+
+import { ILoad, ILoadError, ILoadSuccess, IRequest } from '@app-library/store/entity/actions';
+import { IRequestUser } from '@app-library/store/types';
+import { IUser } from '@app-types/user';
+
 
 export namespace StoreActions {
 
-  import _featureName = StoreState.featureName;
-
-  export const Types: IActionType = createActionTypes(_featureName);
-
-  export class REQUEST extends EntityActions.REQUEST<IRequestUser> {
-    featureName = _featureName;
+  export enum Types {
+    REQUEST = '[USER] REQUEST',
+    LOAD = '[USER] LOAD',
+    LOAD_SUCCESS = '[USER] LOAD_SUCCESS',
+    LOAD_ERROR = '[USER] LOAD_ERROR',
   }
 
-  export class LOAD extends EntityActions.LOAD<IRequestUser> {
-    featureName = _featureName;
+  export class REQUEST implements IRequest<IRequestUser> {
+    readonly type = Types.REQUEST
+    constructor(public stateId: string, public request: IRequestUser) { }
+  }
+
+  export class LOAD implements ILoad<IRequestUser> {
+    readonly type = Types.LOAD
+    constructor(public stateId: string, public request: IRequestUser) { }
   }
 
 
-  export class LOAD_SUCCESS extends EntityActions.LOAD_SUCCESS<IUser>{
-    featureName = _featureName;
+  export class LOAD_SUCCESS implements ILoadSuccess<IUser> {
+    readonly type = Types.LOAD_SUCCESS
+    constructor(public stateId: string, public entity: IUser) { }
   }
 
-  export class LOAD_ERROR extends EntityActions.LOAD_ERROR {
-    featureName = _featureName;
+  export class LOAD_ERROR implements ILoadError {
+    readonly type = Types.LOAD_ERROR
+    constructor(public stateId: string, public request: IRequestUser) { }
   }
 
   export type Actions = REQUEST | LOAD | LOAD_SUCCESS | LOAD_ERROR;

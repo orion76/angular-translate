@@ -4,6 +4,7 @@ import { ITranslateService } from '@app/services/translate.service';
 import { ILineEntity, ITranslateEntity } from '@app/types/trans';
 import { Observable } from 'rxjs';
 import { EMouseEvent, ILineEvent, ISelectedLine } from './common';
+import { filter } from 'rxjs/operators';
 
 
 export abstract class TransContentAbstract {
@@ -27,11 +28,13 @@ export abstract class TransContentAbstract {
   ) { }
 
   ngOnInit() {
-    this.entity$.subscribe((entity: ITranslateEntity) => {
-      this._clearLinkEvent(entity.template);
-      this._addContentDom(entity.template);
-      this._fillTranslateLines();
-    });
+    this.entity$
+      .pipe(filter(Boolean))
+      .subscribe((entity: ITranslateEntity) => {
+        this._clearLinkEvent(entity.template);
+        this._addContentDom(entity.template);
+        this._fillTranslateLines();
+      });
   }
 
   private _addContentDom(template: HTMLElement) {

@@ -1,4 +1,4 @@
-import { EntitySelectors } from '@app-library/store/entity/selectors';
+import { EntitySelectors } from './selectors';
 import { IEntityState } from '@app-library/store/types';
 import { IAppState } from '@app/app-store/app-store.module';
 import { EntityAdapter, EntityState } from '@ngrx/entity';

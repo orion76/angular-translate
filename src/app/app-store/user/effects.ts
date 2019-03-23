@@ -29,7 +29,7 @@ export class UserEffects {
       const stateId = action.stateId;
       return this.data.getUser(stateId).pipe(
         map((entity: IUser) => new UserActions.LOAD_SUCCESS(stateId, entity)),
-        catchError(() => of(new UserActions.LOAD_ERROR(stateId))),
+        catchError(() => of(new UserActions.LOAD_ERROR(stateId, action.request))),
       )
     })
   );

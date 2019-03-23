@@ -4,10 +4,11 @@ import initialState = StoreState.initialState;
 import State = StoreState.State;
 import { StoreActions } from './actions';
 import { IUser } from '@app/types';
+import { IRequestUser } from '@app-library/store/types';
 
-function REQUEST(state: State, entityId: string): State {
+function REQUEST(state: State, request: IRequestUser): State {
   const newState = { ...state };
-  newState.entity.entityId = entityId;
+  newState.request = request;
   newState.status.REQUEST = true;
 
   return newState

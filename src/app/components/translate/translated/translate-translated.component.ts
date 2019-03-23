@@ -3,7 +3,7 @@ import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, View
 import { TransContentAbstract } from '@app-library/trans-content-abstract';
 import { TRANSLATE_SERVICE, USER_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
-import { IEntityTranslated, ILineEntityTranslated, IUserService } from '@app/types';
+import { IEntityTranslated, IUserService } from '@app/types';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { Observable } from 'rxjs';
 

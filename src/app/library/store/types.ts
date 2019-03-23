@@ -1,20 +1,21 @@
-import { ELanguage, IEntity, ITranslateEntity, IEntityOriginal, IOriginalStatus, IEntityTranslated, ITranslatedStatus, EEntityType, IUser, IUserStatus } from '@app/types';
-import { Dictionary, EntityState } from '@ngrx/entity/src/models';
-import { MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
-import { EntityActions } from '@app-library/store/entity/actions';
+
 import { IEntitySelectors } from '@app-library/store/entity/selectors/types';
+import { EEntityType, ELanguage, IEntity, IEntityOriginal, IEntityTranslated, IOriginalStatus, ITranslatedStatus, ITranslateEntity, IUser, IUserStatus } from '@app/types';
 
 
+export interface IEntityStatus {
+  REQUEST?: boolean,
+  LOAD?: boolean,
+  LOAD_SUCCESS?: boolean,
+  LOAD_ERROR?: boolean,
+}
 
-
-export type TStatusName = keyof typeof EntityActions.Types;
+export type TStatusName = keyof IEntityStatus;
 export type TSelectorNames = keyof IEntitySelectors<any, any, any>;
 export type TSelectors = IEntitySelectors<any, any, any>[TSelectorNames];
 
 
-export type IEntityStatus = {
-  [key in TStatusName]?: boolean
-}
+
 
 
 export interface IStateProps {

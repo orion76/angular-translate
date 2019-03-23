@@ -14,7 +14,7 @@ export interface ITranslateService {
   onEvent(event: EMouseEvent): Observable<ILineEvent>;
   onLineSelect(originalId: string);
   load(request: IEntityRequest);
-  onLoad(request: IEntityRequest): Observable<TTranslateEntity>;
+  onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity>
   setOriginalId(originalId: string)
 }
 
@@ -56,9 +56,8 @@ export class TranslateService implements ITranslateService {
     return this.data.getItem(request);
   }
 
-  onLoad(request: IEntityRequest): Observable<TTranslateEntity> {
-    return null;
-    // return this.process.onLoad(request);
+  onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity> {
+    return this.process.onLoad(type, stateId);
   }
 
   initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, ILineEntity>

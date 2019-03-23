@@ -30,9 +30,10 @@
               "src/styles.scss",
               "./node_modules/primeicons/primeicons.css",
               "./node_modules/primeng/resources/themes/nova-light/theme.css",
-              "./node_modules/primeng/resources/primeng.css"
+              "./node_modules/primeng/resources/primeng.css",
+              "./node_modules/quill/dist/quill.core.css", "./node_modules/quill/dist/quill.snow.css"
             ],
-            "scripts": [],
+            "scripts": ["./node_modules/quill/dist/quill.js"],
             "es5BrowserSupport": true
           },
           "configurations": {

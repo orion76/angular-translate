@@ -9,10 +9,10 @@ import { } from '@app/app-store/trans/original';
 import { StoreActions as SyncStateActions, StoreSelectors as SyncStateSelectors } from '@app/app-store/trans/sync-state';
 import { StoreActions as TranslatedActions } from '@app/app-store/trans/translated';
 import { USER_SERVICE } from '@app/services/injection-tokens';
-import { EEntityType, IEntityOriginal, ISyncState, IUser, IUserService } from '@app/types';
-import { Action, Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { combineLatest, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { EEntityType, IEntityOriginal, ISyncState, IUser, IUserService, TTranslateEntity } from '@app/types';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { combineLatest, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 
 
@@ -30,7 +30,7 @@ export interface ITranslateProcess {
   // onEntityStatus(type: EEntityType, entityId: string, status: string, value: any): Observable<ITranslateEntity>;
 
   // load(type: EEntityType, stateId: string)
-  // onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity>;
+  onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity>;
 }
 
 
@@ -69,6 +69,15 @@ export class TranslateProcess implements ITranslateProcess {
     return this.store.pipe(TranslatedSelectors.entityStatus(props))
   }
 
+
+  onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity> {
+    switch (type) {
+      case EEntityType.original:
+        return this.onOriginal(stateId, "LOAD_SUCCESS");
+      case EEntityType.translated:
+        return this.onTranslated(stateId, "LOAD_SUCCESS");
+    }
+  }
   completeOriginalId(originalId: string) {
     // this.store.dispatch(new OriginalActions.ADD(originalId));
   }
