@@ -1,4 +1,4 @@
-import { ELanguage, IEntity, ITranslateEntity, IEntityOriginal, IEntityOriginalStatus, IEntityTranslated, IEntityTranslatedStatus, EEntityType } from '@app/types';
+import { ELanguage, IEntity, ITranslateEntity, IEntityOriginal, IOriginalStatus, IEntityTranslated, ITranslatedStatus, EEntityType, IUser, IUserStatus } from '@app/types';
 import { Dictionary, EntityState } from '@ngrx/entity/src/models';
 import { MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
 import { EntityActions } from '@app-library/store/entity/actions';
@@ -10,6 +10,7 @@ import { IEntitySelectors } from '@app-library/store/entity/selectors/types';
 export type TStatusName = keyof typeof EntityActions.Types;
 export type TSelectorNames = keyof IEntitySelectors<any, any, any>;
 export type TSelectors = IEntitySelectors<any, any, any>[TSelectorNames];
+
 
 export type IEntityStatus = {
   [key in TStatusName]?: boolean
@@ -32,19 +33,25 @@ export interface ITranslateState<R, T extends ITranslateEntity, S extends IEntit
   entity?: T
   status?: S
 }
-
-
-export interface IStateOriginal extends ITranslateState<IEntityRequestOriginal, IEntityOriginal, IEntityOriginalStatus> {
+export interface IStateUser extends ITranslateState<IRequestUser, IUser, IUserStatus> {
 }
 
-export interface IStateTranslated extends ITranslateState<IRequestTranslated, IEntityTranslated, IEntityTranslatedStatus> {
+export interface IStateOriginal extends ITranslateState<IRequestOriginal, IEntityOriginal, IOriginalStatus> {
+}
+
+export interface IStateTranslated extends ITranslateState<IRequestTranslated, IEntityTranslated, ITranslatedStatus> {
 }
 
 export interface IEntityRequest {
   type: EEntityType;
 }
 
-export interface IEntityRequestOriginal extends IEntityRequest {
+export interface IRequestUser extends IEntityRequest {
+  type: EEntityType.user;
+  entityId: string;
+}
+
+export interface IRequestOriginal extends IEntityRequest {
   type: EEntityType.original;
   entityId: string;
 }
@@ -55,13 +62,8 @@ export interface IRequestTranslated {
   language: ELanguage;
 }
 
-export type TEntityRequest = IEntityRequestOriginal | IRequestTranslated;
+export type TEntityRequest = IRequestOriginal | IRequestTranslated;
 
-export interface IEntityIds {
-  originalId: string;
-  userId: string;
-  language: ELanguage
-}
 
 
 export interface IStatusProps extends IStateProps {
@@ -72,21 +74,4 @@ export interface IStatusProps extends IStateProps {
 
 
 
-export interface IUserProps {
-  uid: string;
-}
 
-
-
-export interface ISelectors<AppState, EntityType> {
-
-  selectIds: (state: EntityState<EntityType>) => string[] | number[];
-  selectEntities: (state: EntityState<EntityType>) => Dictionary<EntityType>;
-  selectAll: (state: EntityState<EntityType>) => EntityType[];
-  selectTotal: (state: EntityState<EntityType>) => number;
-
-  getEntity: (entities: Dictionary<EntityType>, props: IEntityIds) => EntityType;
-  selectFeatureState: MemoizedSelector<AppState, EntityState<EntityType>>;
-  Entities: MemoizedSelector<AppState, Dictionary<EntityType>>;
-  Entity: MemoizedSelectorWithProps<AppState, IEntityIds, EntityType>
-}

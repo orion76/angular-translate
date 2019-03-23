@@ -4,6 +4,8 @@ import { StoreActions as UserActions, StoreSelectors as UserSelectors, IUserStat
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { IUserService, IUser } from '../types/user';
+import { IRequestUser } from '@app-library/store/types';
+import { EEntityType } from '@app/types';
 
 
 @Injectable()
@@ -20,7 +22,8 @@ export class UserService implements IUserService {
   init() {
 
     this.onUID().subscribe((entityId: string) => {
-      this.store.dispatch(new UserActions.ADD(entityId));
+      const request: IRequestUser = { type: EEntityType.user, entityId };
+      this.store.dispatch(new UserActions.REQUEST(entityId, request));
     })
 
   }

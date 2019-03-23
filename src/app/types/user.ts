@@ -1,6 +1,6 @@
 import { ELanguage } from '@app/types/config';
 import { Observable } from 'rxjs';
-import { IEntity } from './common';
+import { IEntity } from '@app/types';
 
 export interface IUser extends IEntity {
 

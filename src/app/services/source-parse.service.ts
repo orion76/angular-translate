@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ELanguage } from '../types/common';
-import { IEntityOriginal } from '@app/types';
+import { IEntityOriginal, EEntityType, ELanguage } from '@app/types';
 
 
 export interface ISourceParseService {
@@ -14,7 +13,7 @@ export class SourceParseService implements ISourceParseService {
 
 
     const entity: IEntityOriginal = {
-      type: 'original',
+      type: EEntityType.original,
       entityId: null,
       authorId,
       language,
@@ -36,9 +35,8 @@ export class SourceParseService implements ISourceParseService {
       trans.textContent = '';
 
       entity.lines.set(trans.id, {
-        authorId,
         entityId: transId.toString(),
-        type: 'original',
+        type: EEntityType.original,
         content: node.textContent,
       })
 

@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
+import { TransContentAbstract } from '@app-library/trans-content-abstract';
 import { TRANSLATE_SERVICE, USER_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
-import { ILineEntityTranslated, IUserService, IEntityTranslated } from '@app/types';
+import { IEntityTranslated, ILineEntityTranslated, IUserService } from '@app/types';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { TransContentAbstract } from '@app-library/trans-content-abstract';
-import { IIdsTranslated } from '@app-library/store/types';
+import { Observable } from 'rxjs';
+
 
 
 
@@ -21,20 +20,19 @@ import { IIdsTranslated } from '@app-library/store/types';
   `
 })
 export class TransTranslatedComponent extends TransContentAbstract implements OnInit {
-  @Input() translate: IEntityTranslated;
-  @Input() lines: Map<string, ILineEntityTranslated>;
+  @Input() entity$: Observable<IEntityTranslated>;
+  // @Input() lines: Map<string, ILineEntityTranslated>;
 
   @ViewChild("content")
   content: ElementRef;
 
 
   constructor(
-    protected route: ActivatedRoute,
     @Inject(USER_SERVICE) private user: IUserService,
     @Inject(TRANSLATE_SERVICE) protected service: ITranslateService,
     protected renderer: Renderer2
   ) {
-    super(route, service, renderer);
+    super(service, renderer);
   }
 
   ngOnInit() {
@@ -46,9 +44,9 @@ export class TransTranslatedComponent extends TransContentAbstract implements On
     //   console.log('[TRANSLATED_UPDATE_COMPLETE]', lineId);
     // })
   }
-  onIds(): Observable<IIdsTranslated> {
-    this.service.onLo
-  }
+  // onIds(): Observable<IIdsTranslated> {
+  //   this.service.onLo
+  // }
 }
 @NgModule({
   declarations: [TransTranslatedComponent],

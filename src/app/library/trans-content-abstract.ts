@@ -1,47 +1,38 @@
 
-import { ElementRef, Renderer2 } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { TIds } from '@app-library/store/types';
+import { ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
 import { ITranslateService } from '@app/services/translate.service';
-import { EEntityType, TTranslateEntity } from '@app/types';
 import { ILineEntity, ITranslateEntity } from '@app/types/trans';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
 import { EMouseEvent, ILineEvent, ISelectedLine } from './common';
 
 
 export abstract class TransContentAbstract {
 
-  entityId$: Observable<string>;
-  type: EEntityType;
+  // type: EEntityType;
 
 
-  entity$: Observable<ITranslateEntity>;
+  @Input() entity$: Observable<ITranslateEntity>;
+  @ViewChild("content") content: ElementRef;
+
   lines: Map<string, ILineEntity>;
   elements: Map<string, HTMLElement>;
-  content: ElementRef;
+
   protected _selectedId: any;
 
 
   constructor(
-    protected route: ActivatedRoute,
+
     protected service: ITranslateService,
     protected renderer: Renderer2
   ) { }
 
   ngOnInit() {
-
-    this.onIds()
-      .pipe(switchMap(this.service.load))
-      .subscribe((entity: ITranslateEntity) => {
-        this._clearLinkEvent(entity.template);
-        this._addContentDom(entity.template);
-        this._fillTranslateLines();
-      })
+    this.entity$.subscribe((entity: ITranslateEntity) => {
+      this._clearLinkEvent(entity.template);
+      this._addContentDom(entity.template);
+      this._fillTranslateLines();
+    });
   }
-
-  abstract onIds(): Observable<TIds>
-
 
   private _addContentDom(template: HTMLElement) {
     Array.from(template.childNodes)
@@ -79,22 +70,6 @@ export abstract class TransContentAbstract {
     })
 
   }
-
-
-
-  initOriginalId() {
-    this.route.paramMap
-      .pipe(
-        map((params: ParamMap) => params.get('originalId')),
-        filter(Boolean)
-      )
-      .subscribe((originalId: string) => {
-        this.service.completeOriginalId(originalId)
-      })
-  }
-
-
-
 
   private _clearLinkEvent(dom: HTMLElement) {
     Array.from(dom.getElementsByTagName('a')).forEach((link: HTMLElement) => {

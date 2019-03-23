@@ -1,29 +1,21 @@
 
 import { EEntityType, ELanguage } from '@app/types';
-import { IUser, IUserStatus } from '@app/types/user';
+import { IUser } from '@app/types/user';
+import { IEntityStatus, IStateTranslated, IStateUser } from '@app-library/store/types';
+import { EntityState } from '@ngrx/entity';
 
 
 export namespace StoreState {
   export const featureName = 'USER';
 
   export const initialState: State = {
+    stateId: '0',
     entity: {
       type: EEntityType.user,
       entityId: '0',
       name: 'anonym',
       language: ELanguage.RU
-    },
-    status: {
-      ADD: false,
-      LOAD: false,
-      LOGIN: false,
-      LOAD_SUCCESS: false,
-      LOAD_ERROR: false,
     }
-
   };
-  export interface State {
-    entity: IUser,
-    status: IUserStatus
-  }
+  export interface State extends IStateUser { }
 }

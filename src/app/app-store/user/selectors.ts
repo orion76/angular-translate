@@ -1,9 +1,13 @@
-import { selectNotEmpty } from '@app-lib/rxjs-helper';
+
+import { selectNotEmpty } from '@app-library/rxjs-helper';
+import { TStatusName } from '@app-library/store/types';
+import { IUserStatus } from '@app-types/trans';
+import { IUser } from '@app-types/user';
 import { IAppState } from '@app/app-store/app-store.module';
-import { IUser, IUserStatus, TStatusName } from '@app/types/user';
-import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps, select } from '@ngrx/store';
+import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
 import { Observable, OperatorFunction } from 'rxjs';
 import { StoreState } from './state';
+
 
 
 export interface IUserStatusProps {

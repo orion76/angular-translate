@@ -1,31 +1,24 @@
 import { Inject, Injectable } from '@angular/core';
 import { ISelectedLine } from '@app-library/common';
 import { selectNotEmpty } from '@app-library/rxjs-helper';
-import { IStatusProps, TStatusName, IEntityState, IStateOriginal, IEntityRequest, IEntityRequestOriginal, IRequestTranslated } from '@app-library/store/types';
-import {
-  StoreActions as OriginalActions,
-  StoreSelectors as OriginalSelectors
-} from '@app-store/trans/original';
-import {
-  StoreSelectors as TranslatedSelectors
-} from '@app-store/trans/translated';
+import { IRequestOriginal, IRequestTranslated, IStatusProps, TStatusName } from '@app-library/store/types';
+import { StoreActions as OriginalActions, StoreSelectors as OriginalSelectors } from '@app-store/trans/original';
+import { StoreSelectors as TranslatedSelectors } from '@app-store/trans/translated';
 import { IAppState } from '@app/app-store/app-store.module';
 import { } from '@app/app-store/trans/original';
 import { StoreActions as SyncStateActions, StoreSelectors as SyncStateSelectors } from '@app/app-store/trans/sync-state';
 import { StoreActions as TranslatedActions } from '@app/app-store/trans/translated';
 import { USER_SERVICE } from '@app/services/injection-tokens';
-import { EEntityType, IEntityOriginal, IEntityTranslated, ISyncState, IUserService, IUser } from '@app/types';
+import { EEntityType, IEntityOriginal, ISyncState, IUser, IUserService } from '@app/types';
 import { Action, Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap, combineLatest } from 'rxjs/operators';
-import { Steps } from './steps';
+import { combineLatest, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 
-import Step = Steps.EStep;
 
 export interface ITranslateProcess {
-  dispatch(action: Action);
 
+  Init(originalId: string);
   // enterLine(originalId: string, lineId: string);
   // outLine(originalId: string, lineId: string);
   selectLine(originalId: string, lineId: string);
@@ -45,10 +38,6 @@ export interface ITranslateProcess {
 export class TranslateProcess implements ITranslateProcess {
 
 
-
-  private stepSubject: BehaviorSubject<Steps.TSteps> = new BehaviorSubject<Steps.TSteps>(null);
-  private step$: Observable<Steps.TSteps> = this.stepSubject.asObservable();
-
   constructor(
     @Inject(USER_SERVICE) private user: IUserService,
     private store: Store<IAppState>
@@ -57,7 +46,7 @@ export class TranslateProcess implements ITranslateProcess {
   }
 
 
-  onRequest(type: EEntityType, stateId: string): Observable<IEntityRequestOriginal | IRequestTranslated> {
+  onRequest(type: EEntityType, stateId: string): Observable<IRequestOriginal | IRequestTranslated> {
     const props: IStatusProps = { stateId, status: "REQUEST", value: true };
 
     switch (type) {
@@ -100,17 +89,18 @@ export class TranslateProcess implements ITranslateProcess {
       )
   }
 
-  dispatch(action: Action) {
-    this.store.dispatch(action);
-  }
 
   Init(originalId: string) {
 
+    this.store.dispatch(new OriginalActions.REQUEST(
+      originalId,
+      { type: EEntityType.original, entityId: originalId })
+    );
 
 
     this.onRequest(EEntityType.original, originalId).pipe(
       // map(()=>)
-      switchMap((request: IEntityRequestOriginal) => {
+      switchMap((request: IRequestOriginal) => {
         this.store.dispatch(new OriginalActions.LOAD(originalId, request));
         return this.onOriginal(originalId, "LOAD_SUCCESS");
       }),
@@ -128,19 +118,9 @@ export class TranslateProcess implements ITranslateProcess {
       })
     )
 
-    this.on(Step.ORIGINAL_ID_COMPLETE).subscribe((step: Steps.originalIdComplete) => {
-
-      const { userId, originalId, language } = step;
-
-      // this.store.dispatch(new TranslatedActions.Find(userId, originalId, language));
 
 
-    })
 
-    this.on(Step.TRANSLATE_LOADED).subscribe((step: Steps.translatedLoaded) => {
-      const { entity } = step;
-      this.nextStep(new Steps.translatedChanged(entity))
-    })
 
     // this.on(Step.USER_LOADED).subscribe((user: IUser) => {
 
@@ -149,17 +129,6 @@ export class TranslateProcess implements ITranslateProcess {
     // this.on(Step.USER_LOADED).subscribe((user: IUser) => {
 
     // })
-  }
-
-
-  on(stepType: Step): Observable<Steps.TSteps> {
-    return this.step$.pipe(
-      filter((step: Steps.TSteps) => step.type === stepType)
-    );
-  }
-
-  nextStep(step: Steps.TSteps) {
-    this.stepSubject.next(step);
   }
 
   // load(type: EEntityType, stateId: string) {

@@ -1,20 +1,21 @@
 import { Inject, Injectable } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ITranslateProcess } from '@app-components/translate/process/translate-process';
 import { EMouseEvent, ILineEvent, ISelectedLine } from '@app-library/common';
-import { IEntityIds, IEntityRequest } from '@app-library/store/types';
-import { TRANSLATED_PROCESS, USER_SERVICE } from '@app-services/injection-tokens';
-import { ILineEntity, IUser, IUserService, TTranslateEntity } from '@app/types';
+import { IEntityRequest, TEntityRequest } from '@app-library/store/types';
+import { TRANSLATED_PROCESS, USER_SERVICE, DATA_SERVICE } from '@app-services/injection-tokens';
+import { ILineEntity, IUserService, TTranslateEntity, EEntityType } from '@app/types';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { combineLatest, filter, map, tap } from 'rxjs/operators';
-import { StoreActions as OriginalActions } from '@app-store/trans/original';
+import { filter } from 'rxjs/operators';
+import { IDataService } from '@app-services/data.service';
 
 export interface ITranslateService {
   do(event: EMouseEvent, line: ISelectedLine): void
   onEvent(event: EMouseEvent): Observable<ILineEvent>;
   onLineSelect(originalId: string);
   load(request: IEntityRequest);
-  onLoad(request: IEntityRequest): Observable<TTranslateEntity>
+  onLoad(request: IEntityRequest): Observable<TTranslateEntity>;
+  setOriginalId(originalId: string)
 }
 
 @Injectable()
@@ -28,6 +29,7 @@ export class TranslateService implements ITranslateService {
 
   constructor(
     protected route: ActivatedRoute,
+    @Inject(DATA_SERVICE) private data: IDataService,
     @Inject(USER_SERVICE) private user: IUserService,
     @Inject(TRANSLATED_PROCESS) private process: ITranslateProcess) {
 
@@ -45,16 +47,13 @@ export class TranslateService implements ITranslateService {
     //   )
   }
 
-  onOriginalId(): Observable<string> {
-    return this.route.paramMap.pipe(
-      map((params: ParamMap) => params.get('originalId')),
-      filter(Boolean)
-    )
+  setOriginalId(originalId: string) {
+    this.process.Init(originalId);
   }
 
 
-  load(request: IEntityRequest) {
-    // this.process.load(request);
+  load(request: TEntityRequest): Observable<TTranslateEntity> {
+    return this.data.getItem(request);
   }
 
   onLoad(request: IEntityRequest): Observable<TTranslateEntity> {

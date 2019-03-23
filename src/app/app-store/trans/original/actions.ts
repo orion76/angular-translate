@@ -1,16 +1,18 @@
-import { EntityActions } from '@app-library/store/entity/actions';
-import { IEntityRequestOriginal } from '@app-library/store/types';
+import { EntityActions, IActionType, createActionTypes } from '@app-library/store/entity/actions';
+import { IRequestOriginal } from '@app-library/store/types';
 import { IEntityOriginal } from '../../../types/trans';
 import { StoreState } from './state';
 
 export namespace StoreActions {
   import _featureName = StoreState.featureName;
 
-  export class REQUEST extends EntityActions.REQUEST<IEntityRequestOriginal> {
+  export const Types: IActionType = createActionTypes(_featureName);
+
+  export class REQUEST extends EntityActions.REQUEST<IRequestOriginal> {
     featureName = _featureName;
   }
 
-  export class LOAD extends EntityActions.LOAD<IEntityRequestOriginal> {
+  export class LOAD extends EntityActions.LOAD<IRequestOriginal> {
     featureName = _featureName;
   }
 

@@ -14,25 +14,18 @@ export class OriginalEffects {
 
 
   @Effect()
-  originalId$ = this.actions$.pipe(
-    ofType<StoreActions.ADD>(StoreActions.Types.ADD),
-    map((action: StoreActions.ADD) => new StoreActions.LOAD(action.entityId))
+  LOAD$ = this.actions$.pipe(
+    ofType<StoreActions.LOAD>(StoreActions.Types.ORIGINAL_LOAD),
+    tap((action: StoreActions.originalLoad) => this.store.dispatch(
+      new StatusActions.statusSet(action.entityId, EOriginalStatus.ORIGINAL_LOAD))
+    ),
+    switchMap((action: StoreActions.originalLoad) => {
+      return this.data.getItem(ESources.SOURCE, action.entityId).pipe(
+        map((entity: IOriginalEntity) => new StoreActions.originalLoadSuccess(entity)),
+        catchError(() => of(new StoreActions.originalLoadError(action.entityId))),
+      )
+    })
   );
-
-
-  // @Effect()
-  // loadOriginal$ = this.actions$.pipe(
-  //   ofType<StoreActions.originalLoad>(StoreActions.Types.ORIGINAL_LOAD),
-  //   tap((action: StoreActions.originalLoad) => this.store.dispatch(
-  //     new StatusActions.statusSet(action.entityId, EOriginalStatus.ORIGINAL_LOAD))
-  //   ),
-  //   switchMap((action: StoreActions.originalLoad) => {
-  //     return this.data.getItem(ESources.SOURCE, action.entityId).pipe(
-  //       map((entity: IOriginalEntity) => new StoreActions.originalLoadSuccess(entity)),
-  //       catchError(() => of(new StoreActions.originalLoadError(action.entityId))),
-  //     )
-  //   })
-  // );
 
   // ,
   constructor(

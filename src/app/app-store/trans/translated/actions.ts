@@ -1,13 +1,14 @@
 
-import { IEntityTranslated, IEntityOriginal } from '../../../types/trans';
-import { IRequestTranslated, IEntityRequestOriginal } from '@app-library/store/types';
-import { Action } from '@ngrx/store';
-import { EntityActions } from '@app-library/store/entity/actions';
+import { createActionTypes, EntityActions, IActionType } from '@app-library/store/entity/actions';
+import { IRequestTranslated } from '@app-library/store/types';
+import { IEntityTranslated } from '../../../types/trans';
 import { StoreState } from './state';
 
 export namespace StoreActions {
 
   import _featureName = StoreState.featureName;
+
+  export const Types: IActionType = createActionTypes(_featureName);
 
   export class REQUEST extends EntityActions.REQUEST<IRequestTranslated> {
     featureName = _featureName;

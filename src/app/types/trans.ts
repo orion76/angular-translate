@@ -54,10 +54,13 @@ export interface ISyncState {
   translatedScroll: number,
 }
 
-export interface IEntityOriginalStatus extends IEntityStatus {
+export interface IUserStatus extends IEntityStatus {
 }
 
-export interface IEntityTranslatedStatus extends IEntityStatus {
+export interface IOriginalStatus extends IEntityStatus {
+}
+
+export interface ITranslatedStatus extends IEntityStatus {
 
 }
 

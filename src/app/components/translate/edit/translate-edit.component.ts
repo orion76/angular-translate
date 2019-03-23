@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, Input, NgModule, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ITranslateData } from '@app-library/common';
+import { TRANSLATE_SERVICE } from '@app/services/injection-tokens';
+import { ITranslateService } from '@app/services/translate.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToolbarModule } from 'primeng/toolbar';
-import { EMouseEvent, ITranslateData } from '@app-lib/common';
-import { TRANSLATE_SERVICE } from '@app/services/injection-tokens';
-import { ITranslateService } from '@app/services/translate.service';
+
 
 
 

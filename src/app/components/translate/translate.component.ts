@@ -1,18 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, NgModule, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ITranslateProcess, TranslateProcess } from '@app/components/translate/process/translate-process';
-import { ITranslateService, TranslateService } from '@app/services/translate.service';
-import { CardModule } from 'primeng/card';
-import { ITranslateData } from '@app-lib/common';
 import { DataService, IDataService } from '@app/services/data.service';
+import { ITranslateService, TranslateService } from '@app/services/translate.service';
+import { IEntityOriginal, IEntityTranslated } from '@app/types';
+import { CardModule } from 'primeng/card';
+import { filter, map } from 'rxjs/operators';
 import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATED_PROCESS, TRANSLATE_SERVICE, USER_SERVICE } from '../../services/injection-tokens';
 import { SourceParseService } from '../../services/source-parse.service';
-
 import { IUserService } from '../../types/user';
 import { TransEditModule } from './edit/translate-edit.component';
 import { TransOriginalModule } from './original/translate-original.component';
 import { TransTranslatedModule } from './translated/translate-translated.component';
-import { IEntityOriginal, IEntityTranslated } from '@app/types';
+import { ITranslateData } from '@app-library/common';
+
+
 
 
 @Component({
@@ -52,12 +55,21 @@ export class TranslateComponent implements OnInit {
     @Inject(USER_SERVICE) private user: IUserService,
 
     @Inject(TRANSLATE_SERVICE) private service: ITranslateService,
-    @Inject(DATA_SERVICE) private data: IDataService
+    @Inject(DATA_SERVICE) private data: IDataService,
+    protected route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
 
-
+    this.route.paramMap
+      .pipe(
+        map((params: ParamMap) => params.get('originalId')),
+        filter(Boolean)
+      )
+      .subscribe((originalId: string) => {
+        console.log('[1.setOriginalId]', originalId);
+        this.service.setOriginalId(originalId);
+      })
   }
 
   getDOM(template: string) {

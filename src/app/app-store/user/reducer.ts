@@ -5,10 +5,10 @@ import State = StoreState.State;
 import { StoreActions } from './actions';
 import { IUser } from '@app/types';
 
-function ADD(state: State, entityId: string): State {
+function REQUEST(state: State, entityId: string): State {
   const newState = { ...state };
   newState.entity.entityId = entityId;
-  newState.status.ADD = true;
+  newState.status.REQUEST = true;
 
   return newState
 }
@@ -38,12 +38,10 @@ export function reducer(state: State = initialState, action: StoreActions.Action
 
   switch (action.type) {
 
-    case StoreActions.Types.UID:
-      stateNew = ADD(state, action.entityId)
+    case StoreActions.Types.REQUEST:
+      stateNew = REQUEST(state, action.request)
       break;
-    case StoreActions.Types.LOGIN:
-      stateNew = LOGIN(state, action.entity)
-      break;
+
     case StoreActions.Types.LOAD:
       stateNew = LOAD(state)
       break;

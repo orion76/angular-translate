@@ -23,13 +23,13 @@ export class UserEffects {
 
 
   @Effect()
-  Load$ = this.actions$.pipe(
-    ofType<UserActions.Load>(UserActions.Types.LOAD),
-
-    switchMap((action: UserActions.Load) => {
-      return this.data.getUser(action.uid).pipe(
-        map((entity: IUser) => new UserActions.LoadSuccess(entity)),
-        catchError(() => of(new UserActions.LoadError(action.uid))),
+  LOAD$ = this.actions$.pipe(
+    ofType<UserActions.LOAD>(UserActions.Types.LOAD),
+    switchMap((action: UserActions.LOAD) => {
+      const stateId = action.stateId;
+      return this.data.getUser(stateId).pipe(
+        map((entity: IUser) => new UserActions.LOAD_SUCCESS(stateId, entity)),
+        catchError(() => of(new UserActions.LOAD_ERROR(stateId))),
       )
     })
   );

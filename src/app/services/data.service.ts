@@ -4,10 +4,11 @@ import { ISourceParseService } from './source-parse.service';
 import { transSource } from '../components/translate/source';
 
 import { Observable, of } from 'rxjs';
-import { ITranslateEntity, ELanguage, IUser } from '@app/types';
+import { ITranslateEntity, ELanguage, IUser, TTranslateEntity, EEntityType } from '@app/types';
+import { TEntityRequest } from '@app-library/store/types';
 
 export interface IDataService {
-  getItem(source: string, entityId: string): Observable<ITranslateEntity>;
+  getItem(request: TEntityRequest): Observable<TTranslateEntity>
   getUser(uid: string): Observable<IUser>;
 }
 
@@ -19,12 +20,14 @@ export class DataService implements IDataService {
 
   }
 
-  getItem(source: string, entityId: string): Observable<ITranslateEntity> {
+  getItem(request: TEntityRequest): Observable<TTranslateEntity> {
     return of(this.parser.parse(transSource, 'en', '1'));
   }
 
+
   getUser(uid: string): Observable<IUser> {
     return of({
+      type: EEntityType.user,
       entityId: uid,
       name: 'user',
       language: ELanguage.RU
