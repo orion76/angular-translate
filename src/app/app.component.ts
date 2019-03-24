@@ -3,7 +3,10 @@ import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+  <menu-main></menu-main>
+  <router-outlet></router-outlet>
+  `,
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {

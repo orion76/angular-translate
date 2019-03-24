@@ -1,11 +1,13 @@
 import { Injectable, Inject } from "@angular/core";
 import { SOURFCE_PARSE_SERVICE } from './injection-tokens';
 import { ISourceParseService } from './source-parse.service';
-import { transSource } from '../components/translate/source';
+
 
 import { Observable, of } from 'rxjs';
-import { ITranslateEntity, ELanguage, IUser, TTranslateEntity, EEntityType } from '@app/types';
+import { ITranslateEntity, ELanguage,  TTranslateEntity, EEntityType } from '@app/types';
 import { TEntityRequest } from '@app-library/store/types';
+import { IUser } from '@app-library/user/types';
+import { transSource } from '@pages/translate/source';
 
 export interface IDataService {
   getItem(request: TEntityRequest): Observable<TTranslateEntity>

@@ -4,9 +4,29 @@
 
 
 .trans-app{
-  .ui-menubar{
+  .menu-main{
+    display:flex;
     background-color: #9c9;
+  .ui-menubar{
+    background-color:transparent;
+    border:none;
+    border-radius: 0;
   }
+  .menu-main-right{
+    flex:1;
+    .ui-menubar-root-list{
+      display:flex;
+      justify-content: flex-end;
+    }
+  }
+  .menu-main-middle{
+    flex:3;
+  }
+  .menu-main-left{
+    flex:1;
+  }
+  }
+
 }
 
 

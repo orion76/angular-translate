@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 
 
 export interface IAction extends Action {
-  stateId: string;
+  stateId?: string;
 }
 
 export interface IRequest<R> extends IAction {

@@ -1,6 +1,7 @@
 
 import { IEntitySelectors } from '@app-library/store/entity/selectors/types';
-import { EEntityType, ELanguage, IEntity, IEntityOriginal, IEntityTranslated, IOriginalStatus, ITranslatedStatus, ITranslateEntity, IUser, IUserStatus } from '@app/types';
+import { EEntityType, ELanguage, IEntity, IEntityOriginal, IEntityTranslated, IOriginalStatus, ITranslatedStatus, ITranslateEntity } from '@app/types';
+import { IUserStatus, IUser } from '@app-library/user';
 
 
 export interface IEntityStatus {

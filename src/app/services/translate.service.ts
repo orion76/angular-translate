@@ -1,13 +1,15 @@
 import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ITranslateProcess } from '@app-components/translate/process/translate-process';
+
 import { EMouseEvent, ILineEvent, ISelectedLine } from '@app-library/common';
 import { IEntityRequest, TEntityRequest } from '@app-library/store/types';
-import { TRANSLATED_PROCESS, USER_SERVICE, DATA_SERVICE } from '@app-services/injection-tokens';
-import { ILineEntity, IUserService, TTranslateEntity, EEntityType } from '@app/types';
+import { IDataService } from '@app-services/data.service';
+import { DATA_SERVICE } from '@app-services/injection-tokens';
+import { EEntityType, ILineEntity, TTranslateEntity } from '@app/types';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { IDataService } from '@app-services/data.service';
+import { ITranslateProcess, TRANSLATED_PROCESS } from '@pages/translate/process/translate-process';
+import { IUserService, USER_SERVICE } from '@app-library/user';
 
 export interface ITranslateService {
   do(event: EMouseEvent, line: ISelectedLine): void
