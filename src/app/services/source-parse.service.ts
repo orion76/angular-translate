@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
 import { IEntityOriginal, EEntityType, ELanguage } from '@app/types';
+import { UrlObject } from 'url';
 
 
 export interface ISourceParseService {
   parse(source: string, language: string, authorId: string): IEntityOriginal;
-  prepareLinks(source: string, url: string);
+  prepareHTMLSource(source, sourceUrl: string): string ;
 }
 
 @Injectable()
 export class SourceParseService implements ISourceParseService {
 
   private parser = new DOMParser();
+
+  public getDom(source: string): Document {
+    return this.parser.parseFromString(source, 'text/html');
+  }
+
+  public prepareHTMLSource(source, sourceUrl: string): string {
+    const dom = this.getDom(source);
+    this.prepareLinks(dom.body, sourceUrl);
+    this.prepareImages(dom.body, sourceUrl);
+    return dom.body.innerHTML;
+  }
 
   public parse(source: string, language: ELanguage, authorId: string): IEntityOriginal {
 
@@ -26,7 +38,7 @@ export class SourceParseService implements ISourceParseService {
     }
 
 
-    const dom = this.parser.parseFromString(source, 'text/html');
+    const dom = this.getDom(source);
     const textNodes: HTMLElement[] = this.getTextNodes(dom);
 
     let transId = 1;
@@ -56,29 +68,44 @@ export class SourceParseService implements ISourceParseService {
       .filter((node: Node) => Boolean(node.textContent.trim()))
       .filter((node: Node) => node.textContent.match(/[\S]+/));;
   }
-  public prepareLinks(source: string, url: string) {
 
-    const dom = this.parser.parseFromString(source, 'text/html');
+  private prepareImg(img: HTMLImageElement, url: URL) {
+    const src = new URL(img.src);
+    src.protocol = url.protocol;
+    src.hostname = url.hostname;
+    img.src = src.toString();
+  }
+
+  private prepareLink(link: HTMLAnchorElement, url: URL) {
+    link.protocol = url.protocol;
+    link.hostname = url.hostname;
+  }
+
+  public prepareLinks(dom: HTMLElement, sourceUrl: string) {
+
+    const url = new URL(sourceUrl);
+    // const dom = this.parser.parseFromString(source, 'text/html');
 
     Array.from(dom.getElementsByTagName("a"))
-      .filter(this.isLinkExternal)
+      .filter(this.isLinkInternal)
+      .map((link: HTMLAnchorElement) => this.prepareLink(link, url))
 
   }
 
-  protected isLinkExternal(link: HTMLAnchorElement) {
-    if (link.hostname) {
-      console.log(
-        link.href + '\n' +           // the full URL
-        link.protocol + '\n' +       // http:
-        link.hostname + '\n' +       // site.com
-        link.port + '\n' +           // 81
-        link.pathname + '\n' +       // /path/page
-        link.search + '\n' +         // ?a=1&b=2
-        link.hash                    // #hash
-      )
 
-    }
+  public prepareImages(dom: HTMLElement, sourceUrl: string) {
 
+    const url = new URL(sourceUrl);
+    // const dom = this.parser.parseFromString(source, 'text/html');
+
+    Array.from(dom.getElementsByTagName("img"))
+      .filter((img: HTMLImageElement) => this.isLinkInternal(new URL(img.src)))
+      .map((img: HTMLImageElement) => this.prepareImg(img, url))
+
+  }
+
+  protected isLinkInternal(url: UrlObject): boolean {
+    return url.hostname.length === 0 || location.hostname === url.hostname
   }
 
 

@@ -1,81 +1,52 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, NgModule, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Inject, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TransNewInsertHTMLModule } from '@app-components/trans-new/insert-html/insert-html.component';
+import { ISourceParseService } from '@app-services/source-parse.service';
+import { SOURFCE_PARSE_SERVICE, TRANSLATE_SERVICE } from '@app/services/injection-tokens';
+import { ITranslateService } from '@app/services/translate.service';
 import { ButtonModule } from 'primeng/button';
+import { EditorModule } from 'primeng/editor';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TRANSLATE_SERVICE, SOURFCE_PARSE_SERVICE } from '@app/services/injection-tokens';
-import { ITranslateService } from '@app/services/translate.service';
-import { EditorModule } from 'primeng/editor';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { ISourceParseService } from '@app-services/source-parse.service';
-
-
+import { ToolbarModule } from 'primeng/toolbar';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 @Component({
   selector: 'app-trans-new',
   template: `
 <div class="trans-new-component">
   <div class="trans-new-url-wrapper">
-    <label for="url">
-      <input name="url" type="text" pInputText [(ngModel)]="url"/>
-    </label>
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="Insert HTML"  (click)="insertHTML($event)" icon="pi pi-plus"></button>
+
+    </div>
+
+    <div class="ui-toolbar-group-right">
+    <button pButton type="button" label="Load" (click)="Load($event)"></button>
+    </div>
+</p-toolbar>
   </div>
   <div class="trans-new-button-save-wrapper">
-    <button pButton type="button" label="Load" (click)="Load($event)"></button>
+
   </div>
-  <p-toggleButton
-    [(ngModel)]="editMode"
-    (onChange)="changeMode($event)"
-    onLabel="Source"
-    offLabel="Edit">
-  </p-toggleButton>
-  <div *ngIf="editMode" class="trans-source">
-    <p-editor [(ngModel)]="content" [style]="{'height':'320px'}"></p-editor>
-  </div>
-  <div *ngIf="!editMode"  class="trans-new-content-wrapper">
-    <textarea  [(ngModel)]="contentSource"
-    pInputTextarea
-    autoResize="autoResize"
-    [rows]="15"
-    class="trans-new-content"
-    >
-    </textarea>
+  <div class="trans-source">
+  <ckeditor [(ngModel)]="content" [editor]="Editor" data="<p>Hello, world!</p>"></ckeditor>
+    <!-- p-editor [(ngModel)]="content" [style]="{'height':'320px'}"></p-editor -->
   </div>
 </div>
+<trans-new-insert-html [(display)]="displayInsertDialog" [(content)]="content"></trans-new-insert-html>
 `
 })
 export class TransNewComponent implements OnInit {
 
-  private _contentEditor = '';
-  private _contentSource = '';
-
-  get content() {
-    return this._contentEditor;
-  }
-
-  set content(content: string) {
-    this._contentEditor = content;
-  }
-
-  get contentSource() {
-    return this._contentSource;
-  }
-
-  set contentSource(content: string) {
-    this._contentSource = content;
-    this.editMode = true;
-    this.content = this.contentSource;
-
-    this.parser.prepareLinks(content, this.url);
-
-  }
-
-
-  public url: string = 'https://drupal.ru/tracker';
-
-  public editMode: boolean = false;
-
+  public content = '';
+public Editor = ClassicEditor;
   @ViewChild("source") source: ElementRef;
+
+  public displayInsertDialog = false;
+
   constructor(
     @Inject(TRANSLATE_SERVICE) protected service: ITranslateService,
     @Inject(SOURFCE_PARSE_SERVICE) protected parser: ISourceParseService,
@@ -86,28 +57,10 @@ export class TransNewComponent implements OnInit {
 
 
   }
-
-  prepareSource() {
-
+  insertHTML() {
+    this.displayInsertDialog = true;
   }
 
-  changeMode(edit: any) {
-    if (edit.checked) {
-      this.content = this.contentSource;
-      this.editMode = true;
-    } else {
-      this.contentSource = this.content;
-      this.editMode = false;
-    }
-  }
-
-  Load() {
-
-    this.renderer.setAttribute(this.source.nativeElement, 'data', this.url);
-  }
-  Save() {
-    // this.content = '';
-  }
 }
 
 @NgModule({
@@ -115,11 +68,13 @@ export class TransNewComponent implements OnInit {
   imports: [
     CommonModule,
     FormsModule,
+    ToolbarModule,
+    ButtonModule,
+    CKEditorModule,
     EditorModule,
-    ToggleButtonModule,
     InputTextareaModule,
     InputTextModule,
-    ButtonModule,
+    TransNewInsertHTMLModule,
   ],
   exports: [TransNewComponent]
 })
