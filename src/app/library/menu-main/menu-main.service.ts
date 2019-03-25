@@ -40,7 +40,7 @@ export class MenuMainService implements IMenuMainService {
     return this.store.pipe(
 
       select(StoreSelectors.Menu),
-      tap((args) => console.log('1111-[MenuMainService]', args)),
+      // tap((args) => console.log('1111-[MenuMainService]', args)),
       // take(1)
     )
   }

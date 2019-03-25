@@ -4,9 +4,9 @@ import { ISourceParseService } from './source-parse.service';
 
 
 import { Observable, of } from 'rxjs';
-import { ITranslateEntity, ELanguage,  TTranslateEntity, EEntityType } from '@app/types';
+import { ITranslateEntity, ELanguage, TTranslateEntity, EEntityType } from '@app/types';
 import { TEntityRequest } from '@app-library/store/types';
-import { IUser } from '@app-library/user/types';
+import { IUser, EUserRole } from '@app-library/user/types';
 import { transSource } from '@pages/translate/source';
 
 export interface IDataService {
@@ -30,8 +30,9 @@ export class DataService implements IDataService {
   getUser(uid: string): Observable<IUser> {
     return of({
       type: EEntityType.user,
+      role: EUserRole.AUTORISED,
       entityId: uid,
-      name: 'user',
+      name: 'AUTORISED',
       language: ELanguage.RU
     });
   }

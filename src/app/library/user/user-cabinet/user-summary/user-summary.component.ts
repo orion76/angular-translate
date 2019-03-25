@@ -2,26 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, Input, NgModule, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ITranslateData } from '@app-library/common';
-import { IUserService } from '../types';
-import { USER_SERVICE } from '../user.service';
+import { MenuMainModule } from '@app-library/menu-main/module';
+import { IMenuState } from '@app-library/menu-main/store/types';
+import { EUserRole, IUserService } from '../../types';
+import { USER_SERVICE } from '../../user.service';
+
+
 
 
 @Component({
-  selector: 'user-cabinet',
+  selector: 'user-summary',
   template: `
-<div class="user-page">
-  <h1>Cabinet</h1>
-  <div class="sidebar">
-
-  </div>
-  <div class="content">
-    <router-outlet></router-outlet>
-  </div>
+<div class="user-summary">
 </div>
 
   `
 })
-export class UserCabinetComponent implements OnInit {
+export class UserSummaryComponent implements OnInit {
 
   public translated: string;
   public original: string;
@@ -40,12 +37,10 @@ export class UserCabinetComponent implements OnInit {
 
 
 @NgModule({
-  declarations: [UserCabinetComponent],
+  declarations: [UserSummaryComponent],
   imports: [
     CommonModule,
-    RouterModule,
-
   ],
-  exports: [UserCabinetComponent]
+  exports: [UserSummaryComponent]
 })
-export class UserCabinetModule { }
+export class UserSummaryModule { }

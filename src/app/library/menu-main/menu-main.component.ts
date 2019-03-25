@@ -10,17 +10,17 @@ import { IMenuMainItems, IMenuState } from '@app-library/menu-main/store/types';
   template: `
 <div class="menu-main">
   <div class="menu-main-left">
-    <p-menu [model]="items.right"></p-menu>
+    <p-menubar [model]="items.left"></p-menubar>
 
   </div>
-  <!--
+
   <div class="menu-main-middle">
-    <p-menu *ngFor="let item in items.middle" [model]="item" ></p-menu>
+    <p-menubar [model]="items.middle" ></p-menubar>
   </div>
   <div class="menu-main-right">
-    <p-menu *ngFor="let item in items.right" [model]="item" ></p-menu>
+    <p-menubar [model]="items.right" ></p-menubar>
   </div>
--->
+
 
 </div>
   `
