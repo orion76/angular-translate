@@ -1,9 +1,9 @@
-import { IEntityState, IEntityStatus, IStateProps, IStatusProps, IEntityRequest } from '@app-library/store/types';
-import { IEntity } from '@app-types/common';
+import { IEntity } from '@app-library/ng-http-service/entity/types';
+import { IEntityRequest, IEntityState, IEntityStatus, IStateProps, IStatusProps } from '@app-library/store/types';
 import { IAppState } from '@app/app-store/app-store.module';
 import { Dictionary, EntityState } from '@ngrx/entity';
 import { MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
-import { Observable, OperatorFunction } from 'rxjs';
+import { OperatorFunction } from 'rxjs';
 
 
 

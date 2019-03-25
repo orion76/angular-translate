@@ -1,23 +1,24 @@
-import { IEntity } from './common';
+
 import { ELanguage, EEntityType } from '@app/types/config';
 import { IEntityStatus } from '@app-library/store/types';
+import { IEntity } from '@app-library/ng-http-service/entity/types';
 
 
 
 
-export interface ITranslateEntity extends IEntity {
+export interface IEntityTranslate extends IEntity {
   authorId?: string,
   template?: HTMLElement;
   language?: ELanguage;
   lines?: Map<string, ILineEntity>;
 }
 
-export interface IEntityOriginal extends ITranslateEntity {
+export interface IEntityOriginal extends IEntityTranslate {
   type: EEntityType.original;
   lines?: Map<string, ILineEntityOriginal>;
 }
 
-export interface IEntityTranslated extends ITranslateEntity {
+export interface IEntityTranslated extends IEntityTranslate {
   originalId: string,
   type: EEntityType.translated;
   lines: Map<string, ILineEntityTranslated>;

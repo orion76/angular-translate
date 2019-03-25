@@ -1,8 +1,10 @@
-import { IEntity } from '@app-types/common';
-import { ELanguage, EEntityType } from '@app-types/config';
-import { Observable } from 'rxjs';
+
+import { IEntity } from '@app-library/ng-http-service/entity/types';
 import { IEntityStatus } from '@app-library/store/types';
+import { User } from './user.class';
+import { ELanguage } from '@app-types/config';
 import { MenuItem } from 'primeng/components/common/menuitem';
+import { Observable } from 'rxjs';
 
 
 export enum EUserRole {
@@ -15,7 +17,7 @@ export type TUserStatusName = keyof IUserStatus;
 
 export interface IUser extends IEntity {
   role: EUserRole,
-  name: string;
+  label: string;
   language: ELanguage
 }
 
@@ -24,13 +26,16 @@ export interface IMenuUpdate {
   items: MenuItem[]
 }
 
-export const Anonymus: IUser = {
-  entityId: '0',
-  role: EUserRole.ANONIMUS,
-  name: 'Anonymus',
-  type: EEntityType.user,
-  language: ELanguage.RU
-}
+
+
+export const Anonymus: IUser = new User('user', '0', {})
+// {
+//   entityId: '0',
+//   role: EUserRole.ANONIMUS,
+//   label: 'Anonymus',
+//   source: 'user',
+//   language: ELanguage.RU
+// }
 
 export interface IUserStatus extends IEntityStatus {
   LOGIN?: boolean;
@@ -43,6 +48,6 @@ export interface IUserService {
   onLoaded(): Observable<IUser>;
   onLogin(): Observable<IUser>;
   onLogout(): Observable<IUser>;
-  onMenuUpdate(role: EUserRole): Observable<IMenuUpdate> ;
+  onMenuUpdate(role: EUserRole): Observable<IMenuUpdate>;
   // on(eventType: EUserEvent): Observable<IUser>
 }

@@ -1,7 +1,7 @@
 
 import { ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
 import { ITranslateService } from '@app/services/translate.service';
-import { ILineEntity, ITranslateEntity } from '@app/types/trans';
+import { ILineEntity, IEntityTranslate } from '@app/types/trans';
 import { Observable } from 'rxjs';
 import { EMouseEvent, ILineEvent, ISelectedLine } from './common';
 import { filter } from 'rxjs/operators';
@@ -12,7 +12,7 @@ export abstract class TransContentAbstract {
   // type: EEntityType;
 
 
-  @Input() entity$: Observable<ITranslateEntity>;
+  @Input() entity$: Observable<IEntityTranslate>;
   @ViewChild("content") content: ElementRef;
 
   lines: Map<string, ILineEntity>;
@@ -30,7 +30,7 @@ export abstract class TransContentAbstract {
   ngOnInit() {
     this.entity$
       .pipe(filter(Boolean))
-      .subscribe((entity: ITranslateEntity) => {
+      .subscribe((entity: IEntityTranslate) => {
         this._clearLinkEvent(entity.template);
         this._addContentDom(entity.template);
         this._fillTranslateLines();

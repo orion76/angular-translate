@@ -9,4 +9,8 @@ export enum ESources {
   TRANSLATED = 'translate-translated',
 }
 
-export enum EEntityType { original, translated, user };
+export enum EEntityType {
+  original = 'original',
+  translated = 'translated',
+  user = 'user'
+};

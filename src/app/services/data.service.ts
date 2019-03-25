@@ -4,7 +4,7 @@ import { ISourceParseService } from './source-parse.service';
 
 
 import { Observable, of } from 'rxjs';
-import { ITranslateEntity, ELanguage, TTranslateEntity, EEntityType } from '@app/types';
+import { IEntityTranslate, ELanguage, TTranslateEntity, EEntityType } from '@app/types';
 import { TEntityRequest } from '@app-library/store/types';
 import { IUser, EUserRole } from '@app-library/user/types';
 import { transSource } from '@pages/translate/source';

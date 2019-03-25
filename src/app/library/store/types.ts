@@ -1,7 +1,8 @@
 
 import { IEntitySelectors } from '@app-library/store/entity/selectors/types';
-import { EEntityType, ELanguage, IEntity, IEntityOriginal, IEntityTranslated, IOriginalStatus, ITranslatedStatus, ITranslateEntity } from '@app/types';
+import { EEntityType, ELanguage, IEntityOriginal, IEntityTranslated, IOriginalStatus, ITranslatedStatus, IEntityTranslate } from '@app/types';
 import { IUserStatus, IUser } from '@app-library/user';
+import { IEntity } from '@app-library/ng-http-service/entity/types';
 
 
 export interface IEntityStatus {
@@ -30,7 +31,7 @@ export interface IEntityState {
 }
 
 
-export interface ITranslateState<R, T extends ITranslateEntity, S extends IEntityStatus> extends IEntityState {
+export interface ITranslateState<R, T extends IEntityTranslate, S extends IEntityStatus> extends IEntityState {
   request?: R,
   entity?: T
   status?: S

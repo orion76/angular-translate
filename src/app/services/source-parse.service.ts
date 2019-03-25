@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { IEntityOriginal, EEntityType, ELanguage } from '@app/types';
 import { UrlObject } from 'url';
+import { EntityTranslate } from '@app-types/entity/entity-translate.class';
 
 
 export interface ISourceParseService {
   parse(source: string, language: string, authorId: string): IEntityOriginal;
-  prepareHTMLSource(source, sourceUrl: string): string ;
+  prepareHTMLSource(source, sourceUrl: string): string;
 }
 
 @Injectable()
@@ -26,16 +27,17 @@ export class SourceParseService implements ISourceParseService {
 
   public parse(source: string, language: ELanguage, authorId: string): IEntityOriginal {
 
+    const entity: IEntityOriginal = new EntityTranslate(EEntityType.original, null, {})
 
-    const entity: IEntityOriginal = {
-      type: EEntityType.original,
-      entityId: null,
-      authorId,
-      language,
-      lines: new Map(),
-      template: null,
+    // const entity: IEntityOriginal = {
+    //   type: EEntityType.original,
+    //   entityId: null,
+    //   authorId,
+    //   language,
+    //   lines: new Map(),
+    //   template: null,
 
-    }
+    // }
 
 
     const dom = this.getDom(source);
