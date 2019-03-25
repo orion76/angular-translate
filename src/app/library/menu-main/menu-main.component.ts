@@ -9,9 +9,19 @@ import { IMenuMainItems, IMenuState } from '@app-library/menu-main/store/types';
   selector: 'menu-main',
   template: `
 <div class="menu-main">
-   <p-menubar  [model]="items.left" class="menu-main-left"></p-menubar>
-   <p-menubar [model]="items.middle" class="menu-main-middle"></p-menubar>
-   <p-menubar  [model]="items.right" class="menu-main-right"></p-menubar>
+  <div class="menu-main-left">
+    <p-menu [model]="items.right"></p-menu>
+
+  </div>
+  <!--
+  <div class="menu-main-middle">
+    <p-menu *ngFor="let item in items.middle" [model]="item" ></p-menu>
+  </div>
+  <div class="menu-main-right">
+    <p-menu *ngFor="let item in items.right" [model]="item" ></p-menu>
+  </div>
+-->
+
 </div>
   `
 })

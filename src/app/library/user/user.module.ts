@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { UserCabinetComponent } from '@app-library/user/user-cabinet/user-cabinet.component';
+import { MenuMainModule } from '@app-library/menu-main/module';
 import { UserRoutingModule } from '@app-library/user/routing.module';
-import { UserLoginModule } from '@app-library/user/user-cabinet/user-login/user-login.component';
-import { UserLogoutModule } from '@app-library/user/user-cabinet/user-logout/user-logout.component';
-import { UserSummaryModule } from '@app-library/user/user-cabinet/user-summary.component';
-
+import { StoreUserModule } from '@app-library/user/store/module';
+import { UserCabinetComponent } from '@app-library/user/user-cabinet/user-cabinet.component';
+import { menu_anonimus } from './user.service';
 
 @NgModule({
   declarations: [
@@ -13,8 +12,9 @@ import { UserSummaryModule } from '@app-library/user/user-cabinet/user-summary.c
   ],
   imports: [
     CommonModule,
+    StoreUserModule,
     UserRoutingModule,
-
+    MenuMainModule.forRoot(menu_anonimus)
   ],
   exports: [UserCabinetComponent],
   providers: [

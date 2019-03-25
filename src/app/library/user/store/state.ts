@@ -8,7 +8,8 @@ export namespace StoreState {
 
   export const initialState: State = {
     stateId: '0',
-    entity: Anonymus
+    entity: Anonymus,
+    status: {}
   };
   export interface State extends IStateUser { }
 }

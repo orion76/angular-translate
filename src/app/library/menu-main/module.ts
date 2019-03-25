@@ -3,13 +3,13 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { MenuMainComponent } from '@app-library/menu-main/menu-main.component';
 import { MenuMainService, MENU_MAIN_SERVICE, MENU_MAIN_STATE } from '@app-library/menu-main/menu-main.service';
 import { IMenuState } from '@app-library/menu-main/store/types';
-import { MenubarModule } from 'primeng/menubar';
+import { MenuModule } from 'primeng/menu';
 
 @NgModule({
   declarations: [MenuMainComponent],
   imports: [
     CommonModule,
-    MenubarModule,
+    MenuModule
 
   ],
   exports: [MenuMainComponent],

@@ -26,12 +26,12 @@ function REQUEST(state: State, request: IRequestUser): State {
   const newState = { ...state };
   newState.request = request;
   newState.status.REQUEST = true;
-
   return newState
 }
 
 
 function LOAD(state: State): State {
+
   const newState = { ...state };
   newState.status.LOAD = true;
   return newState
@@ -47,6 +47,7 @@ function LOAD_SUCCESS(state: State, entity: IUser): State {
 
 export function reducer(state: State = initialState, action: StoreActions.Actions) {
   let stateNew: State;
+  // debugger;
 
   switch (action.type) {
 

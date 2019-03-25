@@ -31,9 +31,15 @@ export namespace StoreSelectors {
   export const feature: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
 
   export const getEntity = (state: State) => state.entity;
-  export const getStatus = (state: State) => state.status;
+  export const getStatus = (state: State) => {
+
+    return state ? state.status : null;
+  };
   export const getEntityStatus = (state: State, props: IUserStatusProps) => {
     const status = getStatus(state);
+    if (status === null) {
+      return null;
+    }
     const { name, value } = props;
     if (status[name] === value) {
       return getEntity(state);

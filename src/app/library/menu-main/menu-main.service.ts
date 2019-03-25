@@ -6,6 +6,7 @@ import { StoreActions } from './store'
 import { StoreSelectors } from './store'
 import { Observable } from 'rxjs';
 import { MenuItem } from 'primeng/components/common/menuitem';
+import { take, tap } from 'rxjs/operators';
 
 export const MENU_MAIN_SERVICE = new InjectionToken<IMenuMainService>('MENU_MAIN_SERVICE');
 export const MENU_MAIN_STATE = new InjectionToken<IMenuState>('MENU_MAIN_STATE');
@@ -37,7 +38,10 @@ export class MenuMainService implements IMenuMainService {
 
   onMenu(): Observable<MenuItem[]> {
     return this.store.pipe(
-      select(StoreSelectors.Menu)
+
+      select(StoreSelectors.Menu),
+      tap((args) => console.log('1111-[MenuMainService]', args)),
+      // take(1)
     )
   }
 }

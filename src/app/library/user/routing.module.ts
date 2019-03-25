@@ -7,13 +7,18 @@ import { UserSummaryComponent, UserSummaryModule } from '@app-library/user/user-
 
 
 const routes: Routes = [
-  { path: 'login', component: UserLoginComponent },
-  { path: 'logout', component: UserLogoutComponent },
-  { path: 'summary', component: UserSummaryComponent },
+  {
+    path: 'user', children: [
+      { path: 'login', component: UserLoginComponent },
+      { path: 'logout', component: UserLogoutComponent },
+      { path: 'summary', component: UserSummaryComponent },
+    ]
+  },
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [
     RouterModule,
     UserLoginModule,

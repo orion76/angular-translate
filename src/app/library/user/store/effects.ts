@@ -5,26 +5,19 @@ import { DATA_SERVICE } from '@app/services/injection-tokens';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { IUser } from '../types';
 import { StoreActions as UserActions } from './actions';
-
-
-
-
 
 @Injectable()
 export class UserEffects {
 
-  // @Effect()
-  // Login$ = this.actions$.pipe(
-  //   ofType<UserActions.Login>(UserActions.Types.LOGIN),
-  //   map((action: UserActions.Login) => new StatusActions.Login(action.entity)));
-
 
   @Effect()
   LOAD$ = this.actions$.pipe(
+
     ofType<UserActions.LOAD>(UserActions.Types.LOAD),
+
     switchMap((action: UserActions.LOAD) => {
       const request = action.request;
       return this.data.getUser(request.entityId).pipe(
@@ -41,13 +34,6 @@ export class UserEffects {
   );
 
 
-  // @Effect()
-  // LoadError$ = this.actions$.pipe(
-  //   ofType<UserActions.LoadError>(UserActions.Types.LOAD_ERROR),
-  //   map((action: UserActions.LoadError) => new StatusActions.LoadError(action.uid)),
-  // );
-
-  // ,
   constructor(
     private store: Store<IAppState>,
     private actions$: Actions<UserActions.Actions>,
