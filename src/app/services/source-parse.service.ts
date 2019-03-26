@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IEntityOriginal, EEntityType, ELanguage } from '@app/types';
-import { UrlObject } from 'url';
 import { EntityTranslate } from '@app-types/entity/entity-translate.class';
+import { EEntityType, ELanguage, IEntityTranslate } from '@app/types';
+import { UrlObject } from 'url';
 
 
 export interface ISourceParseService {
-  parse(source: string, language: string, authorId: string): IEntityOriginal;
+  parse(source: string, language: string, authorId: string): IEntityTranslate;
   prepareHTMLSource(source, sourceUrl: string): string;
 }
 
@@ -25,9 +25,9 @@ export class SourceParseService implements ISourceParseService {
     return dom.body.innerHTML;
   }
 
-  public parse(source: string, language: ELanguage, authorId: string): IEntityOriginal {
+  public parse(source: string, language: ELanguage, authorId: string): IEntityTranslate {
 
-    const entity: IEntityOriginal = new EntityTranslate(EEntityType.original, null, {})
+    const entity: IEntityTranslate = new EntityTranslate(EEntityType.original, null, {})
 
     // const entity: IEntityOriginal = {
     //   type: EEntityType.original,

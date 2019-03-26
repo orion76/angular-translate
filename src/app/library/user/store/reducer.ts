@@ -1,10 +1,10 @@
+import { IEntityRequest } from '@app-library/store/types';
+import { IUser } from '../types';
+import { StoreActions } from './actions';
 import { StoreState } from './state';
 
 import initialState = StoreState.initialState;
 import State = StoreState.State;
-import { StoreActions } from './actions';
-import { IUser } from '../types';
-import { IRequestUser } from '@app-library/store/types';
 
 
 function LOGIN(state: State): State {
@@ -22,7 +22,7 @@ function LOGOUT(state: State): State {
 }
 
 
-function REQUEST(state: State, request: IRequestUser): State {
+function REQUEST(state: State, request: IEntityRequest): State {
   const newState = { ...state };
   newState.request = request;
   newState.status.REQUEST = true;

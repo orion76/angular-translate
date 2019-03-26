@@ -1,8 +1,8 @@
 
 import { ILoad, ILoadError, ILoadSuccess, IRequest } from '@app-library/store/entity/actions';
-import { IRequestUser } from '@app-library/store/types';
-import { IUser } from '../types';
+import { IEntityRequest } from '@app-library/store/types';
 import { Action } from '@ngrx/store';
+import { IUser } from '../types';
 
 
 export namespace StoreActions {
@@ -28,14 +28,14 @@ export namespace StoreActions {
   }
 
 
-  export class REQUEST implements IRequest<IRequestUser> {
+  export class REQUEST implements IRequest<IEntityRequest> {
     readonly type = Types.REQUEST
-    constructor(public request: IRequestUser) { }
+    constructor(public request: IEntityRequest) { }
   }
 
-  export class LOAD implements ILoad<IRequestUser> {
+  export class LOAD implements ILoad<IEntityRequest> {
     readonly type = Types.LOAD
-    constructor(public request: IRequestUser) { }
+    constructor(public request: IEntityRequest) { }
   }
 
 
@@ -46,7 +46,7 @@ export namespace StoreActions {
 
   export class LOAD_ERROR implements ILoadError {
     readonly type = Types.LOAD_ERROR
-    constructor(public request: IRequestUser) { }
+    constructor(public request: IEntityRequest) { }
   }
 
   export type Actions = LOGIN | LOGOUT | REQUEST | LOAD | LOAD_SUCCESS | LOAD_ERROR;

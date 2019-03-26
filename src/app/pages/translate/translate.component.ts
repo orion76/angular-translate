@@ -2,22 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ITranslateData } from '@app-library/common';
+import { IUserService, USER_SERVICE } from '@app-library/user';
 import { DataService, IDataService } from '@app/services/data.service';
 import { ITranslateService, TranslateService } from '@app/services/translate.service';
-import { EEntityType, IEntityOriginal, IEntityTranslated } from '@app/types';
+import { EEntityType, IEntityTranslate} from '@app/types';
+import { ITranslateProcess, TRANSLATED_PROCESS, TranslateProcess } from '@pages/translate/process/translate-process';
 import { CardModule } from 'primeng/card';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATE_SERVICE } from '../../services/injection-tokens';
 import { SourceParseService } from '../../services/source-parse.service';
-
 import { TransEditModule } from './edit/translate-edit.component';
 import { TransOriginalModule } from './original/translate-original.component';
 import { TransTranslatedModule } from './translated/translate-translated.component';
-import { ITranslateProcess, TranslateProcess, TRANSLATED_PROCESS } from '@pages/translate/process/translate-process';
-import { USER_SERVICE, IUserService } from '@app-library/user';
-
-
 
 
 @Component({
@@ -46,11 +43,11 @@ export class TranslateComponent implements OnInit {
 
   selected: ITranslateData;
 
-  private originalSubject = new BehaviorSubject<IEntityOriginal>(null);
-  private translatedSubject = new BehaviorSubject<IEntityTranslated>(null);
+  private originalSubject = new BehaviorSubject<IEntityTranslate>(null);
+  private translatedSubject = new BehaviorSubject<IEntityTranslate>(null);
 
-  private entityOriginal$: Observable<IEntityOriginal> = this.originalSubject.asObservable();
-  private entityTranslated$: Observable<IEntityTranslated> = this.translatedSubject.asObservable();
+  private entityOriginal$: Observable<IEntityTranslate> = this.originalSubject.asObservable();
+  private entityTranslated$: Observable<IEntityTranslate> = this.translatedSubject.asObservable();
 
   translateData: Map<string, ITranslateData> = new Map();
 
@@ -78,13 +75,13 @@ export class TranslateComponent implements OnInit {
 
         this.service
           .onLoad(EEntityType.original, originalId)
-          .subscribe((entity: IEntityOriginal) => {
+          .subscribe((entity: IEntityTranslate) => {
             this.originalSubject.next(entity);
           })
 
         this.service
           .onLoad(EEntityType.translated, originalId)
-          .subscribe((entity: IEntityTranslated) => {
+          .subscribe((entity: IEntityTranslate) => {
             this.translatedSubject.next(entity);
           })
 

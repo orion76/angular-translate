@@ -1,19 +1,19 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { ISelectedLine } from '@app-library/common';
 import { selectNotEmpty } from '@app-library/rxjs-helper';
-import { IRequestOriginal, IRequestTranslated, IStatusProps, TStatusName } from '@app-library/store/types';
+import { IEntityRequest, IRequestTranslated, IStatusProps, TStatusName } from '@app-library/store/types';
+import { IUser, IUserService } from '@app-library/user/types';
+import { USER_SERVICE } from '@app-library/user/user.service';
 import { StoreActions as OriginalActions, StoreSelectors as OriginalSelectors } from '@app-store/trans/original';
 import { StoreSelectors as TranslatedSelectors } from '@app-store/trans/translated';
 import { IAppState } from '@app/app-store/app-store.module';
 import { } from '@app/app-store/trans/original';
 import { StoreActions as SyncStateActions, StoreSelectors as SyncStateSelectors } from '@app/app-store/trans/sync-state';
 import { StoreActions as TranslatedActions } from '@app/app-store/trans/translated';
-import { EEntityType, IEntityOriginal, ISyncState, TTranslateEntity } from '@app/types';
+import { EEntityType, IEntityTranslate, ISyncState } from '@app/types';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { combineLatest, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { USER_SERVICE } from '@app-library/user/user.service';
-import { IUserService, IUser } from '@app-library/user/types';
 
 export const TRANSLATED_PROCESS = new InjectionToken<ITranslateProcess>('TRANSLATED_PROCESS');
 
@@ -31,7 +31,7 @@ export interface ITranslateProcess {
   // onEntityStatus(type: EEntityType, entityId: string, status: string, value: any): Observable<ITranslateEntity>;
 
   // load(type: EEntityType, stateId: string)
-  onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity>;
+  onLoad(type: EEntityType, stateId: string): Observable<IEntityTranslate>;
 }
 
 
@@ -47,7 +47,7 @@ export class TranslateProcess implements ITranslateProcess {
   }
 
 
-  onRequest(type: EEntityType, stateId: string): Observable<IRequestOriginal | IRequestTranslated> {
+  onRequest(type: EEntityType, stateId: string): Observable<IEntityRequest> {
     const props: IStatusProps = { stateId, status: "REQUEST", value: true };
 
     switch (type) {
@@ -71,7 +71,7 @@ export class TranslateProcess implements ITranslateProcess {
   }
 
 
-  onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity> {
+  onLoad(type: EEntityType, stateId: string): Observable<IEntityTranslate> {
     switch (type) {
       case EEntityType.original:
         return this.onOriginal(stateId, "LOAD_SUCCESS");
@@ -110,13 +110,13 @@ export class TranslateProcess implements ITranslateProcess {
 
     this.onRequest(EEntityType.original, originalId).pipe(
       // map(()=>)
-      switchMap((request: IRequestOriginal) => {
+      switchMap((request: IEntityRequestl) => {
         this.store.dispatch(new OriginalActions.LOAD(originalId, request));
         return this.onOriginal(originalId, "LOAD_SUCCESS");
       }),
       combineLatest(
         this.user.onLoaded(),
-        (original: IEntityOriginal, user: IUser) => ({
+        (original: IEntityTranslate, user: IUser) => ({
           originalId: original.entityId,
           userId: user.entityId,
           language: user.language

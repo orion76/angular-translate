@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { TransContentAbstract } from '@app-library/trans-content-abstract';
+import { IUserService, USER_SERVICE } from '@app-library/user';
+import { IEntityTranslate } from '@app-types/trans';
 import { TRANSLATE_SERVICE } from '@app/services/injection-tokens';
 import { ITranslateService } from '@app/services/translate.service';
-import { IEntityOriginal } from '@app/types';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { Observable } from 'rxjs';
-import { IUserService, USER_SERVICE } from '@app-library/user';
 
 
 
@@ -20,7 +20,7 @@ import { IUserService, USER_SERVICE } from '@app-library/user';
   `
 })
 export class TransOriginalComponent extends TransContentAbstract implements OnInit {
-  @Input() entity$: Observable<IEntityOriginal>;
+  @Input() entity$: Observable<IEntityTranslate>;
   // @Input() lines: Map<string, IOriginalLineEntity>;
   @ViewChild("content") content: ElementRef;
 

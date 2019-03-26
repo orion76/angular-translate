@@ -1,5 +1,5 @@
 
-import { IStateUser } from '@app-library/store/types';
+import { IEntityState } from '@app-library/store/types';
 import { Anonymus } from '../types';
 
 
@@ -11,5 +11,5 @@ export namespace StoreState {
     entity: Anonymus,
     status: {}
   };
-  export interface State extends IStateUser { }
+  export interface State extends IEntityState { }
 }

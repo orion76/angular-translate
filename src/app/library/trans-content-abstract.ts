@@ -1,10 +1,10 @@
 
 import { ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
 import { ITranslateService } from '@app/services/translate.service';
-import { ILineEntity, IEntityTranslate } from '@app/types/trans';
+import { IEntityTranslate, ILineEntity } from '@app/types/trans';
 import { Observable } from 'rxjs';
-import { EMouseEvent, ILineEvent, ISelectedLine } from './common';
 import { filter } from 'rxjs/operators';
+import { EMouseEvent, ILineEvent, ISelectedLine } from './common';
 
 
 export abstract class TransContentAbstract {

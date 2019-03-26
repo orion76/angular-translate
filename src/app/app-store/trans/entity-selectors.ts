@@ -1,14 +1,14 @@
+import { IEntitySelectors } from '@app-library/store/entity';
+import { IEntityRequest, IEntityStatus, IRequestTranslated } from '@app-library/store/types';
+import { IEntityTranslate } from '@app/types';
 import { StoreSelectors as SelectorsOriginal } from './original';
 import { StoreSelectors as SelectorsTranslated } from './translated';
-import { IEntityOriginal, IOriginalStatus, ITranslatedStatus, IEntityTranslated } from '@app/types';
-import { IEntitySelectors } from '@app-library/store/entity';
-import { IRequestOriginal, IRequestTranslated } from '@app-library/store/types';
 
 
 
 export interface ITranslateSelectors {
-  original: IEntitySelectors<IRequestOriginal, IEntityOriginal, IOriginalStatus>,
-  translated: IEntitySelectors<IRequestTranslated, IEntityTranslated, ITranslatedStatus>
+  original: IEntitySelectors<IEntityRequest, IEntityTranslate, IEntityStatus>,
+  translated: IEntitySelectors<IRequestTranslated, IEntityTranslate, IEntityStatus>
 };
 
 export const EntitySelectors: ITranslateSelectors = {

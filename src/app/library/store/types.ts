@@ -1,6 +1,6 @@
 
 import { IEntitySelectors } from '@app-library/store/entity/selectors/types';
-import { EEntityType, ELanguage, IEntityOriginal, IEntityTranslated, IOriginalStatus, ITranslatedStatus, IEntityTranslate } from '@app/types';
+import { EEntityType, ELanguage, IEntityTranslate } from '@app/types';
 import { IUserStatus, IUser } from '@app-library/user';
 import { IEntity } from '@app-library/ng-http-service/entity/types';
 
@@ -31,42 +31,28 @@ export interface IEntityState {
 }
 
 
-export interface ITranslateState<R, T extends IEntityTranslate, S extends IEntityStatus> extends IEntityState {
+export interface ITranslateState<R, T extends IEntity, S extends IEntityStatus> extends IEntityState {
   request?: R,
   entity?: T
   status?: S
 }
-export interface IStateUser extends ITranslateState<IRequestUser, IUser, IUserStatus> {
-}
 
-export interface IStateOriginal extends ITranslateState<IRequestOriginal, IEntityOriginal, IOriginalStatus> {
-}
 
-export interface IStateTranslated extends ITranslateState<IRequestTranslated, IEntityTranslated, ITranslatedStatus> {
+
+export interface IStateTranslated extends ITranslateState<IRequestTranslated, IEntityTranslate, IEntityStatus> {
 }
 
 export interface IEntityRequest {
   type: EEntityType;
+    entityId: string;
 }
 
-export interface IRequestUser extends IEntityRequest {
-  type: EEntityType.user;
-  entityId: string;
-}
-
-export interface IRequestOriginal extends IEntityRequest {
-  type: EEntityType.original;
-  entityId: string;
-}
 export interface IRequestTranslated {
   type: EEntityType.translated;
   originalId: string;
   userId: string;
   language: ELanguage;
 }
-
-export type TEntityRequest = IRequestOriginal | IRequestTranslated;
-
 
 
 export interface IStatusProps extends IStateProps {

@@ -5,7 +5,7 @@ import { EMouseEvent, ILineEvent, ISelectedLine } from '@app-library/common';
 import { IEntityRequest, TEntityRequest } from '@app-library/store/types';
 import { IDataService } from '@app-services/data.service';
 import { DATA_SERVICE } from '@app-services/injection-tokens';
-import { EEntityType, ILineEntity, TTranslateEntity } from '@app/types';
+import { EEntityType, IEntityTranslateLine, TTranslateEntity } from '@app/types';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ITranslateProcess, TRANSLATED_PROCESS } from '@pages/translate/process/translate-process';
@@ -62,7 +62,7 @@ export class TranslateService implements ITranslateService {
     return this.process.onLoad(type, stateId);
   }
 
-  initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, ILineEntity>
+  initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, IEntityTranslateLine>
   ) {
     Array.from(dom.getElementsByTagName('trans'))
       .forEach((trans: HTMLElement) => {
