@@ -6,7 +6,7 @@ import { EEntityType, ELanguage } from '@app/types/config';
 
 
 export interface IEntityTranslate extends IEntity {
-  sourceId: 'original' | string
+  parentId?: string,
   authorId?: string,
   template?: HTMLElement;
   language?: ELanguage;
@@ -16,7 +16,9 @@ export interface IEntityTranslate extends IEntity {
 
 
 export interface ILineEntity extends IEntity {
-  type: EEntityType,
+  source: string,
+  authorId?: string,
+  language?: ELanguage,
   content: string
 }
 

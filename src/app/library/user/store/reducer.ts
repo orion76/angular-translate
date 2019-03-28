@@ -1,10 +1,11 @@
-import { IEntityRequest } from '@app-library/store/types';
+
 import { IUser } from '../types';
 import { StoreActions } from './actions';
 import { StoreState } from './state';
 
 import initialState = StoreState.initialState;
 import State = StoreState.State;
+import { IEntityRequest } from '@xangular-store/entity/types';
 
 
 function LOGIN(state: State): State {

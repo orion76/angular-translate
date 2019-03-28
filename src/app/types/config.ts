@@ -5,12 +5,11 @@ export enum ELanguage {
 
 export enum ESources {
   SOURCE = 'translate-source',
-  ORIGINAL = 'translate-original',
-  TRANSLATED = 'translate-translated',
+  TRANSLATE = 'translate',
 }
 
 export enum EEntityType {
-  original = 'original',
-  translated = 'translated',
+  translate_line = 'translate_line',
+  translate = 'translate',
   user = 'user'
 };

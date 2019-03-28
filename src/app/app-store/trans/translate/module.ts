@@ -4,16 +4,17 @@ import { StoreModule } from '@ngrx/store';
 import { reducer } from './reducer';
 import { StoreState } from "./state";
 import { EffectsModule } from '@ngrx/effects';
-import { OriginalEffects } from '@app/app-store/trans/original';
+import { TranslateEffects } from './effects';
+
 
 
 @NgModule({
   imports: [
     CommonModule,
     StoreModule.forFeature(StoreState.featureName, reducer),
-    EffectsModule.forFeature([OriginalEffects])
+    EffectsModule.forFeature([TranslateEffects])
   ],
   providers: []
 })
-export class StoreOriginalModule {
+export class StoreEntityTranslateModule {
 }

@@ -5,9 +5,10 @@ import { DATA_SERVICE } from '@app/services/injection-tokens';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { IUser } from '../types';
 import { StoreActions as UserActions } from './actions';
+import { EEntityType } from '@app/types';
 
 @Injectable()
 export class UserEffects {
@@ -20,7 +21,7 @@ export class UserEffects {
 
     switchMap((action: UserActions.LOAD) => {
       const request = action.request;
-      return this.data.getUser(request.entityId).pipe(
+      return this.data.getItem({source:EEntityType.user, entityId:request.entityId}).pipe(
         map((entity: IUser) => new UserActions.LOAD_SUCCESS(entity)),
         catchError(() => of(new UserActions.LOAD_ERROR(action.request))),
       )

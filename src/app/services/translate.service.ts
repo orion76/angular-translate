@@ -1,22 +1,25 @@
 import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EMouseEvent, ILineEvent, ISelectedLine } from '@app-library/common';
-import { IEntityRequest } from '@app-library/store/types';
 import { IUserService, USER_SERVICE } from '@app-library/user';
 import { IDataService } from '@app-services/data.service';
 import { DATA_SERVICE } from '@app-services/injection-tokens';
-import { EEntityType, IEntityTranslate, ILineEntity } from '@app/types';
+import { StoreState as TranslateState } from '@app-store/trans/translate';
+import { IEntityTranslate, ILineEntity } from '@app/types';
 import { ITranslateProcess, TRANSLATED_PROCESS } from '@pages/translate/process/translate-process';
+import { IEntityRequest } from '@xangular-store/entity/types';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
+
+import IStateTranslate = TranslateState.IStateTranslate
 
 export interface ITranslateService {
   do(event: EMouseEvent, line: ISelectedLine): void
   onEvent(event: EMouseEvent): Observable<ILineEvent>;
   onLineSelect(originalId: string);
   load(request: IEntityRequest);
-  onLoad(type: EEntityType, stateId: string): Observable<IEntityTranslate>
+  onLoad(stateId: string): Observable<IEntityTranslate>;
   setOriginalId(originalId: string)
 }
 
@@ -50,7 +53,7 @@ export class TranslateService implements ITranslateService {
   }
 
   setOriginalId(originalId: string) {
-    this.process.Init(originalId);
+    this.process.InitTranslated(originalId);
   }
 
 
@@ -58,8 +61,8 @@ export class TranslateService implements ITranslateService {
     return this.data.getItem(request);
   }
 
-  onLoad(type: EEntityType, stateId: string): Observable<IEntityTranslate> {
-    return this.process.onLoad(type, stateId);
+  onLoad(stateId: string): Observable<IEntityTranslate> {
+    return this.process.onLoad(stateId).pipe(map((state: IStateTranslate) => state.entity));
   }
 
   initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, ILineEntity>

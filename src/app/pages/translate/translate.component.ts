@@ -5,7 +5,7 @@ import { ITranslateData } from '@app-library/common';
 import { IUserService, USER_SERVICE } from '@app-library/user';
 import { DataService, IDataService } from '@app/services/data.service';
 import { ITranslateService, TranslateService } from '@app/services/translate.service';
-import { EEntityType, IEntityTranslate} from '@app/types';
+import { EEntityType, IEntityTranslate } from '@app/types';
 import { ITranslateProcess, TRANSLATED_PROCESS, TranslateProcess } from '@pages/translate/process/translate-process';
 import { CardModule } from 'primeng/card';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -73,17 +73,17 @@ export class TranslateComponent implements OnInit {
         console.log('[1.setOriginalId]', originalId);
         this.service.setOriginalId(originalId);
 
-        this.service
-          .onLoad(EEntityType.original, originalId)
-          .subscribe((entity: IEntityTranslate) => {
-            this.originalSubject.next(entity);
-          })
+        // this.service
+        //   .onLoad(originalId)
+        //   .subscribe((entity: IEntityTranslate) => {
+        //     this.originalSubject.next(entity);
+        //   })
 
-        this.service
-          .onLoad(EEntityType.translated, originalId)
-          .subscribe((entity: IEntityTranslate) => {
-            this.translatedSubject.next(entity);
-          })
+        // this.service
+        //   .onLoad(originalId)
+        //   .subscribe((entity: IEntityTranslate) => {
+        //     this.translatedSubject.next(entity);
+        //   })
 
       })
   }

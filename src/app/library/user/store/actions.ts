@@ -1,9 +1,8 @@
 
-import { ILoad, ILoadError, ILoadSuccess, IRequest } from '@app-library/store/entity/actions';
-import { IEntityRequest } from '@app-library/store/types';
 import { Action } from '@ngrx/store';
+import { EntityActions } from '@xangular-store/entity/actions';
+import { IEntityRequest } from '@xangular-store/entity/types';
 import { IUser } from '../types';
-
 
 export namespace StoreActions {
 
@@ -28,23 +27,23 @@ export namespace StoreActions {
   }
 
 
-  export class REQUEST implements IRequest<IEntityRequest> {
+  export class REQUEST implements EntityActions.IRequest{
     readonly type = Types.REQUEST
     constructor(public request: IEntityRequest) { }
   }
 
-  export class LOAD implements ILoad<IEntityRequest> {
+  export class LOAD implements EntityActions.ILoad {
     readonly type = Types.LOAD
     constructor(public request: IEntityRequest) { }
   }
 
 
-  export class LOAD_SUCCESS implements ILoadSuccess<IUser> {
+  export class LOAD_SUCCESS implements EntityActions.ILoadSuccess {
     readonly type = Types.LOAD_SUCCESS
     constructor(public entity: IUser) { }
   }
 
-  export class LOAD_ERROR implements ILoadError {
+  export class LOAD_ERROR implements EntityActions.ILoadError {
     readonly type = Types.LOAD_ERROR
     constructor(public request: IEntityRequest) { }
   }

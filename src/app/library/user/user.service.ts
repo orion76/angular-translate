@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable, InjectionToken } from '@angular/core';
 import { StoreActions as MenuActions } from '@app-library/menu-main/store';
 import { IMenuState } from '@app-library/menu-main/store/types';
-import { IEntityRequest } from '@app-library/store/types';
 import { IAppState } from '@app/app-store/app-store.module';
 import { EEntityType } from '@app/types';
 import { Store } from '@ngrx/store';
@@ -10,6 +9,8 @@ import { Observable, of } from 'rxjs';
 import { delay, filter, take } from 'rxjs/operators';
 import { StoreActions as UserActions, StoreSelectors as UserSelectors } from './store';
 import { EUserRole, IMenuUpdate, IUser, IUserService, TUserStatusName } from './types';
+import { IEntityRequest } from '@xangular-store/entity/types';
+
 
 
 export const USER_SERVICE = new InjectionToken<IUserService>('USER_SERVICE');
@@ -63,7 +64,7 @@ export class UserService implements IUserService {
 
     this.onUID().subscribe((entityId: string) => {
 
-      const request: IEntityRequest = { type: EEntityType.user, entityId };
+      const request: IEntityRequest = { source: EEntityType.user, entityId };
       this.store.dispatch(new UserActions.REQUEST(request));
 
       this.onStatus('REQUEST').subscribe(() => {

@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { EntityTranslate } from '@app-types/entity/entity-translate.class';
 import { EEntityType, ELanguage, IEntityTranslate } from '@app/types';
 import { UrlObject } from 'url';
+import { Entity } from '@app-library/ng-http-service/entity/entity.class';
+import { IKeyValueList } from '@app-library/ng-http-service/types';
+import { IFieldOptions } from '@app-library/ng-http-service/types/source-config';
 
 
 export interface ISourceParseService {
@@ -27,7 +30,7 @@ export class SourceParseService implements ISourceParseService {
 
   public parse(source: string, language: ELanguage, authorId: string): IEntityTranslate {
 
-    const entity: IEntityTranslate = new EntityTranslate(EEntityType.original, null, {})
+    const entity: IEntityTranslate = new EntityTranslate(EEntityType.translate, null, {})
 
     // const entity: IEntityOriginal = {
     //   type: EEntityType.original,
@@ -51,11 +54,20 @@ export class SourceParseService implements ISourceParseService {
       trans.id = `trans-id-${transId}`;
       trans.textContent = '';
 
-      entity.lines.set(trans.id, {
-        entityId: transId.toString(),
-        type: EEntityType.original,
-        content: node.textContent,
-      })
+      const options: IKeyValueList<IFieldOptions> = {
+        label: { type: "attribute" },
+        language: { type: "attribute" },
+        content: { type: "attribute" },
+      }
+
+
+
+      const line = new Entity(EEntityType.translate_line, transId.toString(), options)
+      line.setFieldValue('label', node.textContent.slice(0, 128));
+      line.setFieldValue('language', language);
+      line.setFieldValue('content', node.textContent);
+
+      entity.lines.set(trans.id, line)
 
       node.parentNode.replaceChild(trans, node);
       transId++;
