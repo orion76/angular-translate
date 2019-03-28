@@ -1,10 +1,11 @@
 
 import { IEntity } from '@app-library/ng-http-service/entity/types';
-import { IEntityStatus } from '@app-library/store/types';
+
 import { User } from './user.class';
 import { ELanguage } from '@app-types/config';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Observable } from 'rxjs';
+import { IEntityStatus } from '@app-library/xangular-store/entity/types';
 
 
 export enum EUserRole {

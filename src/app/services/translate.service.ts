@@ -1,22 +1,22 @@
 import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { EMouseEvent, ILineEvent, ISelectedLine } from '@app-library/common';
-import { IEntityRequest, TEntityRequest } from '@app-library/store/types';
+import { IEntityRequest } from '@app-library/store/types';
+import { IUserService, USER_SERVICE } from '@app-library/user';
 import { IDataService } from '@app-services/data.service';
 import { DATA_SERVICE } from '@app-services/injection-tokens';
-import { EEntityType, IEntityTranslateLine, TTranslateEntity } from '@app/types';
+import { EEntityType, IEntityTranslate, ILineEntity } from '@app/types';
+import { ITranslateProcess, TRANSLATED_PROCESS } from '@pages/translate/process/translate-process';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ITranslateProcess, TRANSLATED_PROCESS } from '@pages/translate/process/translate-process';
-import { IUserService, USER_SERVICE } from '@app-library/user';
+
 
 export interface ITranslateService {
   do(event: EMouseEvent, line: ISelectedLine): void
   onEvent(event: EMouseEvent): Observable<ILineEvent>;
   onLineSelect(originalId: string);
   load(request: IEntityRequest);
-  onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity>
+  onLoad(type: EEntityType, stateId: string): Observable<IEntityTranslate>
   setOriginalId(originalId: string)
 }
 
@@ -54,15 +54,15 @@ export class TranslateService implements ITranslateService {
   }
 
 
-  load(request: TEntityRequest): Observable<TTranslateEntity> {
+  load(request: IEntityRequest): Observable<IEntityTranslate> {
     return this.data.getItem(request);
   }
 
-  onLoad(type: EEntityType, stateId: string): Observable<TTranslateEntity> {
+  onLoad(type: EEntityType, stateId: string): Observable<IEntityTranslate> {
     return this.process.onLoad(type, stateId);
   }
 
-  initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, IEntityTranslateLine>
+  initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, ILineEntity>
   ) {
     Array.from(dom.getElementsByTagName('trans'))
       .forEach((trans: HTMLElement) => {

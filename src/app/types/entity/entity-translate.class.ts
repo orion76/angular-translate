@@ -5,6 +5,8 @@ import { EEntityType } from '@app-types/config';
 
 export class EntityTranslate extends Entity implements IEntityTranslate {
 
+  public sourceId: string;
+
   constructor(protected _source: EEntityType,
     protected _id: string,
     protected _fieldsOptions: IKeyValueList<IFieldOptions>) {

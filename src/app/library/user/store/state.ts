@@ -1,6 +1,7 @@
 
-import { IEntityState } from '@app-library/store/types';
-import { Anonymus } from '../types';
+
+import { IEntityState } from '@app-library/xangular-store/entity/types';
+import { Anonymus, IUserStatus } from '../types';
 
 
 export namespace StoreState {
@@ -11,5 +12,7 @@ export namespace StoreState {
     entity: Anonymus,
     status: {}
   };
-  export interface State extends IEntityState { }
+  export interface State extends IEntityState {
+    status: IUserStatus
+  }
 }

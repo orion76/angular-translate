@@ -3,7 +3,8 @@ import { Dictionary } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
 import { IAppState } from '../../app-store.module';
 import { StoreState } from './state';
-import { IStateProps } from '@app-library/store/types';
+import { IStateProps } from '@xangular-store/entity/types';
+
 
 // import IFormProps = FormSelectors.IFormProps;
 
