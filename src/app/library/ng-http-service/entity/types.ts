@@ -1,11 +1,7 @@
-import { IKeyValueList } from '../types';
+import { IEntity } from './IEntity';
+
 export type TEntityFieldType = 'attribute' | 'relationship';
-export enum EEntityDeleted {
-  NOT_DELETED = 0,
-  DELETED_MARK = 1,
-  DELETED_ALLOWED = 10,
-  DELETED = 20,
-}
+
 
 export interface IEntityFieldOptions {
 
@@ -25,30 +21,7 @@ export interface IEntityField {
   isEmpty(): boolean;
 }
 
-export interface IEntity {
-  readonly entityId: string;
-  readonly label: string;
-  readonly source: string;
-  readonly values?: IKeyValueList<any>;
-  deleted?: EEntityDeleted;
-  is_new?: boolean;
 
-  setFieldValue(fieldName: string, value: any);
-
-  hasField(fieldName: string): boolean;
-
-  field(fieldName: string): IEntityField;
-
-  fieldValue(fieldName: string);
-
-  cleanId();
-
-  addAttribute(name: string, value: any, type: string): void;
-
-  addRelationship(name: string, value: IEntity): void;
-
-  clone();
-}
 export interface IEntityField {
   name: string;
   type: TEntityFieldType;

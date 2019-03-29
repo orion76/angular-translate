@@ -1,39 +1,25 @@
-
-
-import { IEntity } from '../entity/types';
 import { ISourceConfig } from '../types/source-config';
-import { iJSONAPI_Entity, iJSONAPI_Response } from './types';
+import { iJSONAPI_Entity, iJSONAPI_Response, iJSONAPI_Response_Relationship } from './types';
 import { IKeyValueList } from '../types';
-import { Entity } from '../entity/entity.class';
 
+import { createEntity } from '@app-library/entity/entity';
+import { IEntity } from '@app-library/entity/types';
+import * as Immutable from 'immutable';
 
 export interface IEntityData {
   entity: IEntity;
   relationships: IKeyValueList<iJSONAPI_Entity>
 }
 
-export function EntityJsonToEntityData(item: iJSONAPI_Entity, config: ISourceConfig): IEntityData {
+export function EntityJsonToEntityData(item: iJSONAPI_Entity, config: ISourceConfig): Immutable.Record<IEntity> {
 
-  const entity: IEntity = new Entity(item.type, item.id, config.fields);
-  const relationships: IKeyValueList<iJSONAPI_Entity> = {};
+  const entity: Immutable.Record<IEntity> = createEntity<IEntity>(item.type, item.id);
 
-  if (item.attributes) {
-    Object.keys(item.attributes)
-      .filter((key: string) => item.attributes[key] !== null && item.attributes[key] !== undefined)
-      .forEach((name: string) => entity.setFieldValue(name, item.attributes[name])
-      );
-  }
+  entity.merge(item.attributes);
+  entity.merge(item.relationships);
 
-  if (item.relationships) {
-    Object.keys(item.relationships)
-      .map((name: string) => {
-        itemToArray(item.relationships[name]['data'])
-          .forEach((item: iJSONAPI_Entity) => relationships[name] = item);
-      }
-      );
-  }
 
-  return { entity, relationships: relationships };
+  return entity;
 
 }
 
@@ -51,6 +37,49 @@ export function addToMap(map: Map<string, Map<string, any>>, type: string, id: s
 export function itemToArray(data: any): any[] {
   return Array.isArray(data) ? data : [data];
 }
+
+
+function normalizeReference(references: iJSONAPI_Entity[]) {
+  const all: Map<string, iJSONAPI_Entity> = new Map();
+
+  references.forEach((entity: iJSONAPI_Entity) => {
+    if (!all.has(entity.id)) {
+      all.set(entity.id, entity);
+    } else {
+      const e1 = all.get(entity.id);
+      const diff = diffEntity(entity, e1);
+      if (diff) {
+        all.set(entity.id, { ...entity, ...diff });
+      }
+    }
+  });
+
+  all.forEach((entity: iJSONAPI_Entity) => {
+const relationships
+  })
+}
+
+function getRelationships(entity: iJSONAPI_Entity) {
+
+  return Object.keys(entity.relationships).reduce((acc: Map<iJSONAPI_Entity>, item: iJSONAPI_Response_Relationship) => {
+    acc.set(item.id, item);
+    return acc;
+  }, new Map())
+}
+
+function diffEntity(e1: Object, e2: Object) {
+  const diff: Partial<iJSONAPI_Entity> = {};
+  let isDiff = false;
+  Object.keys(e2).forEach((field: string) => {
+    if (!e1.hasOwnProperty(field)) {
+      diff[field] = e2[field];
+      isDiff = true;
+    }
+  });
+
+  return isDiff ? diff : null;
+}
+
 
 export function getEntitiesAll(response: iJSONAPI_Response, config: ISourceConfig): Map<string, Map<string, IEntityData>> {
   const entitiesAll: Map<string, Map<string, IEntityData>> = new Map();

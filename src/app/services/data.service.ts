@@ -5,7 +5,7 @@ import { transSource } from '@pages/translate/source';
 import { Observable, of } from 'rxjs';
 import { SOURFCE_PARSE_SERVICE } from './injection-tokens';
 import { ISourceParseService } from './source-parse.service';
-import { IEntity } from '@app-library/ng-http-service/entity/types';
+import { IEntity } from "@app-library/ng-http-service/entity/IEntity";
 import { IEntityRequest } from '@xangular-store/entity/types';
 
 
@@ -13,7 +13,7 @@ import { IEntityRequest } from '@xangular-store/entity/types';
 
 export interface IDataService {
   getItem(request: IEntityRequest): Observable<IEntity>
-  getUser(uid: string): Observable<IUser>;
+  // getUser(uid: string): Observable<IUser>;
 }
 
 @Injectable()

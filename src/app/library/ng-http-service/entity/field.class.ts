@@ -1,4 +1,5 @@
-import { IEntityField, IEntityFieldOptions, TEntityFieldType, IEntity } from './types';
+import { IEntityField, IEntityFieldOptions, TEntityFieldType } from './types';
+import { IEntity } from "./IEntity";
 
 export class EntityField implements IEntityField {
 

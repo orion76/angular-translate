@@ -14,7 +14,8 @@ import { HTTPResponseConverter } from './http-interceptors/converter.service';
 
 import { JSONAPIFilter } from '@app-library/ng-http-service/converters/types';
 import { ISourceConfigRestQuery, ISourceConfig } from '@app-library/ng-http-service/types/source-config';
-import { EEntityDeleted, IEntity } from '@app-library/ng-http-service/entity/types';
+import { EEntityDeleted, IEntityClass } from '@app-library/ng-http-service/entity/types';
+import { IEntity } from "@app-library/ng-http-service/entity/IEntity";
 import { Entity } from '@app-library/ng-http-service/entity/entity.class';
 
 
@@ -152,7 +153,7 @@ export class HTTPService implements IHTTPService {
 
     return this.config.get(source).pipe(
       map((options: ISourceConfig) => {
-        const entity: IEntity = new Entity(source, this.id.get(), options.fields);
+        const entity: IEntityClass = new Entity(source, this.id.get(), options.fields);
         entity.is_new = true;
 
         return entity;
@@ -162,7 +163,7 @@ export class HTTPService implements IHTTPService {
   }
 
 
-  save(entity: IEntity) {
+  save(entity: IEntityClass) {
 
     if (entity.is_new) {
       return this.createItem(entity);

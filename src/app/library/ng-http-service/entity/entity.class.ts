@@ -1,4 +1,5 @@
-import { TEntityFieldType, IEntity, IEntityField, EEntityDeleted } from './types';
+import { TEntityFieldType, IEntityField, EEntityDeleted } from './types';
+import { IEntity } from "./IEntity";
 import { ISourceConfig } from '../types/source-config';
 import { IKeyValueList } from '../types';
 import { EntityField } from './field.class';
