@@ -1,5 +1,6 @@
 import { IEntityField, IEntityFieldOptions, TEntityFieldType } from './types';
-import { IEntity } from "./IEntity";
+import { IEntity } from '@app-library/entity/types';
+
 
 export class EntityField implements IEntityField {
 

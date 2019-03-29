@@ -1,12 +1,14 @@
 import { Inject, Injectable } from "@angular/core";
 import { EUserRole, IUser } from '@app-library/user/types';
-import { EEntityType, ELanguage, IEntityTranslate } from '@app/types';
+import { EEntityType, ELanguage } from '@app/types';
 import { transSource } from '@pages/translate/source';
+import { IEntityRequest } from '@xangular-store/entity/types';
 import { Observable, of } from 'rxjs';
 import { SOURFCE_PARSE_SERVICE } from './injection-tokens';
 import { ISourceParseService } from './source-parse.service';
-import { IEntity } from "@app-library/ng-http-service/entity/IEntity";
-import { IEntityRequest } from '@xangular-store/entity/types';
+import { IEntity } from '@app-library/entity/types';
+import { createEntity } from '@app-library/entity/entity';
+
 
 
 
@@ -30,13 +32,11 @@ export class DataService implements IDataService {
         return of(this.parser.parse(transSource, 'en', '1'));
 
       case EEntityType.user:
-        return of({
-          source: EEntityType.user,
+        return of(createEntity<IUser>(EEntityType.user, '111', {
           role: EUserRole.AUTORISED,
-          entityId: uid,
           label: 'AUTORISED',
           language: ELanguage.RU
-        });
+        }));
 
     }
 

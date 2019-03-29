@@ -6,7 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Params } from '@angular/router';
 
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { concatMap, map, tap } from "rxjs/internal/operators";
 
 import { IHTTPService, THttpResponse, THttpOptions, IHttpOptions, IHTTPRequest, IConfigService, ProviderIdService } from './types';
@@ -14,9 +14,11 @@ import { HTTPResponseConverter } from './http-interceptors/converter.service';
 
 import { JSONAPIFilter } from '@app-library/ng-http-service/converters/types';
 import { ISourceConfigRestQuery, ISourceConfig } from '@app-library/ng-http-service/types/source-config';
-import { EEntityDeleted, IEntityClass } from '@app-library/ng-http-service/entity/types';
-import { IEntity } from "@app-library/ng-http-service/entity/IEntity";
+
+
 import { Entity } from '@app-library/ng-http-service/entity/entity.class';
+import { IEntity, EEntityDeleted } from '@app-library/entity/types';
+import { createEntity } from '@app-library/entity/entity';
 
 
 
@@ -36,22 +38,22 @@ export class HTTPService implements IHTTPService {
   send(method: string, request: IHTTPRequest, data?: any): Observable<THttpResponse> {
 
 
-    let result: Observable<THttpResponse>;
+    let result: Observable<IEntity[]>;
     switch (method) {
       case 'OPTIONS':
-        result = this.http.options<THttpResponse>(request.url, this._httpOptions());
+        result = this.http.options<IEntity[]>(request.url, this._httpOptions());
         break;
       case 'GET':
-        result = this.http.get<THttpResponse>(request.url, this._httpOptions({ params: request.params }));
+        result = this.http.get<IEntity[]>(request.url, this._httpOptions({ params: request.params }));
         break;
       case 'CREATE':
-        result = this.http.post<THttpResponse>(request.url, data, this._httpOptions());
+        result = this.http.post<IEntity[]>(request.url, data, this._httpOptions());
         break;
       case 'UPDATE':
-        result = this.http.patch<THttpResponse>(request.url, data, this._httpOptions());
+        result = this.http.patch<IEntity[]>(request.url, data, this._httpOptions());
         break;
       case 'DELETE':
-        result = this.http.delete<THttpResponse>(request.url, this._httpOptions());
+        result = this.http.delete<IEntity[]>(request.url, this._httpOptions());
         break;
       default:
 
@@ -150,20 +152,13 @@ export class HTTPService implements IHTTPService {
   }
 
   newItem(source: string, default_fields = {}): Observable<IEntity> {
-
-    return this.config.get(source).pipe(
-      map((options: ISourceConfig) => {
-        const entity: IEntityClass = new Entity(source, this.id.get(), options.fields);
-        entity.is_new = true;
-
-        return entity;
-
-      }));
-
+    const entity: IEntity = createEntity(source, this.id.get());
+    entity.is_new = true;
+    return of(entity);
   }
 
 
-  save(entity: IEntityClass) {
+  save(entity: IEntity) {
 
     if (entity.is_new) {
       return this.createItem(entity);
@@ -174,13 +169,13 @@ export class HTTPService implements IHTTPService {
 
   public createItem(entity: IEntity): Observable<IEntity> {
 
-    const query: ISourceConfigRestQuery = { id: entity.entityId };
+    const query: ISourceConfigRestQuery = { id: entity.id };
 
     return this._query('CREATE', entity.source, query, entity) as Observable<IEntity>;
   }
 
   public updateItem(entity: IEntity): Observable<IEntity> {
-    const query: ISourceConfigRestQuery = { id: entity.entityId };
+    const query: ISourceConfigRestQuery = { id: entity.id };
     return this._query('UPDATE', entity.source, query, entity) as Observable<IEntity>;
   }
 

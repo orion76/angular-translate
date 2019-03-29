@@ -1,6 +1,7 @@
 
-import { IEntity } from "@app-library/ng-http-service/entity/IEntity";
-import { EEntityType, ELanguage } from '@app/types/config';
+
+import { IEntity } from '@app-library/entity/types';
+import { ELanguage } from '@app/types/config';
 
 
 

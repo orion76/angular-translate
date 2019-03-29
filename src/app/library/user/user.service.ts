@@ -5,8 +5,8 @@ import { IAppState } from '@app/app-store/app-store.module';
 import { EEntityType } from '@app/types';
 import { Store } from '@ngrx/store';
 import { MenuItem } from 'primeng/components/common/menuitem';
-import { Observable, of } from 'rxjs';
-import { delay, filter, take } from 'rxjs/operators';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { delay, filter, take, tap } from 'rxjs/operators';
 import { StoreActions as UserActions, StoreSelectors as UserSelectors } from './store';
 import { EUserRole, IMenuUpdate, IUser, IUserService, TUserStatusName } from './types';
 import { IEntityRequest } from '@xangular-store/entity/types';
@@ -43,7 +43,9 @@ export const menu_autorized: IMenuState = {
 export class UserService implements IUserService {
 
   selectors: UserSelectors.IEntitySelectors;
-  onMenuUpdate$ = new EventEmitter<IMenuUpdate>();
+  private _onMenuUpdateSubject = new BehaviorSubject<IMenuUpdate>(null);
+  private _onMenuUpdate$ = this._onMenuUpdateSubject.asObservable();
+
   constructor(private store: Store<IAppState>) {
     this.selectors = UserSelectors.createSelectors();
     this.init();
@@ -54,9 +56,11 @@ export class UserService implements IUserService {
     // this.onMenuUpdate.subscribe(observer)
   }
   onMenuUpdate(role: EUserRole): Observable<IMenuUpdate> {
-    return this.onMenuUpdate$.pipe(
+    return this._onMenuUpdate$.pipe(
+
+      filter(Boolean),
       filter((update: IMenuUpdate) => update.role === role),
-      take(1)
+            tap((args) => console.log('11111',args))
     );
   }
 
@@ -80,15 +84,15 @@ export class UserService implements IUserService {
 
       this.onMenuUpdate(EUserRole.AUTORISED)
         .subscribe(() => true, () => null, () => {
-
+console.log('2222222');
           const newState: IMenuState = { ...menu_autorized };
           const children: MenuItem = newState.items[0] as MenuItem;
           menuUpdate.items.forEach((item: MenuItem) => (children.items as MenuItem[]).push(item));
           this.menuReplace(menu_anonimus.menuId, newState);
         });
 
+      this._onMenuUpdateSubject.next(menuUpdate);
 
-      this.onMenuUpdate$.emit(menuUpdate);
 
     })
 

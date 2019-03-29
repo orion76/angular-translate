@@ -1,4 +1,5 @@
-import { IEntity } from './IEntity';
+import { IEntity } from '@app-library/entity/types';
+
 
 export type TEntityFieldType = 'attribute' | 'relationship';
 

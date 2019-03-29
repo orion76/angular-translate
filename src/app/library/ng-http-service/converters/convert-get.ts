@@ -1,15 +1,6 @@
-import { createEntity } from '@app-library/entity/entity';
 import { IEntity } from '@app-library/entity/types';
-import * as Immutable from 'immutable';
-import { IKeyValueList } from '../types';
-import { ISourceConfig } from '../types/source-config';
 import { iJSONAPI_Entity, iJSONAPI_Response } from './types';
 
-
-export interface IEntityData {
-  entity: IEntity;
-  relationships: IKeyValueList<iJSONAPI_Entity>
-}
 
 export function itemToArray(data: any): any[] {
   return Array.isArray(data) ? data : [data];
@@ -67,25 +58,27 @@ function diffObjects(e1: Object, e2: Object) {
   return isDiff ? diff : null;
 }
 
-export function getEntitiesAll(response: iJSONAPI_Response): iJSONAPI_Entity[] {
-  let entitiesAll: iJSONAPI_Entity[] = [];
 
-  if (response.included) {
-    entitiesAll = response.included;
-  }
 
-  if (response.data) {
-    entitiesAll = entitiesAll.concat(itemToArray(response.data));
-  }
-  return entitiesAll;
-}
-
-export function convertGet(response: iJSONAPI_Response, config: ISourceConfig) {
+export function convertGet(response: iJSONAPI_Response) {
 
   const entities = itemToArray(response.data);
 
-  const entitiesAll = normalizeReference(getEntitiesAll(response));
-  setRelationships(entitiesAll);
+  const includes = response.included ? response.included : [];
 
-  return entities;
+  const entitiesMap = normalizeReference(entities.concat(includes));
+  setRelationships(entitiesMap);
+
+  return responseToEntity(entities);
+}
+
+export function responseToEntity(entities: iJSONAPI_Entity[]): IEntity[] {
+  return entities.map((entity: iJSONAPI_Entity) => {
+    return {
+      id: entity.id,
+      source: entity.type,
+      ...entity.attributes,
+      ...entity.relationships
+    }
+  })
 }

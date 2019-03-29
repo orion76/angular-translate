@@ -7,7 +7,8 @@ export enum EEntityDeleted {
 }
 export interface IEntity {
   id: string;
-  label: string;
   source: string;
+  label?: string;
+  is_new?: boolean;
   deleted?: EEntityDeleted;
 }

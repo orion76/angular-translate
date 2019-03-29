@@ -1,9 +1,10 @@
-import { TEntityFieldType, IEntityField, EEntityDeleted } from './types';
-import { IEntity } from "./IEntity";
+import { TEntityFieldType, IEntityField } from './types';
+
 import { ISourceConfig } from '../types/source-config';
 import { IKeyValueList } from '../types';
 import { EntityField } from './field.class';
 import { ELanguage } from '@app/types';
+import { EEntityDeleted, IEntity } from '@app-library/entity/types';
 
 
 
@@ -44,7 +45,7 @@ export class Entity implements IEntity {
     this._deleted = status;
   }
 
-  get entityId() {
+  get id() {
     return this._id;
   }
 
@@ -57,24 +58,6 @@ export class Entity implements IEntity {
   }
   get source() {
     return this._source;
-  }
-
-  get values() {
-    const values: IKeyValueList<any> = {
-      id: this.entityId,
-      source: this.source
-    };
-
-    this._fields.forEach((field: IEntityField, fieldName: string) => {
-      let fieldValue = field.getValue();
-      if (typeof fieldValue === 'object') {
-        fieldValue = (fieldValue as IEntity).values;
-      }
-      values[fieldName] = fieldValue;
-
-    });
-
-    return values;
   }
 
   setFields(fields: Map<string, IEntityField>) {
