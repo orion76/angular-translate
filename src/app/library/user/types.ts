@@ -5,6 +5,7 @@ import { MenuItem } from 'primeng/components/common/menuitem';
 import { Observable } from 'rxjs';
 import { IEntityStatus } from '@app-library/xangular-store/entity/types';
 import { IEntity } from '@app-library/entity/types';
+import { createEntity } from '@app-library/entity/entity';
 
 
 export enum EUserRole {
@@ -28,14 +29,12 @@ export interface IMenuUpdate {
 
 
 
-export const Anonymus: IUser = new User('user', '0', {})
-// {
-//   entityId: '0',
-//   role: EUserRole.ANONIMUS,
-//   label: 'Anonymus',
-//   source: 'user',
-//   language: ELanguage.RU
-// }
+export const Anonymus: IUser = createEntity<IUser>('user', '0', {
+  role: EUserRole.ANONIMUS,
+  label: 'Anonymus',
+  language: ELanguage.RU
+})
+
 
 export interface IUserStatus extends IEntityStatus {
   LOGIN?: boolean;
@@ -48,6 +47,5 @@ export interface IUserService {
   onLoaded(): Observable<IUser>;
   onLogin(): Observable<IUser>;
   onLogout(): Observable<IUser>;
-  onMenuUpdate(role: EUserRole): Observable<IMenuUpdate>;
   // on(eventType: EUserEvent): Observable<IUser>
 }

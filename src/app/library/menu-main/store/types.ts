@@ -10,9 +10,9 @@ export type IMenuMainItems = {
 }
 
 export interface IMenuState {
-  menuId: string;
-  path: string[];
   place: TMenuPlace,
+  path: string[];
+  id: string,
   weight?: number,
-  items: MenuItem[];
+  item: MenuItem;
 }

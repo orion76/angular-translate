@@ -1,36 +1,40 @@
 import { MenuItem } from 'primeng/components/common/menuitem';
-import { IMenuState } from '@app-library/menu-main/store/types';
+import { IMenuState, TMenuPlace } from '@app-library/menu-main/store/types';
 
 
 export namespace StoreActions {
   export enum Types {
-    INIT = '[MENU MAIN] INIT',
+    // INIT = '[MENU MAIN] INIT',
     ADD = '[MENU MAIN] ADD',
     UPDATE = '[MENU MAIN] UPDATE',
     DELETE = '[MENU MAIN] DELETE',
   }
 
-  export class INIT {
-    readonly type = Types.INIT;
-    constructor() { }
-  }
+  // export class INIT {
+  //   readonly type = Types.INIT;
+  //   constructor() { }
+  // }
 
   export class ADD {
     readonly type = Types.ADD;
-    constructor(public state: IMenuState) { }
+    constructor(public items: IMenuState[]) {
+      if (!items) {
+        console.error(items);
+      }
+    }
   }
 
   export class UPDATE {
     readonly type = Types.UPDATE;
-    constructor(public menuId: string, public path: string[], public items: MenuItem[]) { }
+    constructor(public items: IMenuState[]) { }
   }
 
   export class DELETE {
     readonly type = Types.DELETE;
-    constructor(public menuId: string) { }
+    constructor(public items: IMenuState[]) { }
   }
 
 
 
-  export type Actions = INIT | ADD | UPDATE | DELETE;
+  export type Actions = ADD | UPDATE | DELETE;
 }

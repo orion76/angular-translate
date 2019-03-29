@@ -11,7 +11,7 @@ import { MenuItem } from 'primeng/api';
 })
 export class AppComponent implements OnInit {
 
-  menuBar: MenuItem[];
+
   title = 'trans';
 
   constructor() {
@@ -19,10 +19,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.menuBar = [
-      { label: 'Trans', routerLink: 'trans' },
-      { label: 'Trans New', routerLink: 'trans-new' },
-    ]
   }
 }
 

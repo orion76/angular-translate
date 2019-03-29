@@ -3,11 +3,8 @@ import { MenuMainModule } from '@app-library/menu-main/module';
 import { IMenuState } from '@app-library/menu-main/store/types';
 
 const home: IMenuState = {
-  menuId: 'home',
-  path: [],
-  place: 'left',
-  weight: -1000,
-  items: [{ label: 'Home', routerLink: '/' }]
+  place: 'left', path: [], id: 'home', weight: -1000,
+  item: { label: 'Home', routerLink: '/' }
 }
 
 

@@ -10,7 +10,6 @@ import { StoreState } from './state';
 
 export function DictionaryToArray<T>(dictionary: Dictionary<T>): T[] {
   const array=Object.keys(dictionary).map((key: string) => dictionary[key]);
-
   return array;
 }
 

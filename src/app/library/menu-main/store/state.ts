@@ -9,7 +9,7 @@ export namespace StoreState {
 
 
   export const featureAdapter: EntityAdapter<IMenuState> = createEntityAdapter<IMenuState>({
-    selectId: model => model.menuId,
+    selectId: model => [model.place, ...model.path, model.id].join('-'),
   });
 
 

@@ -1,12 +1,11 @@
-import { Injectable, InjectionToken, Inject } from "@angular/core";
+import { Inject, Injectable, InjectionToken } from "@angular/core";
 import { IMenuState } from '@app-library/menu-main/store/types';
 import { IAppState } from '@app-store/app-store.module';
-import { Store, select } from '@ngrx/store';
-import { StoreActions } from './store'
-import { StoreSelectors } from './store'
-import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
 import { MenuItem } from 'primeng/components/common/menuitem';
-import { take, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { StoreActions, StoreSelectors } from './store';
+import { tap } from 'rxjs/operators';
 
 export const MENU_MAIN_SERVICE = new InjectionToken<IMenuMainService>('MENU_MAIN_SERVICE');
 export const MENU_MAIN_STATE = new InjectionToken<IMenuState>('MENU_MAIN_STATE');
@@ -22,25 +21,23 @@ export class MenuMainService implements IMenuMainService {
     @Inject(MENU_MAIN_STATE) states: IMenuState[],
     private store: Store<IAppState>
   ) {
-    states.forEach((state: IMenuState) => {
-      this.store.dispatch(new StoreActions.ADD(state))
-    })
+    this.store.dispatch(new StoreActions.ADD(states))
   }
 
 
-  delete(menuId: string) {
-    this.store.dispatch(new StoreActions.DELETE(menuId))
+  delete(items: IMenuState[]) {
+    this.store.dispatch(new StoreActions.DELETE(items))
   }
 
-  add(menuState: IMenuState) {
-    this.store.dispatch(new StoreActions.ADD(menuState))
+  add(items: IMenuState[]) {
+    this.store.dispatch(new StoreActions.ADD(items))
   }
 
   onMenu(): Observable<MenuItem[]> {
     return this.store.pipe(
 
       select(StoreSelectors.Menu),
-      // tap((args) => console.log('1111-[MenuMainService]', args)),
+      tap((args) => console.log('1111-[MenuMainService]', args)),
       // take(1)
     )
   }
