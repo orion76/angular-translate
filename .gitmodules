@@ -1,0 +1,6 @@
+[submodule "src/app/library/xangular-store"]
+	path = src/app/library/xangular-store
+	url = https://github.com/oksananaradkina/xangular-store
+[submodule "src/app/library/ng-http-service"]
+	path = src/app/library/ng-http-service
+	url = https://github.com/oksananaradkina/ng-http-service
