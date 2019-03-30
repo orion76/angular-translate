@@ -57,7 +57,9 @@ export class MenuMainComponent implements OnInit {
   constructor(
     @Inject(MENU_MAIN_SERVICE) protected service: IMenuMainService,
   ) { }
+
   ngOnInit() {
+    this.service.Init();
     this.addRoot();
     this.service.onMenu().subscribe((items: IMenuState[]) => this.updateMenu(items))
   }
@@ -74,10 +76,12 @@ export class MenuMainComponent implements OnInit {
   }
 
   updateMenu(items: IMenuState[]) {
+
     items.forEach((item: IMenuState) => {
       const id = createId(item);
 
-      if (item.item && this.map.has(id)) {
+      if (this.map.has(id)) {
+
         this.updateItem(this.map.get(id), item.item);
       } else {
 
@@ -102,6 +106,11 @@ export class MenuMainComponent implements OnInit {
 
 
   private updateItem(item: MenuItem, updates: MenuItem) {
+    updates = { ...updates };
+    if (!updates || Object.keys(updates).length === 0) {
+      return;
+    }
+
 
     Object.keys(item)
       .filter((name: string) => name !== 'items')

@@ -57,21 +57,22 @@ export class UserService implements IUserService {
   }
 
   getRoleMenu(role: EUserRole, user: IUser) {
-    let menu: IMenuState[] = [];
+    let menu: IMenuState[] = this.getUserMenu(user);
+
     switch (user.role) {
       case EUserRole.ANONIMUS:
 
-        menu = [{
+        menu.push({
           item: { label: 'Login', routerLink: '/user/login' },
           place: 'right', path: ['user'], id: EUserRole.ANONIMUS, weight: 1000,
-        }]
+        })
         break;
       case EUserRole.AUTORISED:
 
-        menu = [{
+        menu.push({
           item: { label: 'Logout', routerLink: '/user/logout', icon: user.avatar },
           place: 'right', path: ['user'], id: EUserRole.AUTORISED
-        }]
+        })
         break;
     }
     return menu;
@@ -91,14 +92,17 @@ export class UserService implements IUserService {
     }
 
     return [{
-      item: { label, routerLink: '/user' },
+      item: { label, routerLink: '/user'},
       place: 'right', path: [], id: 'user', weight: 1000,
     }]
   }
 
   private menuReplace(roleOld: EUserRole, roleNew: EUserRole, user: IUser) {
-    this.store.dispatch(new MenuActions.DELETE(this.getRoleMenu(roleOld, user)));
-    this.store.dispatch(new MenuActions.ADD(this.getRoleMenu(roleNew, user)));
+    const DELETE = this.getRoleMenu(roleOld, user);
+    const ADD = this.getRoleMenu(roleNew, user);
+
+    this.store.dispatch(new MenuActions.DELETE(DELETE));
+    this.store.dispatch(new MenuActions.ADD(ADD));
   }
 
   onUID(): Observable<string> {

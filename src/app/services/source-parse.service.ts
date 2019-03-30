@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EntityTranslate } from '@app-types/entity/entity-translate.class';
 import { EEntityType, ELanguage, IEntityTranslate, ILineEntity } from '@app/types';
 import { UrlObject } from 'url';
-import { Entity } from '@app-library/ng-http-service/entity/entity.class';
 import { IKeyValueList } from '@app-library/ng-http-service/types';
 import { IFieldOptions } from '@app-library/ng-http-service/types/source-config';
 import { createEntity } from '@app-library/entity/entity';

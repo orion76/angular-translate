@@ -18,6 +18,7 @@ export namespace StoreActions {
   export class ADD {
     readonly type = Types.ADD;
     constructor(public items: IMenuState[]) {
+      console.log('ADD', items);
       if (!items) {
         console.error(items);
       }
@@ -26,12 +27,16 @@ export namespace StoreActions {
 
   export class UPDATE {
     readonly type = Types.UPDATE;
-    constructor(public items: IMenuState[]) { }
+    constructor(public items: IMenuState[]) {
+      console.log('UPDATE', items);
+     }
   }
 
   export class DELETE {
     readonly type = Types.DELETE;
-    constructor(public items: IMenuState[]) { }
+    constructor(public items: IMenuState[]) {
+      console.log('DELETE', items);
+    }
   }
 
 

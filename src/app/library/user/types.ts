@@ -1,5 +1,4 @@
 
-import { User } from './user.class';
 import { ELanguage } from '@app-types/config';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Observable } from 'rxjs';
@@ -34,7 +33,7 @@ export const Anonymus: IUser = createEntity<IUser>('user', '0', {
   role: EUserRole.ANONIMUS,
   label: 'Anonymus',
   language: ELanguage.RU,
-  avatar:'https://avatars0.githubusercontent.com/u/2338387'
+  avatar: 'https://avatars0.githubusercontent.com/u/2338387'
 })
 
 

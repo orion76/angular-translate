@@ -3,18 +3,18 @@ import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ITranslateData } from '@app-library/common';
 import { IUserService, USER_SERVICE } from '@app-library/user';
+import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATE_SERVICE } from '@app-services/injection-tokens';
+import { SourceParseService } from '@app-services/source-parse.service';
 import { DataService, IDataService } from '@app/services/data.service';
 import { ITranslateService, TranslateService } from '@app/services/translate.service';
-import { EEntityType, IEntityTranslate } from '@app/types';
-import { ITranslateProcess, TRANSLATED_PROCESS, TranslateProcess } from '@pages/translate/process/translate-process';
+import { IEntityTranslate } from '@app/types';
 import { CardModule } from 'primeng/card';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATE_SERVICE } from '../../services/injection-tokens';
-import { SourceParseService } from '../../services/source-parse.service';
-import { TransEditModule } from './edit/translate-edit.component';
-import { TransOriginalModule } from './original/translate-original.component';
-import { TransTranslatedModule } from './translated/translate-translated.component';
+import { TransEditModule } from './edit/edit/translate-edit.component';
+import { TransOriginalModule } from './edit/original/translate-original.component';
+import { ITranslateProcess, TRANSLATED_PROCESS, TranslateProcess } from './edit/process/translate-process';
+import { TransTranslatedModule } from './edit/translated/translate-translated.component';
 
 
 @Component({

@@ -36,6 +36,7 @@ export namespace StoreSelectors {
 
 
   export const getMenu = (entities: Dictionary<StateType>): StateType[] => {
+    console.log('[getMenu]',entities);
     return DictionaryToArray<StateType>(entities);
   };
 

@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { MenuMainModule } from '@app-library/menu-main/module';
 import { IMenuState } from '@app-library/menu-main/store/types';
+import { MenuService as TramslateMenuService } from '@pages/translate/menu.service';
 
 const home: IMenuState = {
   place: 'left', path: [], id: 'home', weight: -1000,
@@ -11,7 +12,8 @@ const home: IMenuState = {
 @NgModule({
   imports: [
 
-    MenuMainModule.forRoot(home),
+    MenuMainModule.forRoot([home]),
+    MenuMainModule.addService(TramslateMenuService),
 
   ],
   exports: []

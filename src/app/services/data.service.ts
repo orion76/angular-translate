@@ -34,7 +34,7 @@ export class DataService implements IDataService {
       case EEntityType.user:
         return of(createEntity<IUser>(EEntityType.user, '111', {
           role: EUserRole.AUTORISED,
-          label: 'AUTORISED',
+          label: 'Pasha',
           language: ELanguage.RU,
           avatar:'https://avatars0.githubusercontent.com/u/2338387'
         }));
