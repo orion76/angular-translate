@@ -3,22 +3,37 @@ import { IMenuMainService, MENU_MAIN_SERVICE } from '@app-library/menu-main/menu
 import { MenuItem } from 'primeng/api';
 import { IMenuMainItems, IMenuState, TMenuPlace } from '@app-library/menu-main/store/types';
 
+export function createId(item: IMenuState) {
+  let path: string[] = [];
 
+  ['place', 'path', 'id'].every((key: string) => {
+    if (!item[key]) {
+      return;
+    }
+    if (key === 'path') {
+      path = path.concat(item[key]);
+    } else {
+      path.push(item[key])
+    }
+    return true;
+  })
+  return path.join('-');
+}
 
 @Component({
   selector: 'menu-main',
   template: `
 <div class="menu-main">
   <div class="menu-main-left">
-    <p-menubar [model]="items.left"></p-menubar>
+    <p-menubar [model]="items.left.items"></p-menubar>
 
   </div>
 
   <div class="menu-main-middle">
-    <p-menubar [model]="items.middle" ></p-menubar>
+    <p-menubar [model]="items.middle.items" ></p-menubar>
   </div>
   <div class="menu-main-right">
-    <p-menubar [model]="items.right" ></p-menubar>
+    <p-menubar [model]="items.right.items" ></p-menubar>
   </div>
 
 
@@ -30,9 +45,9 @@ export class MenuMainComponent implements OnInit {
   private map: Map<string, MenuItem> = new Map();
 
   public items: IMenuMainItems = {
-    left: [],
-    middle: [],
-    right: [],
+    left: null,
+    middle: null,
+    right: null,
   }
 
   autoZIndex: boolean = true;
@@ -42,14 +57,49 @@ export class MenuMainComponent implements OnInit {
   constructor(
     @Inject(MENU_MAIN_SERVICE) protected service: IMenuMainService,
   ) { }
+  ngOnInit() {
+    this.addRoot();
+    this.service.onMenu().subscribe((items: IMenuState[]) => this.updateMenu(items))
+  }
+
+  getRoot(): IMenuState[] {
+    return [{ place: 'left' }, { place: 'middle' }, { place: 'right' }]
+  }
 
   addRoot() {
+    this.getRoot().forEach((item: IMenuState) => {
+      this.items[item.place] = { items: [] };
+      this.map.set(item.place, this.items[item.place]);
+    })
+  }
+
+  updateMenu(items: IMenuState[]) {
+    items.forEach((item: IMenuState) => {
+      const id = createId(item);
+
+      if (item.item && this.map.has(id)) {
+        this.updateItem(this.map.get(id), item.item);
+      } else {
+
+        const { place, path } = item
+
+        const parentId = createId({ place, path });
+
+        if (!this.map.has(parentId)) {
+          this.updateMenu(this.createParents(item.place, item.path))
+        }
+
+        const parent = this.map.get(parentId);
+        if (!parent.items) {
+          parent.items = [];
+        }
+        (parent.items as MenuItem[]).push(item.item);
+        this.map.set(id, item.item);
+      }
+    });
 
   }
 
-  createId(...path: string[]) {
-    return path.join('-');
-  }
 
   private updateItem(item: MenuItem, updates: MenuItem) {
 
@@ -66,65 +116,22 @@ export class MenuMainComponent implements OnInit {
     return { label: 'empty' }
   }
 
-  createParents(place: TMenuPlace, path: string[]) {
-    const _path: string[] = [];
-    path.forEach((part: string) => {
-      const item_id = part;
-      // _path.push(part);
-      const id = this.createId(place, ..._path, item_id);
-      if (!this.map.has(id)) {
-        const item = this.createEmpty();
-        const parentId = this.createId(place, ...path);
-        const parent = this.map.get(parentId);
-        if (!parent.items) {
-          parent.items = [];
-        }
-        (parent.items as MenuItem[]).push(item);
-        this.map.set(id, item);
-      }
-    })
+  createParents(place: TMenuPlace, childPath: string[]): IMenuState[] {
+
+    const path: string[] = [];
+
+    if (!childPath) {
+      childPath = [];
+    }
+
+    return childPath.reduce((parents: IMenuState[], part: string) => {
+      path.push(part);
+      parents.push({ place, path });
+      return parents;
+    }, [{ place }])
+
   }
 
-  ngOnInit() {
-
-    this.service.onMenu().subscribe((items: IMenuState[]) => {
-
-      items.forEach((item: IMenuState) => {
-        const id = this.createId(item.place, ...item.path, item.id);
-
-        if (this.map.has(id)) {
-          this.updateItem(this.map.get(id), item);
-        } else {
-
-          const parentId = this.createId(item.place, ...item.path);
-
-          if (!this.map.has(parentId)) {
-            this.createParents(item.place, item.path);
-          }
-
-          const parent = this.map.get(parentId);
-          if (!parent.items) {
-            parent.items = [];
-          }
-          (parent.items as MenuItem[]).push(item.item);
-          this.map.set(id, item.item);
-        }
-      });
-
-
-
-
-      // const newItems: IMenuMainItems = { left: [], middle: [], right: [] }
-
-      // this.items = items.reduce((acc: IMenuMainItems, item: IMenuState) => {
-      //   if (!item.place) {
-      //     item.place = "middle"
-      //   }
-      //   acc[item.place] = acc[item.place].concat(item.items);
-      //   return acc;
-      // }, newItems)
-    })
-  }
 
 
 }

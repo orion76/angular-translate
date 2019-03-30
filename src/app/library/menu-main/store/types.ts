@@ -6,13 +6,15 @@ export interface IMenuProps {
 export type TMenuPlace = 'right' | 'middle' | 'left';
 
 export type IMenuMainItems = {
-  [key in TMenuPlace]: MenuItem[]
+  [key in TMenuPlace]: MenuItem
 }
+
+
 
 export interface IMenuState {
   place: TMenuPlace,
-  path: string[];
-  id: string,
+  path?: string[];
+  id?: string,
   weight?: number,
-  item: MenuItem;
+  item?: MenuItem;
 }

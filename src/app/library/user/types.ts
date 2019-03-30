@@ -19,7 +19,8 @@ export type TUserStatusName = keyof IUserStatus;
 export interface IUser extends IEntity {
   role: EUserRole,
   label: string;
-  language: ELanguage
+  language: ELanguage;
+  avatar: string;
 }
 
 export interface IMenuUpdate {
@@ -32,7 +33,8 @@ export interface IMenuUpdate {
 export const Anonymus: IUser = createEntity<IUser>('user', '0', {
   role: EUserRole.ANONIMUS,
   label: 'Anonymus',
-  language: ELanguage.RU
+  language: ELanguage.RU,
+  avatar:'https://avatars0.githubusercontent.com/u/2338387'
 })
 
 

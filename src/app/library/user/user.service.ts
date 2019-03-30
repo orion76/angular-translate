@@ -69,7 +69,7 @@ export class UserService implements IUserService {
       case EUserRole.AUTORISED:
 
         menu = [{
-          item: { label: 'Logout', routerLink: '/user/logout' },
+          item: { label: 'Logout', routerLink: '/user/logout', icon: user.avatar },
           place: 'right', path: ['user'], id: EUserRole.AUTORISED
         }]
         break;
