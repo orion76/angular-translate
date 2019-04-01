@@ -62,6 +62,9 @@ export class UserLoginComponent implements OnInit {
     this.auth.login(value.login, value.pass).subscribe((response: any) => {
       console.log('[handleLogin]', response);
       this.data.getItem({ entityId: response['current_user']['uid'], source: 'user' })
+        .subscribe((entity: any) => {
+          console.log('[USER LOAD]', entity)
+        })
     })
   }
 
