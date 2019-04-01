@@ -74,6 +74,7 @@ export class MenuMainComponent implements OnInit {
   }
 
   updateMenu(items: IMenuState[]) {
+
     items.forEach((item: IMenuState) => {
       const id = createId(item);
 
@@ -102,7 +103,7 @@ export class MenuMainComponent implements OnInit {
 
 
   private updateItem(item: MenuItem, updates: MenuItem) {
-
+    updates = { ...updates };
     Object.keys(item)
       .filter((name: string) => name !== 'items')
       .forEach((name: string) => delete item[name]);

@@ -8,6 +8,7 @@ import { SOURFCE_PARSE_SERVICE } from './injection-tokens';
 import { ISourceParseService } from './source-parse.service';
 import { IEntity } from '@app-library/entity/types';
 import { createEntity } from '@app-library/entity/entity';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -21,6 +22,7 @@ export interface IDataService {
 @Injectable()
 export class DataService implements IDataService {
   constructor(
+    private http: HttpClient,
     @Inject(SOURFCE_PARSE_SERVICE) protected parser: ISourceParseService,
   ) {
 
@@ -36,12 +38,30 @@ export class DataService implements IDataService {
           role: EUserRole.AUTORISED,
           label: 'AUTORISED',
           language: ELanguage.RU,
-          avatar:'https://avatars0.githubusercontent.com/u/2338387'
+          avatar: 'https://avatars0.githubusercontent.com/u/2338387'
         }));
 
     }
 
   }
 
+  private request(method: string, url: string, data?: any) {
 
+
+    const options: { headers?: { [header: string]: string | string[] } } = {
+      headers: {
+        'Content-type': 'application/json'
+      },
+    };
+
+    let response: any;
+
+    switch (method) {
+      case "POST":
+        response = this.http.post(url, data, options);
+        break;
+    }
+
+    return response;
+  }
 }

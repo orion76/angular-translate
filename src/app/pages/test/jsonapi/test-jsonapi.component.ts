@@ -13,13 +13,13 @@ export const UserHomeRoutes: Routes = [
 ]
 
 @Component({
-  selector: 'app-user-home',
+  selector: 'test-jsonapi',
   template: `
 <h1>User profile</h1>
 <router-outlet></router-outlet>
   `
 })
-export class UserHomeComponent implements OnInit {
+export class TestJsonApiComponent implements OnInit {
 
 
 
@@ -42,15 +42,15 @@ export class UserHomeComponent implements OnInit {
 }
 
 @NgModule({
-  declarations: [UserHomeComponent],
+  declarations: [TestJsonApiComponent],
   imports: [
     CommonModule,
     RouterModule,
     UserModule,
     UserTranslationsModule
   ],
-  exports: [UserHomeComponent],
+  exports: [TestJsonApiComponent],
   providers: [
   ]
 })
-export class UserHomeModule { }
+export class TestJsonApiModule { }

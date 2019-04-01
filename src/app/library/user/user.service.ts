@@ -47,7 +47,7 @@ export class UserService implements IUserService {
     })
 
     this.onLogin().subscribe((user: IUser) => {
-      this.menuReplace(EUserRole.ANONIMUS, EUserRole.AUTORISED, user);
+      // this.menuReplace(EUserRole.ANONIMUS, EUserRole.AUTORISED, user);
     })
 
     this.onLogout().subscribe((user: IUser) => {
@@ -91,7 +91,7 @@ export class UserService implements IUserService {
     }
 
     return [{
-      item: { label, routerLink: '/user' },
+      item: { label, routerLink: '/user/login' },
       place: 'right', path: [], id: 'user', weight: 1000,
     }]
   }

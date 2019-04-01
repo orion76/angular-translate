@@ -19,7 +19,7 @@ import { MenubarModule } from '@app-library/primeng/menubar/menubar';
   ]
 })
 export class MenuMainModule {
-  static forRoot(state: IMenuState): ModuleWithProviders<MenuMainModule> {
+  static forRoot(state: IMenuState[]): ModuleWithProviders<MenuMainModule> {
     return {
       ngModule: MenuMainModule, providers: [
         { provide: MENU_MAIN_STATE, multi: true, useValue: state }

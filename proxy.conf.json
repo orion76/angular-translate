@@ -1,0 +1,10 @@
+{
+  "/rest": {
+    "target": "http://translate.ti-work.site",
+    "secure": false,
+    "pathRewrite": {
+      "^/rest": ""
+    },
+    "changeOrigin": "true"
+  }
+}

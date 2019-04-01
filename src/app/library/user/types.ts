@@ -1,5 +1,4 @@
 
-import { User } from './user.class';
 import { ELanguage } from '@app-types/config';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Observable } from 'rxjs';

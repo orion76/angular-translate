@@ -1,26 +1,14 @@
-import { Injectable } from '@angular/core';
-
-
 import { HttpClient, HttpParams } from '@angular/common/http';
-
-
+import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
-
-import { Observable, of } from "rxjs";
-import { concatMap, map, tap } from "rxjs/internal/operators";
-
-import { IHTTPService, THttpResponse, THttpOptions, IHttpOptions, IHTTPRequest, IConfigService, ProviderIdService } from './types';
-import { HTTPResponseConverter } from './http-interceptors/converter.service';
-
-import { JSONAPIFilter } from '@app-library/ng-http-service/converters/types';
-import { ISourceConfigRestQuery, ISourceConfig } from '@app-library/ng-http-service/types/source-config';
-
-
-import { Entity } from '@app-library/ng-http-service/entity/entity.class';
-import { IEntity, EEntityDeleted } from '@app-library/entity/types';
 import { createEntity } from '@app-library/entity/entity';
-
-
+import { EEntityDeleted, IEntity } from '@app-library/entity/types';
+import { JSONAPIFilter } from '@app-library/ng-http-service/converters/types';
+import { ISourceConfig, ISourceConfigRestQuery } from '@app-library/ng-http-service/types/source-config';
+import { Observable, of } from "rxjs";
+import { concatMap, map } from "rxjs/internal/operators";
+import { HTTPResponseConverter } from './http-interceptors/converter.service';
+import { IConfigService, IHttpOptions, IHTTPRequest, IHTTPService, ProviderIdService, THttpOptions, THttpResponse } from './types';
 
 @Injectable()
 export class HTTPService implements IHTTPService {

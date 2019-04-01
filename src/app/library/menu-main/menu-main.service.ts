@@ -18,10 +18,10 @@ export interface IMenuMainService {
 export class MenuMainService implements IMenuMainService {
 
   constructor(
-    @Inject(MENU_MAIN_STATE) states: IMenuState[],
+    @Inject(MENU_MAIN_STATE) states: IMenuState[][] = [],
     private store: Store<IAppState>
   ) {
-    this.store.dispatch(new StoreActions.ADD(states))
+    states.forEach((state: IMenuState[]) => this.store.dispatch(new StoreActions.ADD(state)))
   }
 
 
