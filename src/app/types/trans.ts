@@ -1,6 +1,6 @@
 
 
-import { IEntity } from '@app-library/entity/types';
+import { IEntity } from '@xangular-common/entity/types';
 import { ELanguage } from '@app/types/config';
 
 

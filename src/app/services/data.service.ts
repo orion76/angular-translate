@@ -6,8 +6,7 @@ import { IEntityRequest } from '@xangular-store/entity/types';
 import { Observable, of } from 'rxjs';
 import { SOURFCE_PARSE_SERVICE } from './injection-tokens';
 import { ISourceParseService } from './source-parse.service';
-import { IEntity } from '@app-library/entity/types';
-import { createEntity } from '@app-library/entity/entity';
+import { IEntity, createEntity } from '@xangular-common/entity';
 import { HttpClient } from '@angular/common/http';
 
 

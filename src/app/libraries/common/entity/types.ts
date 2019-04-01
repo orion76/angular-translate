@@ -1,4 +1,3 @@
-import { IKeyValueList } from '@app-library/ng-http-service/types';
 export enum EEntityDeleted {
   NOT_DELETED = 0,
   DELETED_MARK = 1,

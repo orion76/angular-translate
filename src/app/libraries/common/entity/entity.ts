@@ -1,5 +1,5 @@
 import * as Immutable from 'immutable';
-import { IEntity } from '@app-library/entity/types';
+import { IEntity } from './types';
 
 
 export function createEntity<T extends IEntity>(source: string, id: string, fields = {}) {

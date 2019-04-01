@@ -1,7 +1,6 @@
-import { Observable, of } from 'rxjs';
-import { InjectionToken, Injectable } from '@angular/core';
-import { ISourceParseService } from '@app-services/source-parse.service';
+import { Injectable, InjectionToken } from '@angular/core';
 import { IKeyValueList } from '@app-library/ng-http-service/types';
+import { Observable, of } from 'rxjs';
 
 export const APP_CONFIG_SERVICE = new InjectionToken<IAppConfigService>('APP_CONFIG_SERVICE');
 

@@ -3,8 +3,11 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
+      "@xangular-common/*": [
+        "app/libraries/common/*"
+      ],
       "@xangular-store/*": [
-        "app/library/xangular-store/*"
+        "app/libraries/xangular-store/*"
       ],
       "@app-library/*": [
         "app/library/*"
