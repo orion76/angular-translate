@@ -3,7 +3,8 @@
 
 import { IEntityTranslate } from '@app/types';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { IStateEntity } from '@xangular-store/entity/types';
+import { IEntityStates, IEntityState as _IState } from '@xangular-store/entity/types';
+
 
 
 
@@ -11,16 +12,24 @@ import { IStateEntity } from '@xangular-store/entity/types';
 
 export namespace StoreState {
 
-  export interface IStateTranslate extends IStateEntity {
+
+
+  export interface IStateData extends IEntityStates {
     entity?: IEntityTranslate;
   }
 
-  export interface State extends EntityState<IStateTranslate> {
+  export interface IState extends _IState<IStateData> {
+    entity?: IEntityTranslate;
+  }
+
+  // export interface IState
+
+  export interface State extends EntityState<IState> {
   }
 
 
   export const featureName = 'ENTITY_TRANSLATE';
-  export const featureAdapter: EntityAdapter<IStateTranslate> = createEntityAdapter<IStateTranslate>({
+  export const featureAdapter: EntityAdapter<IState> = createEntityAdapter<IState>({
     selectId: model => model.stateId,
   });
   export const initialState: State = featureAdapter.getInitialState({});

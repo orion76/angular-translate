@@ -1,7 +1,7 @@
 
 
 
-import { IStateEntity } from '@xangular-store/entity/types';
+import { IEntityStates } from '@xangular-store/entity/types';
 import { Anonymus, IUser, IUserStatus } from '../types';
 
 
@@ -9,7 +9,7 @@ export namespace StoreState {
   export const featureName = 'USER';
 
 
-  export interface IStateUser extends IStateEntity {
+  export interface IStateUser extends IEntityStates {
     entity?: IUser;
     status?: IUserStatus
   }
