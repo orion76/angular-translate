@@ -1,10 +1,11 @@
-import { TEntityFieldType, IEntityField } from './types';
-
-import { ISourceConfig } from '../types/source-config';
-import { IKeyValueList } from '../types';
-import { EntityField } from './field.class';
 import { ELanguage } from '@app/types';
-import { EEntityDeleted, IEntity } from '@app-library/entity/types';
+import { EEntityDeleted, IEntity } from '@xangular-common/entity';
+import { IKeyValueList } from '../types';
+import { ISourceConfig } from '../types/source-config';
+import { EntityField } from './field.class';
+import { IEntityField, TEntityFieldType } from './types';
+
+
 
 
 

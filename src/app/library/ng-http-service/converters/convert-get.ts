@@ -1,5 +1,6 @@
-import { IEntity } from '@app-library/entity/types';
+
 import { iJSONAPI_Entity, iJSONAPI_Response } from './types';
+import { IEntity } from '@xangular-common/entity';
 
 
 export function itemToArray(data: any): any[] {

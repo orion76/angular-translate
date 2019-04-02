@@ -1,8 +1,8 @@
 
-import { Observable } from 'rxjs';
-import { JSONAPIFilter } from '@app-library/ng-http-service/converters/types';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
-import { IEntity } from '@app-library/entity/types';
+import { JSONAPIFilter } from '@app-library/ng-http-service/converters/types';
+import { IEntity } from '@xangular-common/entity';
+import { Observable } from 'rxjs';
 
 export interface IKeyValueList<T> {
   [key: string]: T;

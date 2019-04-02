@@ -12,8 +12,8 @@ import { IStatusProps } from '@xangular-store/entity/types';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
-import IStateTranslate = TranslateState.IStateTranslate
 
+import ITranslateStates = TranslateState.ITranslateStates
 
 export const TRANSLATED_PROCESS = new InjectionToken<ITranslateProcess>('TRANSLATED_PROCESS');
 
@@ -31,7 +31,7 @@ export interface ITranslateProcess {
   // onEntityStatus(type: EEntityType, entityId: string, status: string, value: any): Observable<ITranslateEntity>;
 
   // load(type: EEntityType, stateId: string)
-  onLoad(stateId: string): Observable<IStateTranslate>
+  onLoad(stateId: string): Observable<ITranslateStates>
 }
 
 
@@ -48,15 +48,15 @@ export class TranslateProcess implements ITranslateProcess {
   }
 
 
-  onStatus(status: TStatusName, entityId: string): Observable<IStateTranslate> {
+  onStatus(status: TStatusName, entityId: string): Observable<ITranslateStates> {
     const props: IStatusProps = { stateId: entityId, status, value: true };
-    return this.store.pipe(this.translate.onStatus(props))
+    return this.store.pipe(this.translate.isStatus(props))
   }
 
 
 
 
-  onLoad(stateId: string): Observable<IStateTranslate> {
+  onLoad(stateId: string): Observable<ITranslateStates> {
     return this.onStatus("LOAD_SUCCESS", stateId);
   }
 
@@ -88,12 +88,12 @@ export class TranslateProcess implements ITranslateProcess {
     this.store.dispatch(new TranslateActions.REQUEST(entityId, { source, entityId }));
 
     this.onStatus('REQUEST', entityId).pipe(
-      tap((state: IStateTranslate) => this.store.dispatch(new TranslateActions.LOAD(entityId, state.request))),
-      switchMap((state: IStateTranslate) => this.onStatus("LOAD_SUCCESS", entityId)),
-      map((state: IStateTranslate) => state.entity.parentId),
+      tap((state: ITranslateStates) => this.store.dispatch(new TranslateActions.LOAD(entityId, state.request))),
+      switchMap((state: ITranslateStates) => this.onStatus("LOAD_SUCCESS", entityId)),
+      map((state: ITranslateStates) => state.entity.parentId),
       tap((parentId: string) => this.store.dispatch(new TranslateActions.REQUEST(parentId, { entityId: parentId, source: EEntityType.translate }))),
       switchMap((parentId: string) => this.onStatus("LOAD_SUCCESS", parentId)),
-      tap((parent: IStateTranslate) => this.store.dispatch(new TranslateActions.SET_PARENT(entityId, parent.entity))),
+      tap((parent: ITranslateStates) => this.store.dispatch(new TranslateActions.SET_PARENT(entityId, parent.entity))),
     )
   }
 }

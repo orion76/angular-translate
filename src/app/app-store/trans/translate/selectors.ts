@@ -3,8 +3,9 @@
 
 import { IAppState } from '@app-store/app-store.module';
 import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
-import { EntitySelectors } from '@xangular-store/entity';
+
 import { StoreState } from './state';
+import { EntitySelectors } from '@xangular-store/entity/selectors/factoryMany';
 
 
 

@@ -1,4 +1,4 @@
-import { IEntity } from '@app-library/entity/types';
+import { IEntity } from '@xangular-common/entity';
 
 
 export type TEntityFieldType = 'attribute' | 'relationship';

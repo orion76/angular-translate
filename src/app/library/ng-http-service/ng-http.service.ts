@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
-import { createEntity } from '@app-library/entity/entity';
-import { EEntityDeleted, IEntity } from '@app-library/entity/types';
+
+import { IEntity, EEntityDeleted, createEntity } from '@xangular-common/entity'
 import { JSONAPIFilter } from '@app-library/ng-http-service/converters/types';
 import { ISourceConfig, ISourceConfigRestQuery } from '@app-library/ng-http-service/types/source-config';
 import { Observable, of } from "rxjs";

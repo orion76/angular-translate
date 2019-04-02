@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { IEntity } from '@app-library/entity/types';
 import { THttpResponse } from '../types';
 import { convertGet } from "./convert-get";
 import { IConverterService } from './module';
 import { iJSONAPI_Response } from './types';
+import { IEntity } from '@xangular-common/entity';
 
 
 

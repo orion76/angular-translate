@@ -1,5 +1,5 @@
+import { IEntity } from '@xangular-common/entity';
 import { IEntityField, IEntityFieldOptions, TEntityFieldType } from './types';
-import { IEntity } from '@app-library/entity/types';
 
 
 export class EntityField implements IEntityField {

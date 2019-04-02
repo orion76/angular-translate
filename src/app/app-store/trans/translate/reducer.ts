@@ -5,9 +5,11 @@ import State = StoreState.State;
 import { StoreActions } from './actions';
 
 import featureAdapter = StoreState.featureAdapter;
-import { EntityReducer } from '@xangular-store/entity/reducer';
+import { EntityReducer } from '@xangular-store/entity/reducerMany';
 
-const { addRequest, load, loadSuccess, loadError } = EntityReducer.createHandlers(featureAdapter)
+
+
+const { addRequest, load, loadSuccess, loadError } = EntityReducer.factoryHandlers(featureAdapter);;
 
 
 function setParent(action: StoreActions.SET_PARENT, state: State) {

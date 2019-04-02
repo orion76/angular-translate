@@ -2,7 +2,8 @@
 import { IEntityTranslate } from '../../../types/trans';
 
 import { IEntityRequest, IEntityStatus } from '@xangular-store/entity/types';
-import { EntityActions } from '@xangular-store/entity/actions';
+import { EntityActions } from '@xangular-store/entity/actionsMany';
+
 
 
 export interface ITranslateStatus extends IEntityStatus {
