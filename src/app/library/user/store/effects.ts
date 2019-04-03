@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { IAppState } from '@app/app-store/app-store.module';
-import { IDataService } from '@app/services/data';
-import { DATA_SERVICE } from '@app/services/injection-tokens';
+import { IDataService, DATA_SERVICE } from '@app/services/data';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';

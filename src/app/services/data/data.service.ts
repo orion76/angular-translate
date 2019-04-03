@@ -1,16 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from "@angular/core";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Inject, Injectable, InjectionToken } from "@angular/core";
 import { APP_CONFIG_SERVICE, IAppConfigService, ISourceConfig } from '@app-library/app-config/app-config.service';
-import { UrlJsonApi } from '@app-services/data/url/jsonapi/url-jsonapi';
+
 import { SOURFCE_PARSE_SERVICE } from '@app-services/injection-tokens';
 import { ISourceParseService } from '@app-services/source-parse.service';
 import { IEntity } from '@xangular-common/entity';
 import { IEntityRequest } from '@xangular-store/entity/types';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { IHTTPOptotions } from '@app-services/data';
+import { RequestJsonApi } from '@app-services/data/request/jsonapi/request-jsonapi';
+import { IRequest } from '@app-services/data/request/types';
 
 
-
+export const DATA_SERVICE = new InjectionToken<IDataService>('DATA_SERVICE');
 
 
 export interface IDataService {
@@ -32,8 +35,10 @@ export class DataService implements IDataService {
 
     return this.config.get(request.source)
       .pipe(
-        map((config: ISourceConfig) => this.createUrl(config, request)),
-        switchMap((url: string) => this.request('GET', url)),
+        map((config: ISourceConfig) => new RequestJsonApi(request, config)),
+        switchMap((request: IRequest) => {
+          return this.request('GET', request.path().join('/'), request.query())
+        }),
     )
   }
 
@@ -51,9 +56,6 @@ export class DataService implements IDataService {
     return basePath;
   }
 
-  addParams() {
-
-  }
 
   sourceUrl(config: ISourceConfig, request: IEntityRequest) {
     const path: string[] = config.url.split('/').filter(Boolean);
@@ -65,30 +67,26 @@ export class DataService implements IDataService {
 
   createUrl(config: ISourceConfig, request: IEntityRequest) {
 
-    const path = this.baseUrl();
+    const path = [config.url];
 
-    const generator = new UrlJsonApi(request, config);
-    path.push(generator.sourceUrl());
-    const query = generator.query();
-    console.log('[CREATE URL]', { path, query });
-
-    let url = path.join('/');
-    if (query) {
-      url = `${url}?${query}`;
+    if (request.id) {
+      path.push(request.id)
     }
 
-    return url;
+    return path.join('/');
   }
 
 
 
-  private request(method: string, url: string, data?: any) {
+  private request(method: string, url: string, params: HttpParams) {
 
 
-    const options: { headers?: { [header: string]: string | string[] } } = {
-      headers: {
-        'Content-type': 'application/json'
-      },
+    const options: IHTTPOptotions = {
+      // headers: {
+      //   'Content-type': 'application/json'
+      // },
+      params,
+      // withCredentials: true
     };
 
     let response: any;
@@ -98,7 +96,7 @@ export class DataService implements IDataService {
         response = this.http.get(url, options);
         break;
       case "POST":
-        response = this.http.post(url, data, options);
+        response = this.http.post(url, null, options);
         break;
     }
 

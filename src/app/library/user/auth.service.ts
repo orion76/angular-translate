@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, InjectionToken } from "@angular/core";
 
 export const USER_AUTH_SERVICE = new InjectionToken<IUserAuthService>('USER_AUTHSERVICE');
@@ -6,6 +6,19 @@ export const USER_AUTH_SERVICE = new InjectionToken<IUserAuthService>('USER_AUTH
 export type TActions = 'login';
 export type THTTPMethod = 'GET' | 'POST';
 export type THTTPFormat = 'json';
+
+export interface IHTTPOptotions {
+  body?: any;
+  headers?: HttpHeaders | {
+    [header: string]: string | string[];
+  };
+  params?: HttpParams | {
+    [param: string]: string | string[];
+  };
+  reportProgress?: boolean;
+  withCredentials?: boolean;
+}
+
 
 export interface IActionConfig {
   method: THTTPMethod,
@@ -32,17 +45,18 @@ export interface IUserAuthService {
 }
 
 @Injectable()
-export class UserAuthService implements IUserAuthService{
+export class UserAuthService implements IUserAuthService {
   constructor(private http: HttpClient) {
 
   }
   private request(method: string, url: string, data?: any) {
 
 
-    const options: { headers?: { [header: string]: string | string[] } } = {
+    const options: IHTTPOptotions = {
       headers: {
         'Content-type': 'application/json'
       },
+      withCredentials: true
     };
 
     let response: any;

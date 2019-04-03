@@ -3,14 +3,14 @@ import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ITranslateData } from '@app-library/common';
 import { IUserService, USER_SERVICE } from '@app-library/user';
-import { DataService, IDataService } from '@app/services/data';
+import { DataService, IDataService, DATA_SERVICE } from '@app/services/data';
 import { ITranslateService, TranslateService } from '@app/services/translate.service';
 import { IEntityTranslate } from '@app/types';
 import { ITranslateProcess, TRANSLATED_PROCESS, TranslateProcess } from '@pages/translate/process/translate-process';
 import { CardModule } from 'primeng/card';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { DATA_SERVICE, SOURFCE_PARSE_SERVICE, TRANSLATE_SERVICE } from '../../services/injection-tokens';
+import { SOURFCE_PARSE_SERVICE, TRANSLATE_SERVICE } from '../../services/injection-tokens';
 import { SourceParseService } from '../../services/source-parse.service';
 import { TransEditModule } from './edit/translate-edit.component';
 import { TransOriginalModule } from './original/translate-original.component';
@@ -108,7 +108,7 @@ export class TranslateComponent implements OnInit {
   providers: [
     { provide: TRANSLATED_PROCESS, useClass: TranslateProcess },
     { provide: TRANSLATE_SERVICE, useClass: TranslateService },
-    { provide: DATA_SERVICE, useClass: DataService },
+
     { provide: SOURFCE_PARSE_SERVICE, useClass: SourceParseService },
 
   ]

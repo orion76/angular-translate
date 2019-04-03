@@ -8,8 +8,8 @@ import { IUserService } from '@app-library/user/types';
 import { USER_SERVICE } from '@app-library/user/user.service';
 import { IUserAuthService, USER_AUTH_SERVICE } from '@app-library/user/auth.service';
 import { FormElementModule } from '@app-library/components/form/form-element';
-import { DATA_SERVICE } from '@app-services/injection-tokens';
-import { IDataService } from '@app-services/data';
+
+import { IDataService, DATA_SERVICE } from '@app-services/data';
 import { IEntityRequest, EFilterOperator } from '@xangular-store/entity/types';
 
 

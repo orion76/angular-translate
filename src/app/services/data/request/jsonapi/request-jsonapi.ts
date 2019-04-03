@@ -1,12 +1,25 @@
-import { UrlAbstract } from '@app-services/data/url/url-abstract';
+import { RequestAbstract } from '../request-abstract';
 import { IEntityRequestFilter, IEntityRequestFilterCondition } from '@xangular-store/entity/types';
+import { HttpParams } from '@angular/common/http';
+import { isArray } from 'util';
 
-export class UrlJsonApi extends UrlAbstract {
+export class RequestJsonApi extends RequestAbstract {
+
+
+
   query() {
-    return this.filters();
+    let params = new HttpParams();
+    params = this.setFilters(params)
+    return params;
   }
-
-  filters_full() {
+  path() {
+    const path: string[] = this.config.url.split('/').filter(Boolean);
+    if (this.request.id) {
+      path.push(this.request.id)
+    }
+    return path;
+  }
+  __filters() {
     if (!this.request.filters) {
       return '';
     }
@@ -25,18 +38,23 @@ export class UrlJsonApi extends UrlAbstract {
   }
 
 
-  filters() {
+  setFilters(params: HttpParams): HttpParams {
+
     if (!this.request.filters) {
-      return '';
+      return params;
     }
 
     const config = this.request.filters;
-    let filters: string[] = [];
-    config.forEach((filter: IEntityRequestFilter) => {
-      filters.push(`filter[${filter.condition.path.join('][')}]=${filter.condition.value}`);
-    });
-    return filters.join('&');
 
+    config.forEach((filter: IEntityRequestFilter) => {
+
+      const name = `filter[${filter.condition.path.join('][')}]`;
+      const value = filter.condition.value;
+
+      params = params.set(name, isArray(value) ? value.join(',') : <string>value);
+    });
+
+    return params;
   }
 
 

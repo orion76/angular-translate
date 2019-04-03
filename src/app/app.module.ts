@@ -15,6 +15,7 @@ import { TranslateService } from '@app/services/translate.service';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TransModule, TransNewModule } from '@pages/translate';
 import { MenubarModule } from 'primeng/menubar';
+import { AppHTTPModule } from '@app/app-http.module';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { MenubarModule } from 'primeng/menubar';
     }),
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
+    AppHTTPModule,
     AppRoutingModule,
     AppStoreModule,
     MenuMainModule,
