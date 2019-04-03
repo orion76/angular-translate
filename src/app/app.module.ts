@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,7 +13,7 @@ import { AppComponent } from '@app/app.component';
 import { TranslateService } from '@app/services/translate.service';
 import { TransModule, TransNewModule } from '@pages/translate';
 import { MenubarModule } from 'primeng/menubar';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from 'environments/environment';
 
 
 
@@ -21,6 +22,10 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     AppComponent,
   ],
   imports: [
+     StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
