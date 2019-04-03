@@ -13,8 +13,8 @@ export namespace StoreSelectors {
 
   import State = StoreState.State;
   import featureName = StoreState.featureName;
-
+  import IStateTranslate = StoreState.IStateTranslate;
   export const feature: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
-  export const selectors = EntitySelectorsMany.create(feature);
+  export const selectors = EntitySelectorsMany.create<IAppState, IStateTranslate>(feature);
 
 }

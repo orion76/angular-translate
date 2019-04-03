@@ -62,7 +62,7 @@ export class TranslateService implements ITranslateService {
   }
 
   onLoad(stateId: string): Observable<IEntityTranslate> {
-    return this.process.onLoad(stateId).pipe(map((state: IStateTranslate) => state.entity));
+    return this.process.onLoad(stateId).pipe(map((state: IStateTranslate) => state.data.entity));
   }
 
   initMouseEvents(originalId: string, dom: HTMLElement, lines: Map<string, ILineEntity>
