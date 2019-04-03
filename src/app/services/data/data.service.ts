@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from "@angular/core";
-import { APP_CONFIG_SERVICE, IAppConfigService, ISourceConfig } from '@app-library/app-config/app-config.service';
+import { APP_CONFIG_SERVICE, IAppConfigService, ISourceConfig, TEntrypoint } from '@app-library/app-config/app-config.service';
 
 import { SOURFCE_PARSE_SERVICE } from '@app-services/injection-tokens';
 import { ISourceParseService } from '@app-services/source-parse.service';
@@ -17,6 +17,7 @@ export const DATA_SERVICE = new InjectionToken<IDataService>('DATA_SERVICE');
 
 
 export interface IDataService {
+  request(entrypoint: TEntrypoint, method: string, url: string, params?: HttpParams, data?: any);
   getItem(request: IEntityRequest): Observable<IEntity>
   // getUser(uid: string): Observable<IUser>;
 }
@@ -37,25 +38,10 @@ export class DataService implements IDataService {
       .pipe(
         map((config: ISourceConfig) => new RequestJsonApi(request, config)),
         switchMap((request: IRequest) => {
-          return this.request('GET', request.path().join('/'), request.query())
+          return this.request('jsonapi', 'GET', request.path().join('/'), request.query())
         }),
     )
   }
-
-  baseUrl(): string[] {
-    const rest = this.config.rest;
-    const basePath: string[] = [];
-    if (rest.prefix && rest.prefix.length > 0) {
-      basePath.push(rest.prefix);
-    }
-
-    if (rest.path && rest.path.length > 0) {
-      basePath.push(rest.path);
-    }
-
-    return basePath;
-  }
-
 
   sourceUrl(config: ISourceConfig, request: IEntityRequest) {
     const path: string[] = config.url.split('/').filter(Boolean);
@@ -78,16 +64,18 @@ export class DataService implements IDataService {
 
 
 
-  private request(method: string, url: string, params: HttpParams) {
+  public request(entrypoint: TEntrypoint, method: string, url: string, params?: HttpParams, data?: any) {
 
 
-    const options: IHTTPOptotions = {
-      // headers: {
-      //   'Content-type': 'application/json'
-      // },
-      params,
-      // withCredentials: true
-    };
+    const entrypoyntConfig = this.config.entrypoints[entrypoint];
+
+    if (entrypoyntConfig.root && entrypoyntConfig.root.length > 0) {
+      url = `${entrypoyntConfig.root}/${url}`
+    }
+
+
+
+    const options: IHTTPOptotions = { params };
 
     let response: any;
 
@@ -96,7 +84,7 @@ export class DataService implements IDataService {
         response = this.http.get(url, options);
         break;
       case "POST":
-        response = this.http.post(url, null, options);
+        response = this.http.post(url, data, options);
         break;
     }
 

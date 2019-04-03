@@ -13,9 +13,9 @@ const ConfigMock: IKeyValueList<ISourceConfig> = {
 }
 
 
-export interface IRestConfig {
+export interface IEntryPointConfig {
 
-  path: string,
+  root: string,
   prefix?: string
 }
 
@@ -24,18 +24,26 @@ export interface ISourceConfig {
   url: string
 }
 
+export type TEntrypoint = 'jsonapi' | 'auth'
+
 export interface IAppConfigService {
+  urlPrefix: string,
   get(source: string): Observable<ISourceConfig>,
   set(config: ISourceConfig),
-  rest: IRestConfig
+  entrypoints: { [key in TEntrypoint]: IEntryPointConfig }
 }
 
 @Injectable()
 export class AppConfigService implements IAppConfigService {
 
-  rest: IRestConfig = {
-    prefix: 'rest',
-    path: 'jsonapi',
+  urlPrefix = 'rest'
+
+  public entrypoints = {
+    auth: { root: '/' },
+    jsonapi: { root: '/jsonapi' }
+  }
+  constructor() {
+
   }
 
   get(source: string) {

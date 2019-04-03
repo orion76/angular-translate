@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, InjectionToken } from "@angular/core";
+import { Injectable, InjectionToken, Inject } from "@angular/core";
+import { DATA_SERVICE, IDataService } from '@app-services/data';
 
 export const USER_AUTH_SERVICE = new InjectionToken<IUserAuthService>('USER_AUTHSERVICE');
 
@@ -46,34 +47,22 @@ export interface IUserAuthService {
 
 @Injectable()
 export class UserAuthService implements IUserAuthService {
-  constructor(private http: HttpClient) {
+
+
+  constructor(@Inject(DATA_SERVICE) private data: IDataService) {
 
   }
-  private request(method: string, url: string, data?: any) {
 
-
-    const options: IHTTPOptotions = {
-      headers: {
-        'Content-type': 'application/json'
-      },
-      withCredentials: true
-    };
-
-    let response: any;
-
-    switch (method) {
-      case "POST":
-        response = this.http.post(url, data, options);
-        break;
-    }
-    return response;
-  }
   login(name: string, pass: string) {
     const config: IActionConfig = RequestConfig.login;
-    return this.request(config.method, this.createUrl(config.path, config.format), { name, pass });
+    let params = new HttpParams();
+    params = params.set('_format', config.format);
+
+    return this.data.request('auth', 'POST', this.createUrl(config.path), params, { name, pass });
+
   }
 
-  createUrl(path: string, format: THTTPFormat) {
-    return `/rest/${path}?_format=${format}`;
+  createUrl(path: string) {
+    return `/${path}`;
   }
 }

@@ -51,7 +51,7 @@ export class RequestJsonApi extends RequestAbstract {
       const name = `filter[${filter.condition.path.join('][')}]`;
       const value = filter.condition.value;
 
-      params = params.set(name, isArray(value) ? value.join(',') : <string>value);
+      params = params.set(name, isArray(value) ? (<string[]>value).join(',') : <string>value);
     });
 
     return params;
