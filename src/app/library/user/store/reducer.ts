@@ -5,7 +5,7 @@ import { StoreState } from './state';
 
 import initialState = StoreState.initialState;
 import State = StoreState.State;
-import TUserStasuses = StoreState.TUserStasuses;
+import TUserStasuses = StoreState.TUserStatusList;
 
 const { setStatus, create, load, loadSuccess, loadError } = EntityReducer.factoryHandlers();;
 

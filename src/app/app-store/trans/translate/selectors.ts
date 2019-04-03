@@ -5,7 +5,7 @@ import { IAppState } from '@app-store/app-store.module';
 import { createFeatureSelector, MemoizedSelector } from '@ngrx/store';
 
 import { StoreState } from './state';
-import { EntitySelectors } from '@xangular-store/entity/selectors/factoryMany';
+import { EntitySelectorsMany } from '@xangular-store/entity/selectors/factoryMany';
 
 
 
@@ -15,6 +15,6 @@ export namespace StoreSelectors {
   import featureName = StoreState.featureName;
 
   export const feature: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
-  export const selectors = EntitySelectors.create(feature);
+  export const selectors = EntitySelectorsMany.create(feature);
 
 }

@@ -9,16 +9,18 @@ export namespace StoreState {
   export const featureName = 'USER';
 
 
-  export interface IUserState extends IEntityStates {
+  export interface IUserStates extends IEntityStates {
     entity?: IUser;
-    status?: TUserStatus
   }
 
-  export type TUserStasuses = TEntityStatusList | 'LOGIN' | 'LOGOUT';
+  export type TUserStatusList = TEntityStatusList | 'LOGIN' | 'LOGOUT';
 
-  export type TUserStatus = TStatus<TUserStasuses>;
+  export type TUserStatus = TStatus<TUserStatusList>;
 
-  export type State = Immutable.RecordOf<IState<IUserState>>
+  export type TStateUser = Immutable.RecordOf<IState<IUserStates>>
+
+
+  export type State = TStateUser
 
 
   export const initialState: State = new StateRecord();

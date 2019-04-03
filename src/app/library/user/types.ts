@@ -3,7 +3,9 @@ import { ELanguage } from '@app-types/config';
 import { createEntity, IEntity } from '@xangular-common/entity';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Observable } from 'rxjs';
+import { StoreState as UserState } from './store';
 
+import TStateUser = UserState.TStateUser;
 
 export enum EUserRole {
   ANONIMUS = 'user-anonimus',
@@ -11,7 +13,7 @@ export enum EUserRole {
 }
 
 
-export type TUserStatusName = keyof TUserStatus;
+
 
 export interface IUser extends IEntity {
   role: EUserRole,
@@ -39,8 +41,8 @@ export const Anonymus: IUser = createEntity<IUser>('user', '0', {
 
 export interface IUserService {
   onUID(): Observable<string>;
-  onLoaded(): Observable<IUser>;
-  onLogin(): Observable<IUser>;
-  onLogout(): Observable<IUser>;
+  onLoaded(): Observable<TStateUser>;
+  onLogin(): Observable<TStateUser>;
+  onLogout(): Observable<TStateUser>;
   // on(eventType: EUserEvent): Observable<IUser>
 }

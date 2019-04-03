@@ -20,14 +20,14 @@ export namespace StoreState {
 
 
 
-  export type IStateEntity = Immutable.RecordOf<IState<ITranslateStates>>
+  export type IStateTranslate = Immutable.RecordOf<IState<ITranslateStates>>
 
-  export interface State extends EntityState<IStateEntity> {
+  export interface State extends EntityState<IStateTranslate> {
   }
 
 
   export const featureName = 'ENTITY_TRANSLATE';
-  export const featureAdapter: EntityAdapter<IStateEntity> = createEntityAdapter<IStateEntity>({
+  export const featureAdapter: EntityAdapter<IStateTranslate> = createEntityAdapter<IStateTranslate>({
     selectId: model => model.stateId,
   });
   export const initialState: State = featureAdapter.getInitialState({});

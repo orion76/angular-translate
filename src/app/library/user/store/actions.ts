@@ -1,8 +1,9 @@
 
 import { Action } from '@ngrx/store';
-import { EntityActions } from '@xangular-store/entity/actions';
+
 import { IEntityRequest } from '@xangular-store/entity/types';
 import { IUser } from '../types';
+import { EntityActions } from '@xangular-store/entity/actionsOne';
 
 export namespace StoreActions {
 
@@ -16,18 +17,18 @@ export namespace StoreActions {
   }
 
 
-  export class LOGIN implements Action {
+  export class Login implements Action {
     readonly type = Types.LOGIN
     constructor() { }
   }
 
-  export class LOGOUT implements Action {
+  export class Logout implements Action {
     readonly type = Types.LOGOUT
     constructor() { }
   }
 
 
-  export class REQUEST implements EntityActions.IRequest{
+  export class Add implements EntityActions.IAdd{
     readonly type = Types.REQUEST
     constructor(public request: IEntityRequest) { }
   }
@@ -48,5 +49,5 @@ export namespace StoreActions {
     constructor(public request: IEntityRequest) { }
   }
 
-  export type Actions = LOGIN | LOGOUT | REQUEST | LOAD | LOAD_SUCCESS | LOAD_ERROR;
+  export type Actions = Login | Logout | Add | LOAD | LOAD_SUCCESS | LOAD_ERROR;
 }

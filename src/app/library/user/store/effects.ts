@@ -31,7 +31,7 @@ export class UserEffects {
   @Effect()
   LOAD_SUCCESS$ = this.actions$.pipe(
     ofType<UserActions.LOAD_SUCCESS>(UserActions.Types.LOAD_SUCCESS),
-    map((action: UserActions.LOAD_SUCCESS) => new UserActions.LOGIN()),
+    map((action: UserActions.LOAD_SUCCESS) => new UserActions.Login()),
   );
 
 

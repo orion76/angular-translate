@@ -8,9 +8,9 @@ import { IEntityRequest } from '@xangular-store/entity/types';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { StoreActions as UserActions, StoreSelectors as UserSelectors } from './store';
-import { EUserRole, IUser, IUserService, TUserStatusName, Anonymus } from './types';
-
-
+import { EUserRole, IUser, IUserService, Anonymus } from './types';
+import { StoreState as UserState } from './store'
+import TStateUser = UserState.TStateUser
 
 export const USER_SERVICE = new InjectionToken<IUserService>('USER_SERVICE');
 
@@ -18,11 +18,11 @@ export const USER_SERVICE = new InjectionToken<IUserService>('USER_SERVICE');
 @Injectable()
 export class UserService implements IUserService {
 
-  selectors: UserSelectors.IEntitySelectors;
+  selectors = UserSelectors.selectors;
 
 
   constructor(private store: Store<IAppState>) {
-    this.selectors = UserSelectors.createSelectors();
+
     this.init();
 
     // const observer: PartialObserver<IMenuUpdate> = {
@@ -39,18 +39,18 @@ export class UserService implements IUserService {
     this.onUID().subscribe((entityId: string) => {
 
       const request: IEntityRequest = { source: EEntityType.user, entityId };
-      this.store.dispatch(new UserActions.REQUEST(request));
+      this.store.dispatch(new UserActions.Add(request));
 
-      this.onStatus('REQUEST').subscribe(() => {
+      this.store.pipe(this.selectors.isStatus({ REQUEST: true })).subscribe(() => {
         this.store.dispatch(new UserActions.LOAD(request));
       })
     })
 
-    this.onLogin().subscribe((user: IUser) => {
+    this.onLogin().subscribe((state: TStateUser) => {
       // this.menuReplace(EUserRole.ANONIMUS, EUserRole.AUTORISED, user);
     })
 
-    this.onLogout().subscribe((user: IUser) => {
+    this.onLogout().subscribe((user: TStateUser) => {
       this.menuReplace(EUserRole.AUTORISED, EUserRole.ANONIMUS, Anonymus);
     })
 
@@ -105,30 +105,24 @@ export class UserService implements IUserService {
     return of('111').pipe(delay(1));
   }
 
-  onLoaded(): Observable<IUser> {
+  onLoaded(): Observable<TStateUser> {
     return this.store.pipe(
-      this.selectors.entityStatus('LOAD_SUCCESS', true),
+      this.selectors.isStatus({ LOAD_SUCCESS: true }),
       take(1)
     );
   }
 
-  onLogin() {
+  onLogin(): Observable<TStateUser> {
     return this.store.pipe(
-      this.selectors.entityStatus('LOGIN', true),
+      this.selectors.isStatus({ LOGIN: true }),
       take(1)
     );
   }
 
-  onStatus(status: TUserStatusName, value: any = true) {
-    return this.store.pipe(
-      this.selectors.entityStatus(status, value),
-      take(1)
-    );
-  }
 
-  onLogout() {
+  onLogout(): Observable<TStateUser> {
     return this.store.pipe(
-      this.selectors.entityStatus('LOGOUT', true),
+      this.selectors.isStatus({LOGOUT: true}),
       take(1)
     );
   }
