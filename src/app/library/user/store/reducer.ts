@@ -1,18 +1,16 @@
 
-import { IUser } from '../types';
+import { EntityReducer } from '@xangular-store/entity/reducerOne';
 import { StoreActions } from './actions';
 import { StoreState } from './state';
 
 import initialState = StoreState.initialState;
 import State = StoreState.State;
-import { IEntityRequest } from '@xangular-store/entity/types';
-import { EntityReducer } from '@xangular-store/entity/reducerOne';
+import TUserStasuses = StoreState.TUserStasuses;
 
-
-const { setStatus, addRequest, load, loadSuccess, loadError } = EntityReducer.factoryHandlers();;
+const { setStatus, create, load, loadSuccess, loadError } = EntityReducer.factoryHandlers();;
 
 function LOGIN(state: State): State {
-  return setStatus('LOGOUT', false, setStatus('LOGIN', true, state));
+  return setStatus<TUserStasuses>({ LOGOUT: false, LOGIN: true }, state);
 }
 
 function LOGOUT(state: State): State {
@@ -31,7 +29,7 @@ export function reducer(state: State = initialState, action: StoreActions.Action
   switch (action.type) {
 
     case StoreActions.Types.REQUEST:
-      stateNew = addRequest(action, state)
+      stateNew = create(action, state)
       break;
 
     case StoreActions.Types.LOGIN:

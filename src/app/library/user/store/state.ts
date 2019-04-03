@@ -1,9 +1,9 @@
 
 
 
-import { IEntityStates, IStateEntity, IState, IEntityStatus } from '@xangular-store/entity/types';
-import { Anonymus, IUser, IUserStatus } from '../types';
-
+import { IEntityStates, IState, TEntityStatusList, TStatus, StateRecord } from '@xangular-store/entity/types';
+import { IUser } from '../types';
+import * as Immutable from 'immutable';
 
 export namespace StoreState {
   export const featureName = 'USER';
@@ -11,22 +11,16 @@ export namespace StoreState {
 
   export interface IUserState extends IEntityStates {
     entity?: IUser;
-    status?: IUserStatus
+    status?: TUserStatus
   }
 
-  export interface IUserStatus extends IEntityStatus {
+  export type TUserStasuses = TEntityStatusList | 'LOGIN' | 'LOGOUT';
 
-  }
+  export type TUserStatus = TStatus<TUserStasuses>;
 
-  export interface State extends IState<IUserState, IUserStatus> {
+  export type State = Immutable.RecordOf<IState<IUserState>>
 
-  }
 
-  export const initialState: State = {
-    stateId: '0',
-    data: null,
-    counts: {},
-    status: {}
-  };
+  export const initialState: State = new StateRecord();
 
 }

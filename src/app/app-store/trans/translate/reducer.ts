@@ -9,7 +9,7 @@ import { EntityReducer } from '@xangular-store/entity/reducerMany';
 
 
 
-const { addRequest, load, loadSuccess, loadError } = EntityReducer.factoryHandlers(featureAdapter);;
+const { add, load, loadSuccess, loadError } = EntityReducer.factoryHandlers(featureAdapter);;
 
 
 function setParent(action: StoreActions.SET_PARENT, state: State) {
@@ -28,8 +28,8 @@ export function reducer(state: State = initialState, action: StoreActions.Action
 
   switch (action.type) {
 
-    case StoreActions.Types.REQUEST:
-      stateNew = addRequest(action, state);
+    case StoreActions.Types.ADD_REQUEST:
+      stateNew = add(action, state);
       break;
     case StoreActions.Types.LOAD:
       stateNew = load(action, state);

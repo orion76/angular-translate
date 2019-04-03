@@ -85,13 +85,13 @@ export class TranslateProcess implements ITranslateProcess {
 
     const source = EEntityType.translate;
 
-    this.store.dispatch(new TranslateActions.REQUEST(entityId, { source, entityId }));
+    this.store.dispatch(new TranslateActions.Add(entityId, { source, entityId }));
 
     this.onStatus('REQUEST', entityId).pipe(
       tap((state: ITranslateStates) => this.store.dispatch(new TranslateActions.LOAD(entityId, state.request))),
       switchMap((state: ITranslateStates) => this.onStatus("LOAD_SUCCESS", entityId)),
       map((state: ITranslateStates) => state.entity.parentId),
-      tap((parentId: string) => this.store.dispatch(new TranslateActions.REQUEST(parentId, { entityId: parentId, source: EEntityType.translate }))),
+      tap((parentId: string) => this.store.dispatch(new TranslateActions.Add(parentId, { entityId: parentId, source: EEntityType.translate }))),
       switchMap((parentId: string) => this.onStatus("LOAD_SUCCESS", parentId)),
       tap((parent: ITranslateStates) => this.store.dispatch(new TranslateActions.SET_PARENT(entityId, parent.entity))),
     )

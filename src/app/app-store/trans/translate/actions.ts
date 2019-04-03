@@ -1,21 +1,19 @@
 
 import { IEntityTranslate } from '../../../types/trans';
 
-import { IEntityRequest, IEntityStatus } from '@xangular-store/entity/types';
+import { IEntityRequest, TEntityStatusList, TStatus } from '@xangular-store/entity/types';
 import { EntityActions } from '@xangular-store/entity/actionsMany';
 
+export type TTranslateStatuses = TEntityStatusList | 'SET_PARENT';
 
+export type TTranslateStatus = TStatus<TTranslateStatuses>
 
-export interface ITranslateStatus extends IEntityStatus {
-  SET_PARENT: boolean
-}
-
-export type TStatusName = keyof ITranslateStatus;
+export type TStatusName = keyof TTranslateStatus;
 
 export namespace StoreActions {
 
   export enum Types {
-    REQUEST = '[TRANSLATE] REQUEST',
+    ADD_REQUEST = '[TRANSLATE] REQUEST',
     LOAD = '[TRANSLATE] LOAD',
     LOAD_SUCCESS = '[TRANSLATE] LOAD_SUCCESS',
     LOAD_ERROR = '[TRANSLATE] LOAD_ERROR',
@@ -23,8 +21,8 @@ export namespace StoreActions {
     SET_PARENT = '[TRANSLATE] SET_PARENT',
   }
 
-  export class REQUEST implements EntityActions.IRequest {
-    readonly type: Types.REQUEST
+  export class Add implements EntityActions.IAdd {
+    readonly type: Types.ADD_REQUEST
     constructor(public stateId: string, public request: IEntityRequest) { }
   }
 
@@ -50,6 +48,6 @@ export namespace StoreActions {
     constructor(public stateId: string, public parent: IEntityTranslate) { }
   }
 
-  export type Actions = REQUEST | LOAD | LOAD_SUCCESS | LOAD_ERROR
+  export type Actions = Add | LOAD | LOAD_SUCCESS | LOAD_ERROR
     | SET_PARENT;
 }

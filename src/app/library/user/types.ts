@@ -1,9 +1,8 @@
 
 import { ELanguage } from '@app-types/config';
+import { createEntity, IEntity } from '@xangular-common/entity';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { Observable } from 'rxjs';
-import { IEntityStatus } from '@xangular-store/entity/types';
-import { IEntity, createEntity } from '@xangular-common/entity';
 
 
 export enum EUserRole {
@@ -12,7 +11,7 @@ export enum EUserRole {
 }
 
 
-export type TUserStatusName = keyof IUserStatus;
+export type TUserStatusName = keyof TUserStatus;
 
 export interface IUser extends IEntity {
   role: EUserRole,
@@ -36,10 +35,6 @@ export const Anonymus: IUser = createEntity<IUser>('user', '0', {
 })
 
 
-export interface IUserStatus extends IEntityStatus {
-  LOGIN?: boolean;
-  LOGOUT?: boolean;
-}
 
 
 export interface IUserService {
