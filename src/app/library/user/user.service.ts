@@ -36,9 +36,9 @@ export class UserService implements IUserService {
 
     this.store.dispatch(new MenuActions.ADD(this.getUserMenu(Anonymus)));
 
-    this.onUID().subscribe((entityId: string) => {
+    this.onUID().subscribe((id: string) => {
 
-      const request: IEntityRequest = { source: EEntityType.user, entityId };
+      const request: IEntityRequest = { source: EEntityType.user, id };
       this.store.dispatch(new UserActions.Add(request));
 
       this.store.pipe(this.selectors.isStatus({ REQUEST: true })).subscribe(() => {

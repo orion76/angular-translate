@@ -1,5 +1,5 @@
 import { InjectionToken } from "@angular/core";
-import { IDataService } from './data.service';
+import { IDataService } from './data/data.service';
 import { ISourceParseService } from './source-parse.service';
 import { ITranslateService } from './translate.service';
 

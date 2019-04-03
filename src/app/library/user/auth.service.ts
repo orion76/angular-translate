@@ -32,7 +32,7 @@ export interface IUserAuthService {
 }
 
 @Injectable()
-export class UserAuthService {
+export class UserAuthService implements IUserAuthService{
   constructor(private http: HttpClient) {
 
   }
@@ -52,7 +52,6 @@ export class UserAuthService {
         response = this.http.post(url, data, options);
         break;
     }
-
     return response;
   }
   login(name: string, pass: string) {

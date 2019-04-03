@@ -9,7 +9,8 @@ import { USER_SERVICE } from '@app-library/user/user.service';
 import { IUserAuthService, USER_AUTH_SERVICE } from '@app-library/user/auth.service';
 import { FormElementModule } from '@app-library/components/form/form-element';
 import { DATA_SERVICE } from '@app-services/injection-tokens';
-import { IDataService } from '@app-services/data.service';
+import { IDataService } from '@app-services/data';
+import { IEntityRequest, EFilterOperator } from '@xangular-store/entity/types';
 
 
 
@@ -61,7 +62,21 @@ export class UserLoginComponent implements OnInit {
     const value = this.formData.value;
     this.auth.login(value.login, value.pass).subscribe((response: any) => {
       console.log('[handleLogin]', response);
-      this.data.getItem({ entityId: response['current_user']['uid'], source: 'user' })
+      const request: IEntityRequest = {
+        source: 'user',
+        filters: [
+          {
+            name: 'user-name',
+            condition: {
+              path: ['name'],
+              operator: EFilterOperator.EQUAL,
+              value: response['current_user']['name']
+            }
+          }
+        ]
+      }
+
+      this.data.getItem(request)
         .subscribe((entity: any) => {
           console.log('[USER LOAD]', entity)
         })

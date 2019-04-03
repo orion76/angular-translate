@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { IAppState } from '@app/app-store/app-store.module';
-import { IDataService } from '@app/services/data.service';
+import { IDataService } from '@app/services/data';
 import { DATA_SERVICE } from '@app/services/injection-tokens';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -21,7 +21,7 @@ export class UserEffects {
 
     switchMap((action: UserActions.LOAD) => {
       const request = action.request;
-      return this.data.getItem({source:EEntityType.user, entityId:request.entityId}).pipe(
+      return this.data.getItem({source:EEntityType.user, id:request.id}).pipe(
         map((entity: IUser) => new UserActions.LOAD_SUCCESS(entity)),
         catchError(() => of(new UserActions.LOAD_ERROR(action.request))),
       )

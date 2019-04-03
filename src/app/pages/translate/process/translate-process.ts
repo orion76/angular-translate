@@ -86,19 +86,19 @@ export class TranslateProcess implements ITranslateProcess {
   }
 
 
-  InitTranslated(entityId: string) {
+  InitTranslated(id: string) {
 
     const source = EEntityType.translate;
 
-    this.store.dispatch(new TranslateActions.Add(entityId, { source, entityId }));
+    this.store.dispatch(new TranslateActions.Add(id, { source, id }));
 
-    this.onStatus({ REQUEST: true }, entityId).pipe(
-      tap((translated: IStateTranslate) => this.store.dispatch(new TranslateActions.LOAD(entityId, translated.data.request))),
-      switchMap((translated: IStateTranslate) => this.onStatus({ LOAD_SUCCESS: true }, entityId)),
+    this.onStatus({ REQUEST: true }, id).pipe(
+      tap((translated: IStateTranslate) => this.store.dispatch(new TranslateActions.LOAD(id, translated.data.request))),
+      switchMap((translated: IStateTranslate) => this.onStatus({ LOAD_SUCCESS: true }, id)),
       map((translated: IStateTranslate) => translated.data.entity.parentId),
-      tap((parentId: string) => this.store.dispatch(new TranslateActions.Add(parentId, { entityId: parentId, source: EEntityType.translate }))),
+      tap((parentId: string) => this.store.dispatch(new TranslateActions.Add(parentId, { id: parentId, source: EEntityType.translate }))),
       switchMap((parentId: string) => this.onStatus({ REQUEST: true }, parentId)),
-      tap((parent: IStateTranslate) => this.store.dispatch(new TranslateActions.SET_PARENT(entityId, parent.data.entity))),
+      tap((parent: IStateTranslate) => this.store.dispatch(new TranslateActions.SET_PARENT(id, parent.data.entity))),
     )
   }
 }

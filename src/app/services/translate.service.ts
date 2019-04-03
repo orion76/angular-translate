@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EMouseEvent, ILineEvent, ISelectedLine } from '@app-library/common';
 import { IUserService, USER_SERVICE } from '@app-library/user';
-import { IDataService } from '@app-services/data.service';
+import { IDataService } from '@app-services/data';
 import { DATA_SERVICE } from '@app-services/injection-tokens';
 import { StoreState as TranslateState } from '@app-store/trans/translate';
 import { IEntityTranslate, ILineEntity } from '@app/types';

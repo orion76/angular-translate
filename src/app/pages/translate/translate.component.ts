@@ -3,7 +3,7 @@ import { Component, Inject, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { ITranslateData } from '@app-library/common';
 import { IUserService, USER_SERVICE } from '@app-library/user';
-import { DataService, IDataService } from '@app/services/data.service';
+import { DataService, IDataService } from '@app/services/data';
 import { ITranslateService, TranslateService } from '@app/services/translate.service';
 import { IEntityTranslate } from '@app/types';
 import { ITranslateProcess, TRANSLATED_PROCESS, TranslateProcess } from '@pages/translate/process/translate-process';

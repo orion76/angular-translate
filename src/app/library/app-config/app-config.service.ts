@@ -26,15 +26,16 @@ export interface ISourceConfig {
 
 export interface IAppConfigService {
   get(source: string): Observable<ISourceConfig>,
-  set(config: ISourceConfig)
+  set(config: ISourceConfig),
+  rest: IRestConfig
 }
 
 @Injectable()
 export class AppConfigService implements IAppConfigService {
 
-  rest = {
-    path: 'jsonapi',
+  rest: IRestConfig = {
     prefix: 'rest',
+    path: 'jsonapi',
   }
 
   get(source: string) {
