@@ -87,6 +87,7 @@ export class DataService implements IDataService {
     }
 
     return response.pipe(tap((response) => {
+      debugger;
       console.log('[DATA LOAD]', { url, options, response })
     }));
   }

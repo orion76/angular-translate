@@ -79,12 +79,9 @@ export class UserAuthService implements IUserAuthService {
     return this.store.pipe(
       this.selectors.data,
       map((data: StoreState.IUserStates) => data.authData),
-      map((authData: any) => this.plugin.auth(req, authData))
+      map((authData: any) => this.plugin.auth(req, authData)),
+      take(1)
     )
-  }
-
-  isEntryPoint(url: string, name: TEntrypoint) {
-
   }
 
   createUrl(path: string) {
