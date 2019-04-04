@@ -11,9 +11,6 @@ export class HeaderInterceptor implements HttpInterceptor {
 
     // headers = headers.set('', '');
 
-    if (req.url.startsWith('user')) {
-      headers = headers.set('Content-type', 'application/json');
-    }
     const paramReq = req.clone({
       headers,
       withCredentials: true

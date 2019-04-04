@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from "@angular/core";
-import { APP_CONFIG_SERVICE, IAppConfigService, ISourceConfig, TEntrypoint } from '@app-library/app-config/app-config.service';
+import { APP_CONFIG_SERVICE, IAppConfigService, ISourceConfig, TEntrypoint } from '@app-library/app-config';
 
 import { SOURFCE_PARSE_SERVICE } from '@app-services/injection-tokens';
 import { ISourceParseService } from '@app-services/source-parse.service';
@@ -17,7 +17,7 @@ export const DATA_SERVICE = new InjectionToken<IDataService>('DATA_SERVICE');
 
 
 export interface IDataService {
-  request(entrypoint: TEntrypoint, method: string, url: string, params?: HttpParams, data?: any);
+  request(entrypoint: TEntrypoint, method: string, url: string, params?: HttpParams, data?: any): Observable<any>;
   getItem(request: IEntityRequest): Observable<IEntity>
   // getUser(uid: string): Observable<IUser>;
 }

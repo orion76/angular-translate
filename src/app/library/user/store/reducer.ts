@@ -7,7 +7,12 @@ import initialState = StoreState.initialState;
 import State = StoreState.State;
 import TUserStasuses = StoreState.TUserStatusList;
 
-const { setStatus, create, load, loadSuccess, loadError } = EntityReducer.factoryHandlers();;
+const { setData, setStatus, create, load, loadSuccess, loadError } = EntityReducer.factoryHandlers();;
+
+function Authenticate(action: StoreActions.Authenticate, state: State): State {
+  const newState = setData(['authData'], action.authData, state);
+  return setStatus<TUserStasuses>({ AUTHENTICATED: true }, newState);
+}
 
 function LOGIN(state: State): State {
   return setStatus<TUserStasuses>({ LOGOUT: false, LOGIN: true }, state);
@@ -30,6 +35,10 @@ export function reducer(state: State = initialState, action: StoreActions.Action
 
     case StoreActions.Types.REQUEST:
       stateNew = create(action, state)
+      break;
+
+    case StoreActions.Types.AUTHENTICATE:
+      stateNew = Authenticate(action, state)
       break;
 
     case StoreActions.Types.LOGIN:

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { USER_AUTH_SERVICE, UserAuthService } from '@app-library/user/auth.service';
+import { USER_AUTH_SERVICE, UserAuthService } from '@app-library/user/auth';
 import { DataService, DATA_SERVICE } from '@app-services/data';
 import { HeaderInterceptor, UrlInterceptor, AuthInterceptor } from '@app-services/data/interceptors';
 

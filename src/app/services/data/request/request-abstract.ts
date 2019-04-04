@@ -1,7 +1,7 @@
-import { IRequest } from './types';
+import { HttpParams } from '@angular/common/http/src/params';
+import { ISourceConfig } from '@app-library/app-config';
 import { IEntityRequest } from '@xangular-store/entity/types';
-import { ISourceConfig } from '@app-library/app-config/app-config.service';
-import { HttpParamsOptions, HttpParams } from '@angular/common/http/src/params';
+import { IRequest } from './types';
 
 
 export abstract class RequestAbstract implements IRequest {

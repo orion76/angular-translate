@@ -8,6 +8,7 @@ import { EntityActions } from '@xangular-store/entity/actionsOne';
 export namespace StoreActions {
 
   export enum Types {
+    AUTHENTICATE = '[USER] AUTHENTICATE',
     LOGIN = '[USER] LOGIN',
     LOGOUT = '[USER] LOGOUT',
     REQUEST = '[USER] REQUEST',
@@ -16,6 +17,10 @@ export namespace StoreActions {
     LOAD_ERROR = '[USER] LOAD_ERROR',
   }
 
+  export class Authenticate implements Action {
+    readonly type = Types.AUTHENTICATE
+    constructor(public authData: any) { }
+  }
 
   export class Login implements Action {
     readonly type = Types.LOGIN
@@ -28,7 +33,7 @@ export namespace StoreActions {
   }
 
 
-  export class Add implements EntityActions.IAdd{
+  export class Add implements EntityActions.IAdd {
     readonly type = Types.REQUEST
     constructor(public request: IEntityRequest) { }
   }
@@ -49,5 +54,5 @@ export namespace StoreActions {
     constructor(public request: IEntityRequest) { }
   }
 
-  export type Actions = Login | Logout | Add | LOAD | LOAD_SUCCESS | LOAD_ERROR;
+  export type Actions = Authenticate | Login | Logout | Add | LOAD | LOAD_SUCCESS | LOAD_ERROR;
 }

@@ -1,6 +1,7 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import { IKeyValueList } from '@app-library/ng-http-service/types';
 import { Observable, of } from 'rxjs';
+import { IAppConfigService, ISourceConfig } from './types';
 
 export const APP_CONFIG_SERVICE = new InjectionToken<IAppConfigService>('APP_CONFIG_SERVICE');
 
@@ -13,33 +14,15 @@ const ConfigMock: IKeyValueList<ISourceConfig> = {
 }
 
 
-export interface IEntryPointConfig {
 
-  root: string,
-  prefix?: string
-}
-
-export interface ISourceConfig {
-  name: string,
-  url: string
-}
-
-export type TEntrypoint = 'jsonapi' | 'auth'
-
-export interface IAppConfigService {
-  urlPrefix: string,
-  get(source: string): Observable<ISourceConfig>,
-  set(config: ISourceConfig),
-  entrypoints: { [key in TEntrypoint]: IEntryPointConfig }
-}
 
 @Injectable()
 export class AppConfigService implements IAppConfigService {
-
-  urlPrefix = 'rest'
+  oauthId = '69cd4610-69b8-431a-995f-d3ac9b2fc50d';
+  urlPrefix = 'rest';
 
   public entrypoints = {
-    auth: { root: '/' },
+    oauth: { root: '/oauth' },
     jsonapi: { root: '/jsonapi' }
   }
   constructor() {

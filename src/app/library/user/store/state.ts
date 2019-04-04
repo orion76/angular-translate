@@ -10,10 +10,11 @@ export namespace StoreState {
 
 
   export interface IUserStates extends IEntityStates {
+    authData?: any,
     entity?: IUser;
   }
 
-  export type TUserStatusList = TEntityStatusList | 'LOGIN' | 'LOGOUT';
+  export type TUserStatusList = TEntityStatusList | 'AUTHENTICATED' | 'LOGIN' | 'LOGOUT';
 
   export type TUserStatus = TStatus<TUserStatusList>;
 

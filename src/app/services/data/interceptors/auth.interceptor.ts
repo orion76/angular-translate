@@ -6,11 +6,16 @@ import { Observable } from 'rxjs';
 export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (req.url.includes('jsonplaceholder.typicode.com')) {
+const debug=true;
+
+    if (req.url.startsWith('/oauth')) {
+      // headers = headers.set('Content-type', 'application/x-www-form-urlencoded');
+    }
+    if (debug) {
         const paramReq = req.clone({
             params: req.params.set(
-                'userId',
-                '7'
+                'XDEBUG_SESSION_START',
+                'PHPSTORM'
             )
         });
         return next.handle(paramReq);

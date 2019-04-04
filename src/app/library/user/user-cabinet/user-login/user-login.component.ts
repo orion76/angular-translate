@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject, NgModule, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormElementModule } from '@app-library/components/form/form-element';
+import { DATA_SERVICE, IDataService } from '@app-services/data';
+import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
-import { IUserService } from '@app-library/user/types';
-import { USER_SERVICE } from '@app-library/user/user.service';
-import { IUserAuthService, USER_AUTH_SERVICE } from '@app-library/user/auth.service';
-import { FormElementModule } from '@app-library/components/form/form-element';
+import { IUserAuthService, USER_AUTH_SERVICE } from '../../auth';
+import { IUserService } from '../../types';
+import { USER_SERVICE } from '../../user.service';
 
-import { IDataService, DATA_SERVICE } from '@app-services/data';
-import { IEntityRequest, EFilterOperator } from '@xangular-store/entity/types';
 
 
 
@@ -60,27 +59,29 @@ export class UserLoginComponent implements OnInit {
   }
   handleLogin(event) {
     const value = this.formData.value;
-    this.auth.login(value.login, value.pass).subscribe((response: any) => {
-      console.log('[handleLogin]', response);
-      const request: IEntityRequest = {
-        source: 'user',
-        filters: [
-          {
-            name: 'user-name',
-            condition: {
-              path: ['name'],
-              operator: EFilterOperator.EQUAL,
-              value: response['current_user']['name']
-            }
-          }
-        ]
-      }
+    this.auth.login(value.login, value.pass)
 
-      this.data.getItem(request)
-        .subscribe((entity: any) => {
-          console.log('[USER LOAD]', entity)
-        })
-    })
+    // .subscribe((response: any) => {
+    //   console.log('[handleLogin]', response);
+    //   const request: IEntityRequest = {
+    //     source: 'user',
+    //     filters: [
+    //       {
+    //         name: 'user-name',
+    //         condition: {
+    //           path: ['name'],
+    //           operator: EFilterOperator.EQUAL,
+    //           value: response['current_user']['name']
+    //         }
+    //       }
+    //     ]
+    //   }
+
+    //   this.data.getItem(request)
+    //     .subscribe((entity: any) => {
+    //       console.log('[USER LOAD]', entity)
+    //     })
+    // })
   }
 
   handleCancel(event) {
