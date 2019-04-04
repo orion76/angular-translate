@@ -35,17 +35,6 @@ export class UserService implements IUserService {
   init() {
 
     this.store.dispatch(new MenuActions.ADD(this.getUserMenu(Anonymus)));
-
-    this.onUID().subscribe((id: string) => {
-
-      const request: IEntityRequest = { source: EEntityType.user, id };
-      this.store.dispatch(new UserActions.Add(request));
-
-      this.store.pipe(this.selectors.isStatus({ REQUEST: true })).subscribe(() => {
-        this.store.dispatch(new UserActions.LOAD(request));
-      })
-    })
-
     this.onLogin().subscribe((state: TStateUser) => {
       // this.menuReplace(EUserRole.ANONIMUS, EUserRole.AUTORISED, user);
     })
@@ -107,6 +96,7 @@ export class UserService implements IUserService {
 
   onLoaded(): Observable<TStateUser> {
     return this.store.pipe(
+      this.selectors.entity,
       this.selectors.isStatus({ LOAD_SUCCESS: true }),
       take(1)
     );
@@ -114,6 +104,7 @@ export class UserService implements IUserService {
 
   onLogin(): Observable<TStateUser> {
     return this.store.pipe(
+      this.selectors.entity,
       this.selectors.isStatus({ LOGIN: true }),
       take(1)
     );
@@ -122,7 +113,8 @@ export class UserService implements IUserService {
 
   onLogout(): Observable<TStateUser> {
     return this.store.pipe(
-      this.selectors.isStatus({LOGOUT: true}),
+      this.selectors.entity,
+      this.selectors.isStatus({ LOGOUT: true }),
       take(1)
     );
   }

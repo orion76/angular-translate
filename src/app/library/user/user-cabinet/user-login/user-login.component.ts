@@ -59,7 +59,7 @@ export class UserLoginComponent implements OnInit {
   }
   handleLogin(event) {
     const value = this.formData.value;
-    this.auth.login(value.login, value.pass)
+    this.auth.login(value.login, value.pass);
 
     // .subscribe((response: any) => {
     //   console.log('[handleLogin]', response);
