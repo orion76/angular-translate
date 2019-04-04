@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 
 export interface IRequest {
-  path(): string[];
+  path(): string;
   query(): HttpParams
 }

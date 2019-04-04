@@ -1,8 +1,10 @@
-import { HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 
 export interface IAuthPlugin {
   login(username: string, password: string);
+  auth(req: HttpRequest<any>, authData: any): HttpRequest<any>
 }
 
 
@@ -54,4 +56,5 @@ export interface ITokenRequest {
 
 export interface IUserAuthService {
   login(login: string, pass: string);
+  auth(req: HttpRequest<any>): Observable<HttpRequest<any>> ;
 }

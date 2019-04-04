@@ -17,7 +17,7 @@ export class RequestJsonApi extends RequestAbstract {
     if (this.request.id) {
       path.push(this.request.id)
     }
-    return path;
+    return path.join('/');
   }
   __filters() {
     if (!this.request.filters) {

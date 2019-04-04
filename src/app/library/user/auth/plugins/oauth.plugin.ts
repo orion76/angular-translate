@@ -1,11 +1,13 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, InjectionToken, Inject } from "@angular/core";
-import { DATA_SERVICE, IDataService } from '@app-services/data';
+import { HttpRequest } from '@angular/common/http';
+import { Inject, Injectable, InjectionToken } from "@angular/core";
 import { APP_CONFIG_SERVICE, IAppConfigService } from '@app-library/app-config';
-import { IUserAuthService, IActionConfig, RequestConfig, IAuthPlugin } from '@app-library/user/auth/types';
-import { map } from 'rxjs/operators';
+import { IActionConfig, IAuthPlugin, IUserAuthService, RequestConfig } from '@app-library/user/auth/types';
+import { DATA_SERVICE, IDataService } from '@app-services/data';
+import { IAppState } from '@app-store/app-store.module';
+import { Store } from '@ngrx/store';
 
-export const USER_AUTH_SERVICE = new InjectionToken<IUserAuthService>('USER_AUTHSERVICE');
+
+export const USER_AUTH_SERVICE = new InjectionToken<IUserAuthService>('USER_AUTH_SERVICE');
 
 
 export type UOAuthTokenType = 'Bearer';
@@ -22,6 +24,7 @@ export class OAuthPluginService implements IAuthPlugin {
 
 
   constructor(
+    private store: Store<IAppState>,
     @Inject(DATA_SERVICE) private data: IDataService,
     @Inject(APP_CONFIG_SERVICE) protected config: IAppConfigService,
   ) {
@@ -30,13 +33,6 @@ export class OAuthPluginService implements IAuthPlugin {
 
   login(username: string, password: string) {
     const config: IActionConfig = RequestConfig.token;
-    // const request: ITokenRequest = {
-    //   grant_type: 'password',
-    //   scope: 'jsonapi',
-    //   client_secret: this.config.oauthId,
-    //   client_id: this.config.oauthId,
-    //   username, password
-    // }
     let formData: FormData = new FormData();
     formData.append('grant_type', 'password');
     formData.append('scope', 'jsonapi');
@@ -45,15 +41,16 @@ export class OAuthPluginService implements IAuthPlugin {
     formData.append('username', username);
     formData.append('password', password);
     return this.data.request('oauth', 'POST', this.createUrl(config.path), null, formData)
-      .pipe(
-        map((data) => {
-
-        })
-      );
 
   }
 
+  auth(req: HttpRequest<any>, authData: IOAuthData): HttpRequest<any> {
+    let headers = req.headers;
+    headers = headers.set('Authorization', `Bearer ${authData.access_token}`)
+    return req.clone({ headers })
+  }
+
   createUrl(path: string) {
-    return `/${path}`;
+    return `${path}`;
   }
 }

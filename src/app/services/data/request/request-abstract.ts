@@ -8,7 +8,7 @@ export abstract class RequestAbstract implements IRequest {
   constructor(public request: IEntityRequest, public config: ISourceConfig) { }
 
 
-  abstract path(): string[];
+  abstract path(): string;
 
   abstract query(): HttpParams;
 

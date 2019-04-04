@@ -38,7 +38,7 @@ export class DataService implements IDataService {
       .pipe(
         map((config: ISourceConfig) => new RequestJsonApi(request, config)),
         switchMap((request: IRequest) => {
-          return this.request('jsonapi', 'GET', request.path().join('/'), request.query())
+          return this.request('jsonapi', 'GET', request.path(), request.query())
         }),
     )
   }
@@ -65,15 +65,13 @@ export class DataService implements IDataService {
 
 
   public request(entrypoint: TEntrypoint, method: string, url: string, params?: HttpParams, data?: any) {
-
+    console.log('[data.request]', { entrypoint, method, url, params, data })
 
     const entrypoyntConfig = this.config.entrypoints[entrypoint];
 
     if (entrypoyntConfig.root && entrypoyntConfig.root.length > 0) {
       url = `${entrypoyntConfig.root}/${url}`
     }
-
-
 
     const options: IHTTPOptotions = { params };
 

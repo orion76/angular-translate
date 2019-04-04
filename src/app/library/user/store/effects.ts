@@ -9,6 +9,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { IUser } from '../types';
 import { StoreActions as UserActions } from './actions';
 import { EEntityType } from '@app/types';
+import { IEntityRequest } from '@xangular-store/entity/types';
 
 @Injectable()
 export class UserEffects {
@@ -20,8 +21,7 @@ export class UserEffects {
     ofType<UserActions.LOAD>(UserActions.Types.LOAD),
 
     switchMap((action: UserActions.LOAD) => {
-      const request = action.request;
-      return this.data.getItem({source:EEntityType.user, id:request.id}).pipe(
+      return this.data.getItem(action.request).pipe(
         map((entity: IUser) => new UserActions.LOAD_SUCCESS(entity)),
         catchError(() => of(new UserActions.LOAD_ERROR(action.request))),
       )

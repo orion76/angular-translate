@@ -25,7 +25,7 @@ import { OAuthPluginService } from '@app-library/user/auth/plugins/oauth.plugin'
   ],
   imports: [
     StoreDevtoolsModule.instrument({
-      maxAge: 5,
+      maxAge: 15,
       logOnly: true, // Restrict extension to log-only mode
     }),
     BrowserModule,
@@ -44,8 +44,7 @@ import { OAuthPluginService } from '@app-library/user/auth/plugins/oauth.plugin'
     { provide: APP_CONFIG_SERVICE, useClass: AppConfigService },
     { provide: MENU_MAIN_SERVICE, useClass: MenuMainService },
     TranslateService,
-    { provide: AUTH_PLUGIN, useClass: OAuthPluginService },
-    { provide: USER_AUTH_SERVICE, useClass: UserAuthService },
+
     { provide: USER_SERVICE, useClass: UserService }
   ],
   bootstrap: [AppComponent]

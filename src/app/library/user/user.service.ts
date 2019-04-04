@@ -2,14 +2,11 @@ import { Injectable, InjectionToken } from '@angular/core';
 import { StoreActions as MenuActions } from '@app-library/menu-main/store';
 import { IMenuState } from '@app-library/menu-main/store/types';
 import { IAppState } from '@app/app-store/app-store.module';
-import { EEntityType } from '@app/types';
 import { Store } from '@ngrx/store';
-import { IEntityRequest } from '@xangular-store/entity/types';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
-import { StoreActions as UserActions, StoreSelectors as UserSelectors } from './store';
-import { EUserRole, IUser, IUserService, Anonymus } from './types';
-import { StoreState as UserState } from './store'
+import { StoreSelectors as UserSelectors, StoreState as UserState } from './store';
+import { Anonymus, EUserRole, IUser, IUserService } from './types';
 import TStateUser = UserState.TStateUser
 
 export const USER_SERVICE = new InjectionToken<IUserService>('USER_SERVICE');

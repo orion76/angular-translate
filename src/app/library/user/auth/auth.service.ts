@@ -4,11 +4,17 @@ import { IAuthPlugin, IUserAuthService } from '@app-library/user/auth/types';
 import { IAppState } from '@app-store/app-store.module';
 import { Store } from '@ngrx/store';
 import { StoreSelectors as UserSelectors, StoreActions as UserActions, StoreState } from '../store';
-import { take, switchMap, tap } from 'rxjs/operators';
+import { take, switchMap, tap, map } from 'rxjs/operators';
+
+
+
 export const USER_AUTH_SERVICE = new InjectionToken<IUserAuthService>('USER_AUTHSERVICE');
 export const AUTH_PLUGIN = new InjectionToken<IAuthPlugin>('AUTH_PLUGIN');
 
 import TStateUser = StoreState.TStateUser;
+import { IEntityRequest, EFilterOperator } from '@xangular-store/entity/types';
+import { HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class UserAuthService implements IUserAuthService {
@@ -24,23 +30,55 @@ export class UserAuthService implements IUserAuthService {
 
   login(username: string, password: string) {
 
-    this.store.dispatch(new UserActions.Add({ source: 'user', id: username }));
+    const request: IEntityRequest = {
+      source: 'user',
+      filters: [
+        {
+          name: 'user-name',
+          condition: {
+            path: ['name'],
+            operator: EFilterOperator.EQUAL,
+            value: username
+          }
+        }
+      ]
+    }
+
+    this.store.dispatch(new UserActions.Add(request));
 
     this.store.pipe(
       // tap(() => console.log('11111')),
-      take(1),
+
       this.selectors.entity,
 
       this.selectors.isStatus({ REQUEST: true }),
-      tap(() => console.log('33333')),
-      tap(() => this.plugin.login(username, password)),
-      this.selectors.isStatus({ AUTHENTICATED: true }),
+      take(1),
+      switchMap(() => {
+        return this.plugin.login(username, password).pipe(
+          tap((authData: any) => this.store.dispatch(new UserActions.Authenticate(authData))),
+          switchMap(() => this.store.pipe(
+            this.selectors.entity,
+            this.selectors.isStatus({ AUTHENTICATED: true }))
+          )
+        );
+      }),
+      take(1),
+      tap(() => console.log('44444')),
       tap((state: TStateUser) => this.store.dispatch(new UserActions.LOAD(state.data.request))),
       this.selectors.isStatus({ LOAD_SUCCESS: true }),
       tap(() => this.store.dispatch(new UserActions.Login())),
       this.selectors.isStatus({ LOGIN: true }),
       take(1)
     ).subscribe(() => true)
+  }
+
+  auth(req: HttpRequest<any>): Observable<HttpRequest<any>> {
+
+    return this.store.pipe(
+      this.selectors.data,
+      map((data: StoreState.IUserStates) => data.authData),
+      map((authData: any) => this.plugin.auth(req, authData))
+    )
   }
 
   createUrl(path: string) {
