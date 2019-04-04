@@ -2,14 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APP_CONFIG_SERVICE, IAppConfigService } from '@app-library/app-config';
-
-function trimSlash(str: string): string {
-  return str.replace(/^\/+|\/+$/g, '');
-}
-
-function clearDoubleSlash(str: string): string {
-  return str.replace(/\/\//g, '\/');
-}
+import { clearDoubleSlash } from '@app-services/data/utils';
 
 
 @Injectable()

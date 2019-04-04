@@ -21,6 +21,7 @@ export class UserEffects {
     ofType<UserActions.LOAD>(UserActions.Types.LOAD),
 
     switchMap((action: UserActions.LOAD) => {
+      debugger;
       return this.data.getItem(action.request).pipe(
         map((entity: IUser) => new UserActions.LOAD_SUCCESS(entity)),
         catchError(() => of(new UserActions.LOAD_ERROR(action.request))),

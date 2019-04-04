@@ -18,5 +18,6 @@ export interface IAppConfigService {
   urlPrefix: string,
   get(source: string): Observable<ISourceConfig>,
   set(config: ISourceConfig),
-  entrypoints: { [key in TEntrypoint]: IEntryPointConfig }
+  entrypoints: { [key in TEntrypoint]: IEntryPointConfig },
+  isEntrypoint(url: string, entrypoint: TEntrypoint),
 }

@@ -15,10 +15,10 @@ import { OAuthPluginService } from '@app-library/user/auth/plugins/oauth.plugin'
   providers: [
     { provide: AUTH_PLUGIN, useClass: OAuthPluginService },
     { provide: USER_AUTH_SERVICE, useClass: UserAuthService },
-    { provide: DATA_SERVICE, useClass: DataService },
     { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: UrlInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: DATA_SERVICE, useClass: DataService },
   ]
 })
 export class AppHTTPModule { }

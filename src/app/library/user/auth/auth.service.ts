@@ -1,5 +1,5 @@
 import { Inject, Injectable, InjectionToken } from "@angular/core";
-import { APP_CONFIG_SERVICE, IAppConfigService } from '@app-library/app-config';
+import { APP_CONFIG_SERVICE, IAppConfigService, TEntrypoint } from '@app-library/app-config';
 import { IAuthPlugin, IUserAuthService } from '@app-library/user/auth/types';
 import { IAppState } from '@app-store/app-store.module';
 import { Store } from '@ngrx/store';
@@ -66,8 +66,10 @@ export class UserAuthService implements IUserAuthService {
       tap(() => console.log('44444')),
       tap((state: TStateUser) => this.store.dispatch(new UserActions.LOAD(state.data.request))),
       this.selectors.isStatus({ LOAD_SUCCESS: true }),
+      tap(() => console.log('55555')),
       tap(() => this.store.dispatch(new UserActions.Login())),
       this.selectors.isStatus({ LOGIN: true }),
+      tap(() => console.log('77777')),
       take(1)
     ).subscribe(() => true)
   }
@@ -79,6 +81,10 @@ export class UserAuthService implements IUserAuthService {
       map((data: StoreState.IUserStates) => data.authData),
       map((authData: any) => this.plugin.auth(req, authData))
     )
+  }
+
+  isEntryPoint(url: string, name: TEntrypoint) {
+
   }
 
   createUrl(path: string) {
