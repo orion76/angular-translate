@@ -11,7 +11,7 @@ export namespace StoreState {
 
 
   export interface ITranslateStates extends IEntityStates {
-    entity: IEntityTranslate
+    entity: IEntityTranslate;
   }
 
   export type TTranslateStatusList = TEntityStatusList;
@@ -20,7 +20,7 @@ export namespace StoreState {
 
 
 
-  export type IStateTranslate = Immutable.RecordOf<IState<ITranslateStates>>
+  export type IStateTranslate = Immutable.RecordOf<IState<ITranslateStates>>;
 
   export interface State extends EntityState<IStateTranslate> {
   }
