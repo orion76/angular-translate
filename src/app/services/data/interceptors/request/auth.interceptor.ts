@@ -4,8 +4,10 @@ import { IUserAuthService, USER_AUTH_SERVICE } from '@app-library/user/auth';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { APP_CONFIG_SERVICE, IAppConfigService } from '@app-library/app-config';
+
+
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class AuthRequestInterceptor implements HttpInterceptor {
 
   constructor(
     @Inject(USER_AUTH_SERVICE) private service: IUserAuthService,

@@ -4,3 +4,4 @@ export interface IRequest {
   path(): string;
   query(): HttpParams
 }
+
