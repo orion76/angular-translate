@@ -1,5 +1,3 @@
-
-
 import { IEntity } from '@xangular-common/entity';
 import { iJSONAPI_Entity, iJSONAPI_Response } from './types';
 
