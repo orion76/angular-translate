@@ -6,7 +6,7 @@ import { clearDoubleSlash } from '@app-services/data/utils';
 
 
 @Injectable()
-export class UrlInterceptor implements HttpInterceptor {
+export class UrlRequestInterceptor implements HttpInterceptor {
 
   constructor(@Inject(APP_CONFIG_SERVICE) private config: IAppConfigService) {
 

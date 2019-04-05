@@ -1,7 +1,6 @@
 import { HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 export interface IAuthPlugin {
   login(username: string, password: string);
   auth(req: HttpRequest<any>, authData: any): HttpRequest<any>
