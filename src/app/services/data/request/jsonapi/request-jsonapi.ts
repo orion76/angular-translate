@@ -9,13 +9,13 @@ export class RequestJsonApi extends RequestAbstract {
 
   query() {
     let params = new HttpParams();
-    params = this.setFilters(params)
+    params = this.setFilters(params);
     return params;
   }
   path() {
     const path: string[] = this.config.url.split('/').filter(Boolean);
     if (this.request.id) {
-      path.push(this.request.id)
+      path.push(this.request.id);
     }
     return path.join('/');
   }
@@ -31,7 +31,7 @@ export class RequestJsonApi extends RequestAbstract {
       filters = filters.concat(
         this.condition(filter.condition)
           .map((filter: string) => `${root}${filter}`)
-      )
+      );
     });
     return filters.join('&');
 
@@ -51,7 +51,7 @@ export class RequestJsonApi extends RequestAbstract {
       const name = `filter[${filter.condition.path.join('][')}]`;
       const value = filter.condition.value;
 
-      params = params.set(name, isArray(value) ? (<string[]>value).join(',') : <string>value);
+      params = params.set(name, isArray(value) ? (value as string[]).join(',') : value as string);
     });
 
     return params;

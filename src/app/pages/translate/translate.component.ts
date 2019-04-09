@@ -1,20 +1,20 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, NgModule, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { ITranslateData } from '@app-library/common';
-import { IUserService, USER_SERVICE } from '@app-library/user';
-import { DataService, IDataService, DATA_SERVICE } from '@app/services/data';
-import { ITranslateService, TranslateService } from '@app/services/translate.service';
-import { IEntityTranslate } from '@app/types';
-import { ITranslateProcess, TRANSLATED_PROCESS, TranslateProcess } from '@pages/translate/process/translate-process';
-import { CardModule } from 'primeng/card';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { SOURFCE_PARSE_SERVICE, TRANSLATE_SERVICE } from '../../services/injection-tokens';
-import { SourceParseService } from '../../services/source-parse.service';
-import { TransEditModule } from './edit/translate-edit.component';
-import { TransOriginalModule } from './original/translate-original.component';
-import { TransTranslatedModule } from './translated/translate-translated.component';
+import {CommonModule} from '@angular/common';
+import {Component, Inject, NgModule, OnInit} from '@angular/core';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ITranslateData} from '@app-library/common';
+import {IUserService, USER_SERVICE} from '@app-library/user';
+import {DATA_SERVICE, IDataService} from '@app/services/data';
+import {ITranslateService, TranslateService} from '@app/services/translate.service';
+import {ISourceEntityTranslate} from '@app/types';
+import {ITranslateProcess, TRANSLATED_PROCESS, TranslateProcess} from '@pages/translate/process/translate-process';
+import {CardModule} from 'primeng/card';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+import {SOURFCE_PARSE_SERVICE, TRANSLATE_SERVICE} from '../../services/injection-tokens';
+import {SourceParseService} from '../../services/source-parse.service';
+import {TransEditModule} from './edit/translate-edit.component';
+import {TransOriginalModule} from './original/translate-original.component';
+import {TransTranslatedModule} from './translated/translate-translated.component';
 
 
 @Component({
@@ -43,11 +43,11 @@ export class TranslateComponent implements OnInit {
 
   selected: ITranslateData;
 
-  private originalSubject = new BehaviorSubject<IEntityTranslate>(null);
-  private translatedSubject = new BehaviorSubject<IEntityTranslate>(null);
+  private originalSubject = new BehaviorSubject<ISourceEntityTranslate>(null);
+  private translatedSubject = new BehaviorSubject<ISourceEntityTranslate>(null);
 
-  private entityOriginal$: Observable<IEntityTranslate> = this.originalSubject.asObservable();
-  private entityTranslated$: Observable<IEntityTranslate> = this.translatedSubject.asObservable();
+  private entityOriginal$: Observable<ISourceEntityTranslate> = this.originalSubject.asObservable();
+  private entityTranslated$: Observable<ISourceEntityTranslate> = this.translatedSubject.asObservable();
 
   translateData: Map<string, ITranslateData> = new Map();
 
@@ -70,7 +70,7 @@ export class TranslateComponent implements OnInit {
         filter(Boolean)
       )
       .subscribe((originalId: string) => {
-        console.log('[1.setOriginalId]', originalId);
+
         this.service.setOriginalId(originalId);
 
         // this.service
@@ -85,7 +85,7 @@ export class TranslateComponent implements OnInit {
         //     this.translatedSubject.next(entity);
         //   })
 
-      })
+      });
   }
 
   getDOM(template: string) {

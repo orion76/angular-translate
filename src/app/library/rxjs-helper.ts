@@ -10,7 +10,7 @@ export function selectNotEmpty<T, P>(
   return (source$: Observable<IAppState>): Observable<T> => {
     let mapped$: Observable<T>;
     mapped$ = source$.pipe(
-      map(source => selector(source, <P>props)),
+      map(source => selector(source, props as P)),
       distinctUntilChanged(),
       filter(Boolean)
     );

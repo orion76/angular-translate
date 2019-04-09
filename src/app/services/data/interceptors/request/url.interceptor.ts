@@ -1,8 +1,8 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { APP_CONFIG_SERVICE, IAppConfigService } from '@app-library/app-config';
-import { clearDoubleSlash } from '@app-services/data/utils';
+import {Injectable, Inject} from '@angular/core';
+import {HttpInterceptor, HttpHandler, HttpRequest, HttpEvent} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {APP_CONFIG_SERVICE, IAppConfigService} from '@app-library/app-config';
+import {clearDoubleSlash} from '@app-services/data/utils';
 
 
 @Injectable()
@@ -13,8 +13,9 @@ export class UrlRequestInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // console.log('%c[INTERCEPTOR]', 'color:green', '(URL)', req);
 
-    let url = [];
+    const url = [];
     if (this.config.urlPrefix && this.config.urlPrefix.length > 0) {
       url.push(this.config.urlPrefix);
     }

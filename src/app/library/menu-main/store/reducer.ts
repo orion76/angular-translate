@@ -17,7 +17,7 @@ export function reducer(state: State = initialState, action: StoreActions.Action
       stateNew = featureAdapter.upsertMany(action.items, state);
       break;
     case StoreActions.Types.DELETE:
-      const keys: string[] = action.items.map((item: IMenuState) => [item.place, ...item.path, item.id].join('-'))
+      const keys: string[] = action.items.map((item: IMenuState) => [item.menuName, ...item.path, item.id].join('-'));
       stateNew = featureAdapter.removeMany<State>(keys, state);
       break;
     default:

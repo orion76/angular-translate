@@ -1,9 +1,6 @@
-
-
-
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { IEntityStates, IState, TEntityStatusList, TStatus } from '@xangular-store/entity/types';
-import { IEntityTranslate } from '@app/types';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {IEntityStates, IState, TEntityStatusList, TStatus} from '@xangular-store/entity/types';
+import {ISourceEntityTranslate} from '@app/types';
 import * as Immutable from 'immutable';
 
 export namespace StoreState {
@@ -11,7 +8,7 @@ export namespace StoreState {
 
 
   export interface ITranslateStates extends IEntityStates {
-    entity: IEntityTranslate;
+    entity: ISourceEntityTranslate;
   }
 
   export type TTranslateStatusList = TEntityStatusList;

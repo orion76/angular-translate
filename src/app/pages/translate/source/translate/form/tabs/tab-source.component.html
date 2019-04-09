@@ -1,0 +1,27 @@
+<h2>{{pageTitle}}</h2>
+<div [formGroup]="form" class="translate-form-component">
+    <div class="trans-new-url-wrapper">
+        <p-toolbar>
+            <div class="ui-toolbar-group-left">
+                <button (click)="insertHTML()" icon="pi pi-plus" label="Insert HTML" pButton type="button"></button>
+            </div>
+            <div class="ui-toolbar-group-right">
+                <button (click)="createTranslate()" label="Load" pButton type="button"></button>
+            </div>
+        </p-toolbar>
+    </div>
+    <div  formGroupName="sourceLink" class="insert-htm-url-wrapper">
+        <label for="insert-html-dialog-url">
+            URL:
+            <input id="insert-html-dialog-url" type="text" pInputText formControlName="uri"/>
+        </label>
+    </div>
+
+    <div class="trans-source">
+        <ckeditor formControlName="template" [editor]="editor" data="<p>Hello, world!</p>"></ckeditor>
+        <!-- p-editor [(ngModel)]="content" [style]="{'height':'320px'}"></p-editor -->
+    </div>
+
+
+</div>
+<insert-html-dialog [form]="form" formField="template" [(display)]="displayInsertDialog"></insert-html-dialog>

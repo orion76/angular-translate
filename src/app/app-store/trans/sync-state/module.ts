@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './reducer';
-import { StoreState } from "./state";
+import { StoreState } from './state';
 import { SyncStateStoreEffects } from './effects';
 
 @NgModule({

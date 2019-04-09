@@ -1,5 +1,4 @@
-import { MenuItem } from 'primeng/components/common/menuitem';
-import { IMenuState, TMenuPlace } from '@app-library/menu-main/store/types';
+import {IMenuState} from '@app-library/menu-main/store/types';
 
 
 export namespace StoreActions {

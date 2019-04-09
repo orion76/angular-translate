@@ -1,28 +1,18 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { TransNewComponent } from '@pages/translate';
-import { TranslateComponent } from '@pages/translate/translate.component';
-import { UserHomeModule, UserHomeComponent, UserHomeRoutes } from '@pages/user/user-home.component';
-import { UserRoutes } from '@app-library/user/routes';
-import { UserTranslationsModule } from '@pages/user/translations/user-translations.component';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {UserModule} from '@app-library/user/user.module';
+// import {UserHomeModule} from '@pages/user/user-home.component';
 
-const routesUser: Routes = UserRoutes;
+// import {UserTranslationsModule} from '@pages/user/translations/user-translations.component';
 
-const routes: Routes = [
-  { path: 'trans', component: TranslateComponent },
-  { path: 'trans-new', component: TransNewComponent },
-  {
-    path: 'user', component: UserHomeComponent,
-    children: routesUser.concat(UserHomeRoutes)
-  },
-];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
+  imports: [RouterModule.forRoot([], {enableTracing: false})],
   exports: [
     RouterModule,
-    UserHomeModule,
-    UserTranslationsModule
+    UserModule,
+
   ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

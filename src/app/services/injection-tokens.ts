@@ -1,4 +1,4 @@
-import { InjectionToken } from "@angular/core";
+import { InjectionToken } from '@angular/core';
 import { ISourceParseService } from './source-parse.service';
 import { ITranslateService } from './translate.service';
 

@@ -1,9 +1,9 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { IUserAuthService, USER_AUTH_SERVICE } from '@app-library/user/auth';
-import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
-import { APP_CONFIG_SERVICE, IAppConfigService } from '@app-library/app-config';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Inject, Injectable} from '@angular/core';
+import {IUserAuthService, USER_AUTH_SERVICE} from '@app-library/user/auth';
+import {Observable} from 'rxjs';
+import {switchMap, tap} from 'rxjs/operators';
+import {APP_CONFIG_SERVICE, IAppConfigService} from '@app-library/app-config';
 
 
 @Injectable()
@@ -16,14 +16,14 @@ export class AuthRequestInterceptor implements HttpInterceptor {
 
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // console.log('%c[INTERCEPTOR]', 'color:green', '(AUTH)', req);
     if (this.config.isEntrypoint(req.url, 'jsonapi')) {
       return this.service.auth(req)
         .pipe(
-          tap((req: HttpRequest<any>) => console.log('[AUTH]', req)),
+          // tap((req: HttpRequest<any>) => console.log('[AUTH]', req)),
           switchMap((req: HttpRequest<any>) => next.handle(req))
-
         );
 
     } else {

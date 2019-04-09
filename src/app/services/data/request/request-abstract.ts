@@ -5,7 +5,7 @@ import { IRequest } from './types';
 
 
 export abstract class RequestAbstract implements IRequest {
-  constructor(public request: IEntityRequest, public config: ISourceConfig) { }
+  constructor(public request: IEntityRequest, public config: ISourceConfig<any>) { }
 
 
   abstract path(): string;

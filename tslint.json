@@ -9,6 +9,7 @@
     "deprecation": {
       "severity": "warn"
     },
+    "class-name": false,
     "import-blacklist": [
       true,
       "rxjs/Rx"
@@ -40,6 +41,7 @@
       "timeEnd",
       "trace"
     ],
+    "no-debugger": false,
     "no-empty": false,
     "no-inferrable-types": [
       true,
@@ -48,6 +50,8 @@
     "no-namespace": false,
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
+    "no-shadowed-variable": false,
+    "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "no-use-before-declare": true,
     "no-var-requires": false,
@@ -71,6 +75,13 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "component-selector": false,
+    "directive-class-suffix": true,
+    "variable-name": [
+      true,
+      "allow-leading-underscore",
+      "allow-snake-case",
+      "allow-pascal-case"
+    ]
   }
 }

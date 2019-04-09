@@ -12,4 +12,4 @@ export enum EEntityType {
   translate_line = 'translate_line',
   translate = 'translate',
   user = 'user'
-};
+}

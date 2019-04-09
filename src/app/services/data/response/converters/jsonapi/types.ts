@@ -1,4 +1,4 @@
-import { IKeyValueList } from '@app-library/ng-http-service/types';
+import {IKeyValueList} from '@xangular-common/common';
 
 export type tJSONAPIFilterOperators =
   '='
@@ -15,31 +15,31 @@ export type tJSONAPIFilterOperators =
 export type tJSONAPIFilterConjunctions = 'AND' | 'OR' | 'XOR';
 
 export interface iJSONAPI_Response_Relationship {
-  data: iJSONAPI_Entity | iJSONAPI_Entity[],
+  data: IJSONAPIEntity | IJSONAPIEntity[];
 }
 
-export interface iJSONAPI_Entity {
-  id: string,
-  type: string,
-  attributes?: IKeyValueList<string>,
-  relationships?: IKeyValueList<iJSONAPI_Response_Relationship>
+export interface IJSONAPIEntity {
+  id: string;
+  type: string;
+  attributes?: IKeyValueList<string>;
+  relationships?: IKeyValueList<iJSONAPI_Response_Relationship>;
 }
 
-export interface iJSONAPI_Response {
-  data: iJSONAPI_Entity | iJSONAPI_Entity[],
-  included?: iJSONAPI_Entity[],
+export interface IJSONAPIResponse {
+  data: IJSONAPIEntity | IJSONAPIEntity[];
+  included?: IJSONAPIEntity[];
 }
 
 export interface iJSONAPI_Filter {
-  field: string[],
-  value: string[],
-  operator: tJSONAPIFilterOperators,
-  conjunction?: tJSONAPIFilterConjunctions,
+  field: string[];
+  value: string[];
+  operator: tJSONAPIFilterOperators;
+  conjunction?: tJSONAPIFilterConjunctions;
 }
 
 export interface JSONAPIFilter {
-  fieldName: string,
-  value: string[]
+  fieldName: string;
+  value: string[];
 }
 
 

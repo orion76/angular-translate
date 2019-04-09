@@ -1,8 +1,7 @@
+import {ISourceEntityTranslate} from '@app/types';
 
-import { IEntityTranslate } from '../../../types/trans';
-import {EntityActions} from '@xangular-store/entity/actions';
-import {IEntityRequest} from '@xangular-store/entity/types';
-
+import {IEntityRequest, TEntityStatusList, TStatus} from '@xangular-store/entity/types';
+import {EntityActions} from '@xangular-store/entity/actionsMany';
 
 
 export type TTranslateStatuses = TEntityStatusList | 'SET_PARENT';
@@ -33,22 +32,22 @@ export namespace StoreActions {
   }
 
 
-  export class LOAD_SUCCESS implements EntityActions.ILoadSuccess {
+  export class LoadSuccess implements EntityActions.ILoadSuccess {
     readonly type: Types.LOAD_SUCCESS;
-    constructor(public stateId: string, public entity: IEntityTranslate) { }
+    constructor(public stateId: string, public entity: ISourceEntityTranslate) { }
   }
 
-  export class LOAD_ERROR implements EntityActions.ILoadError {
+  export class LoadError implements EntityActions.ILoadError {
     readonly type: Types.LOAD_ERROR;
     constructor(public stateId: string, public request: IEntityRequest) { }
   }
 
 
-  export class SET_PARENT implements EntityActions.ISetParent {
+  export class SetParent implements EntityActions.ISetParent {
     readonly type: Types.SET_PARENT;
-    constructor(public stateId: string, public parent: IEntityTranslate) { }
+    constructor(public stateId: string, public parent: ISourceEntityTranslate) { }
   }
 
-  export type Actions = Add | LOAD | LOAD_SUCCESS | LOAD_ERROR
-    | SET_PARENT;
+  export type Actions = Add | LOAD | LoadSuccess | LoadError
+    | SetParent;
 }

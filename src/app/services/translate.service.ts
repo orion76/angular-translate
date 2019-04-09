@@ -1,26 +1,24 @@
-import { Inject, Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { EMouseEvent, ILineEvent, ISelectedLine } from '@app-library/common';
-import { IUserService, USER_SERVICE } from '@app-library/user';
-import { IDataService, DATA_SERVICE } from '@app-services/data';
+import {Inject, Injectable} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {EMouseEvent, ILineEvent, ISelectedLine} from '@app-library/common';
+import {IUserService, USER_SERVICE} from '@app-library/user';
+import {DATA_SERVICE, IDataService} from '@app-services/data';
 
-import { StoreState as TranslateState } from '@app-store/trans/translate';
-import { IEntityTranslate, ILineEntity } from '@app/types';
-import { ITranslateProcess, TRANSLATED_PROCESS } from '@pages/translate/process/translate-process';
-import { IEntityRequest } from '@xangular-store/entity/types';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
-
-import IStateTranslate = TranslateState.IStateTranslate
+import {StoreState as TranslateState} from '@app-store/trans/translate';
+import {ISourceEntityTranslate, ILineEntity} from '@app/types';
+import {ITranslateProcess, TRANSLATED_PROCESS} from '@pages/translate/process/translate-process';
+import {IEntityRequest} from '@xangular-store/entity/types';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
+import IStateTranslate = TranslateState.IStateTranslate;
 
 export interface ITranslateService {
-  do(event: EMouseEvent, line: ISelectedLine): void
+  do(event: EMouseEvent, line: ISelectedLine): void;
   onEvent(event: EMouseEvent): Observable<ILineEvent>;
   onLineSelect(originalId: string);
   load(request: IEntityRequest);
-  onLoad(stateId: string): Observable<IEntityTranslate>;
-  setOriginalId(originalId: string)
+  onLoad(stateId: string): Observable<ISourceEntityTranslate>;
+  setOriginalId(originalId: string);
 }
 
 @Injectable()
@@ -57,11 +55,11 @@ export class TranslateService implements ITranslateService {
   }
 
 
-  load(request: IEntityRequest): Observable<IEntityTranslate> {
+  load(request: IEntityRequest): Observable<ISourceEntityTranslate> {
     return this.data.getItem(request);
   }
 
-  onLoad(stateId: string): Observable<IEntityTranslate> {
+  onLoad(stateId: string): Observable<ISourceEntityTranslate> {
     return this.process.onLoad(stateId).pipe(map((state: IStateTranslate) => state.data.entity));
   }
 
@@ -81,15 +79,15 @@ export class TranslateService implements ITranslateService {
         trans.addEventListener('mousedown', (event: MouseEvent) => this.do(
           EMouseEvent.MOUSE_DOWN, { originalId, lineIdPrev, lineId: (event.target as HTMLElement).id })
         );
-      })
+      });
 
     this.process.onLineSelect(originalId).subscribe((line: ISelectedLine) => {
       this.lineId = line.lineId;
-    })
+    });
 
     this.onEvent(EMouseEvent.MOUSE_DOWN).subscribe((event: ILineEvent) => {
       this.process.selectLine(event.line.originalId, event.line.lineId);
-    })
+    });
   }
 
 
@@ -101,17 +99,17 @@ export class TranslateService implements ITranslateService {
 
   init() {
     this.onEvent(EMouseEvent.MOUSE_DOWN)
-      .subscribe((event: ILineEvent) => this.onMouseDownHandler(event.line))
+      .subscribe((event: ILineEvent) => this.onMouseDownHandler(event.line));
 
     this.onEvent(EMouseEvent.MOUSE_ENTER)
-      .subscribe((event: ILineEvent) => this.onMouseEnterHandler(event.line))
+      .subscribe((event: ILineEvent) => this.onMouseEnterHandler(event.line));
 
     this.onEvent(EMouseEvent.MOUSE_OUT)
-      .subscribe((event: ILineEvent) => this.onMouseOutHandler(event.line))
+      .subscribe((event: ILineEvent) => this.onMouseOutHandler(event.line));
 
   }
   onMouseDownHandler(line: ISelectedLine) {
-    this.process.selectLine(line.originalId, line.lineId)
+    this.process.selectLine(line.originalId, line.lineId);
   }
 
   onMouseEnterHandler(line: ISelectedLine) {
@@ -143,13 +141,13 @@ export class TranslateService implements ITranslateService {
       filter(Boolean),
       filter((item: ILineEvent) => item.event === event),
       // tap((item: ISelectedTranslateString) => console.log('onEvent', EEvents[item.event], item))
-    )
+    );
   }
 
 
 
   public do(event: EMouseEvent, line: ISelectedLine): void {
-    this._onEventSubject.next({ event, line })
+    this._onEventSubject.next({ event, line });
   }
 
 }

@@ -1,19 +1,20 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppConfigService, APP_CONFIG_SERVICE } from '@app-library/app-config/app-config.service';
-import { MenuMainService, MENU_MAIN_SERVICE } from '@app-library/menu-main/menu-main.service';
-import { MenuMainModule } from '@app-library/menu-main/module';
-import { UserService, USER_SERVICE } from '@app-library/user';
-import { AppHTTPModule } from '@app/app-http.module';
-import { AppMenuModule } from '@app/app-menu.module';
-import { AppRoutingModule } from '@app/app-routing.module';
-import { AppStoreModule } from '@app/app-store/app-store.module';
-import { AppComponent } from '@app/app.component';
-import { TranslateService } from '@app/services/translate.service';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TransModule, TransNewModule } from '@pages/translate';
-import { MenubarModule } from 'primeng/menubar';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MenuMainModule} from '@app-library/menu-main/module';
+import {USER_SERVICE, UserService} from '@app-library/user';
+import {AppHTTPModule} from '@app/app-http.module';
+import {AppMenuModule} from '@app/app-menu.module';
+import {AppRoutingModule} from '@app/app-routing.module';
+import {AppStoreModule} from '@app/app-store/app-store.module';
+import {AppComponent} from '@app/app.component';
+import {TranslateService} from '@app/services/translate.service';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {TranslateRootModule} from '@pages/translate/module';
+import {AppConfigModule} from '@app-library/app-config/module';
+import {UserModule} from '@app-library/user/user.module';
+import {AppSourceModule} from '@app/app-source.module';
+import {FORM_SERVICE, FormService} from '@app-library/components/form/form.service';
 
 
 @NgModule({
@@ -27,21 +28,22 @@ import { MenubarModule } from 'primeng/menubar';
     }),
     BrowserModule,
     BrowserAnimationsModule,
+    AppSourceModule,
+    AppConfigModule,
     AppHTTPModule,
     AppRoutingModule,
     AppStoreModule,
     MenuMainModule,
     AppMenuModule,
-    MenubarModule,
-    TransModule,
-    TransNewModule
+    UserModule,
+    TranslateRootModule,
   ],
   providers: [
-    { provide: APP_CONFIG_SERVICE, useClass: AppConfigService },
-    { provide: MENU_MAIN_SERVICE, useClass: MenuMainService },
     TranslateService,
-    { provide: USER_SERVICE, useClass: UserService }
+    {provide: USER_SERVICE, useClass: UserService},
+    {provide: FORM_SERVICE, useClass: FormService}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,6 +1,8 @@
-import { Observable } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {HttpResponse} from '@angular/common/http';
 
 export interface IResponseConverterPlugin {
-  convert(event: HttpResponse<any>): Observable<any> 
+  readonly entrypoint: string;
+
+  convert<T>(event: HttpResponse<any>): any | Observable<any>;
 }

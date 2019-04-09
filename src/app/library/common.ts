@@ -13,18 +13,18 @@ export enum EMouseEvent {
 
 export interface ISelectedLine {
 
-  originalId: string,
+  originalId: string;
   lineIdPrev: string;
   lineId: string;
 }
 
 export interface ILineEvent {
   event: EMouseEvent;
-  line: ISelectedLine
+  line: ISelectedLine;
 }
 
 export interface ITranslateData {
-  transId: string,
-  original: string,
-  translated: string
+  transId: string;
+  original: string;
+  translated: string;
 }

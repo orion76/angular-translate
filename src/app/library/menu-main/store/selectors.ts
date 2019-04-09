@@ -1,15 +1,14 @@
-import { IMenuProps as StateProps, IMenuState as StateType } from '@app-library/menu-main/store/types';
-import { IAppState } from '@app-store/app-store.module';
-import { Dictionary } from '@ngrx/entity/src/models';
-import { createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps } from '@ngrx/store';
-import { MenuItem } from 'primeng/components/common/menuitem';
-import { StoreState } from './state';
+import {IMenuProps as StateProps, IMenuState as StateType} from '@app-library/menu-main/store/types';
+import {IAppState} from '@app-store/app-store.module';
+import {Dictionary} from '@ngrx/entity/src/models';
+import {createFeatureSelector, createSelector, MemoizedSelector, MemoizedSelectorWithProps} from '@ngrx/store';
+import {StoreState} from './state';
 
 
 // import IFormProps = FormSelectors.IFormProps;
 
 export function DictionaryToArray<T>(dictionary: Dictionary<T>): T[] {
-  const array=Object.keys(dictionary).map((key: string) => dictionary[key]);
+  const array = Object.keys(dictionary).map((key: string) => dictionary[key]);
   return array;
 }
 
@@ -31,7 +30,7 @@ export namespace StoreSelectors {
 
 
   export const getEntity = (entities: Dictionary<StateType>, props: StateProps): StateType => {
-    return entities && entities[props.menuId] ? entities[props.menuId] : null
+    return entities && entities[props.menuId] ? entities[props.menuId] : null;
   };
 
 
@@ -42,13 +41,13 @@ export namespace StoreSelectors {
   export const selectFeatureState: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
 
   export type TEntities = MemoizedSelector<IAppState, Dictionary<StateType>>;
-  export const Entities: TEntities = createSelector(selectFeatureState, selectEntities);
+  export const entities: TEntities = createSelector(selectFeatureState, selectEntities);
 
   export type TEntity = MemoizedSelectorWithProps<IAppState, StateProps, StateType>;
-  export const Entity: TEntity = createSelector(Entities, getEntity);
+  export const entity: TEntity = createSelector(entities, getEntity);
 
   export type TMenu = MemoizedSelector<IAppState, StateType[]>;
-  export const Menu: TMenu = createSelector(Entities, getMenu);
+  export const menu: TMenu = createSelector(entities, getMenu);
 
 }
 

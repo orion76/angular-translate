@@ -5,8 +5,8 @@ import { FormElementLabelModule, TLabelPosition } from './label-input';
 @Component({
   selector: 'form-element',
   template: `
-        <div *ngIf="!hidden" class="form-field" >
-           <label-input [text]="label" [description]="description" [position]="label_position" ></label-input>
+        <div *ngIf="!hidden" class="form-field ui-g" >
+           <label-input [text]="label" [description]="description" [position]="label_position" class="ui-md-2"></label-input>
            <ng-content></ng-content>
       </div>
 `
@@ -14,8 +14,9 @@ import { FormElementLabelModule, TLabelPosition } from './label-input';
 export class FormElementComponent {
   @Input() hidden: boolean;
   @Input() label: string;
-  @Input() labe_positions: TLabelPosition;
+  @Input() label_position: TLabelPosition;
   @Input() description: string;
+
 }
 
 @NgModule({

@@ -1,14 +1,20 @@
-import { Injectable } from '@angular/core';
-import { IKeyValueList } from '@app-library/ng-http-service/types';
-import { IFieldOptions } from '@app-library/ng-http-service/types/source-config';
-import { EEntityType, ELanguage, IEntityTranslate, ILineEntity } from '@app/types';
-import { UrlObject } from 'url';
-import { createEntity } from '@xangular-common/entity';
-
+import {Injectable} from '@angular/core';
+import {EEntityType, ILineEntity, ISourceEntityTranslate} from '@app/types';
+import {UrlObject} from 'url';
+import {createEntity} from '@xangular-common/entity';
+import * as Immutable from 'immutable';
+import {TEntityFields} from '@app-library/components/form/types';
+import {ISourceEntityTranslateLine} from '@pages/translate/source/source.config';
 
 
 export interface ISourceParseService {
-  parse(source: string, language: string, authorId: string): IEntityTranslate;
+  parse(
+    source: string,
+    entity: Immutable.RecordOf<ISourceEntityTranslate>,
+    translateConfig: TEntityFields<ISourceEntityTranslate>,
+    lineConfig: TEntityFields<ISourceEntityTranslateLine>,
+  ): Immutable.RecordOf<ISourceEntityTranslate>;
+
   prepareHTMLSource(source, sourceUrl: string): string;
 }
 
@@ -28,14 +34,24 @@ export class SourceParseService implements ISourceParseService {
     return dom.body.innerHTML;
   }
 
-  public parse(source: string, language: ELanguage, authorId: string): IEntityTranslate {
+  public parse(
+    source: string,
+    entity: Immutable.RecordOf<ISourceEntityTranslate>,
+    translateConfig: TEntityFields<ISourceEntityTranslate>,
+    lineConfig: TEntityFields<ISourceEntityTranslateLine>,
+  ): Immutable.RecordOf<ISourceEntityTranslate> {
 
-    const entity: IEntityTranslate = createEntity<IEntityTranslate>(EEntityType.translate, null, {})
+    // const entity = createEntity<IEntityTranslate>(
+    //   source,
+    //   null
+    //   , {lines: Immutable.OrderedMap()});
 
     const dom = this.getDom(source);
     const textNodes: HTMLElement[] = this.getTextNodes(dom);
 
     let transId = 1;
+
+    const lines = new Map();
 
     textNodes.forEach((node: HTMLElement) => {
       const trans = dom.createElement('trans');
@@ -43,34 +59,85 @@ export class SourceParseService implements ISourceParseService {
       trans.id = `trans-id-${transId}`;
       trans.textContent = '';
 
-      const options: IKeyValueList<IFieldOptions> = {
-        label: { type: "attribute" },
-        language: { type: "attribute" },
-        content: { type: "attribute" },
-      }
+      // const options: IKeyValueList<IFieldOptions> = {
+      //   label: {type: 'attribute'},
+      //   language: {type: 'attribute'},
+      //   content: {type: 'attribute'},
+      // };
 
 
-
-      const line = createEntity<ILineEntity>(EEntityType.translate_line, transId.toString(), {
+      const line = createEntity<ILineEntity>(EEntityType.translate_line, transId.toString(), lineConfig, {
         label: node.textContent.slice(0, 128),
-        language,
+        langcode: entity.langcode,
         content: node.textContent
-      })
+      });
 
-      entity.lines.set(trans.id, line)
+      lines.set(trans.id, line);
 
       node.parentNode.replaceChild(trans, node);
       transId++;
-    })
+    });
 
-    entity.template = dom.body;
-    return entity;
+    return entity.withMutations((record: Immutable.RecordOf<ISourceEntityTranslate>) => {
+      record.set('lines', lines);
+      record.set('template', dom.body.outerHTML);
+    });
+
+  }
+
+  public prepareLinks(dom: HTMLElement, sourceUrl: string) {
+
+    const url = new URL(sourceUrl);
+    // const dom = this.parser.parseFromString(source, 'text/html');
+
+    Array.from(dom.getElementsByTagName('a'))
+      .filter(this.isLinkInternal)
+      .map((link: HTMLAnchorElement) => this.prepareLink(link, url));
+
+  }
+
+  public prepareImages(dom: HTMLElement, sourceUrl: string) {
+
+    const url = new URL(sourceUrl);
+    // const dom = this.parser.parseFromString(source, 'text/html');
+
+    Array.from(dom.getElementsByTagName('img'))
+      .filter((img: HTMLImageElement) => this.isLinkInternal(new URL(img.src)))
+      .map((img: HTMLImageElement) => this.prepareImg(img, url));
+
   }
 
   protected getTextNodes(elem: Node) {
     return this._getTextNodes(elem)
       .filter((node: Node) => Boolean(node.textContent.trim()))
-      .filter((node: Node) => node.textContent.match(/[\S]+/));;
+      .filter((node: Node) => node.textContent.match(/[\S]+/));
+  }
+
+  protected isLinkInternal(url: UrlObject): boolean {
+    return url.hostname.length === 0 || location.hostname === url.hostname;
+  }
+
+  protected _getTextNodes(elem: Node) {
+    let textNodes = [];
+    if (this.hasChildren(elem)) {
+
+      Array.from(elem.childNodes).forEach((node: Node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          textNodes.push(node);
+        } else {
+          textNodes = textNodes.concat(this._getTextNodes(node));
+        }
+
+      });
+    }
+    return textNodes;
+  }
+
+  protected hasChildren(elem: Node) {
+    return (
+      elem.nodeType === Node.ELEMENT_NODE
+      || elem.nodeType === Node.DOCUMENT_NODE
+      || elem.nodeType === Node.DOCUMENT_FRAGMENT_NODE);
   }
 
   private prepareImg(img: HTMLImageElement, url: URL) {
@@ -83,59 +150,5 @@ export class SourceParseService implements ISourceParseService {
   private prepareLink(link: HTMLAnchorElement, url: URL) {
     link.protocol = url.protocol;
     link.hostname = url.hostname;
-  }
-
-  public prepareLinks(dom: HTMLElement, sourceUrl: string) {
-
-    const url = new URL(sourceUrl);
-    // const dom = this.parser.parseFromString(source, 'text/html');
-
-    Array.from(dom.getElementsByTagName("a"))
-      .filter(this.isLinkInternal)
-      .map((link: HTMLAnchorElement) => this.prepareLink(link, url))
-
-  }
-
-
-  public prepareImages(dom: HTMLElement, sourceUrl: string) {
-
-    const url = new URL(sourceUrl);
-    // const dom = this.parser.parseFromString(source, 'text/html');
-
-    Array.from(dom.getElementsByTagName("img"))
-      .filter((img: HTMLImageElement) => this.isLinkInternal(new URL(img.src)))
-      .map((img: HTMLImageElement) => this.prepareImg(img, url))
-
-  }
-
-  protected isLinkInternal(url: UrlObject): boolean {
-    return url.hostname.length === 0 || location.hostname === url.hostname
-  }
-
-
-  protected _getTextNodes(elem: Node) {
-    var textNodes = [];
-    if (this.hasChildren(elem)) {
-
-      Array.from(elem.childNodes).forEach((node: Node) => {
-        if (node.nodeType == Node.TEXT_NODE) {
-          textNodes.push(node);
-        }
-        else {
-          textNodes = textNodes.concat(this._getTextNodes(node));
-        }
-
-      })
-    }
-    return textNodes;
-  }
-
-
-
-  protected hasChildren(elem: Node) {
-    return (
-      elem.nodeType === Node.ELEMENT_NODE
-      || elem.nodeType === Node.DOCUMENT_NODE
-      || elem.nodeType === Node.DOCUMENT_FRAGMENT_NODE)
   }
 }

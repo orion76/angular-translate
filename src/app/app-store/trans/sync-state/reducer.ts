@@ -1,8 +1,8 @@
-import { StoreState } from './state';
+import {StoreState} from './state';
 
 import initialState = StoreState.initialState;
 import State = StoreState.State;
-import { StoreActions } from './actions';
+import {StoreActions} from './actions';
 
 import featureAdapter = StoreState.featureAdapter;
 
@@ -36,16 +36,16 @@ export function reducer(state: State = initialState, action: StoreActions.Action
     case StoreActions.Types.SCROLL_ORIGINAL:
       stateNew = featureAdapter.updateOne<State>({
         id: action.originalId,
-        changes: { originalScroll: action.scroll }
+        changes: {originalScroll: action.scroll}
       }, state);
       break;
 
     case StoreActions.Types.SCROLL_TRANSLATED:
       stateNew = featureAdapter.updateOne<State>({
         id: action.originalId,
-        changes: { translatedScroll: action.scroll }
+        changes: {translatedScroll: action.scroll}
       }, state);
-
+      break;
     default:
       stateNew = state;
   }

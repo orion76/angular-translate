@@ -1,20 +1,19 @@
-import { MenuItem } from 'primeng/components/common/menuitem';
+import {IMenuItem} from '@app-library/menu-main/types';
 
 export interface IMenuProps {
   menuId: string;
 }
+
 export type TMenuPlace = 'right' | 'middle' | 'left';
 
 export type IMenuMainItems = {
-  [key in TMenuPlace]: MenuItem
-}
-
+  [key in TMenuPlace]: IMenuItem
+};
 
 
 export interface IMenuState {
-  place: TMenuPlace,
+  menuName: string;
   path?: string[];
-  id?: string,
-  weight?: number,
-  item?: MenuItem;
+  id?: string;
+  item?: IMenuItem;
 }

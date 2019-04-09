@@ -1,11 +1,11 @@
-
-import { ELanguage } from '@app-types/config';
-import { createEntity, IEntity } from '@xangular-common/entity';
-import { MenuItem } from 'primeng/components/common/menuitem';
-import { Observable } from 'rxjs';
-import { StoreState as UserState } from './store';
+import {ELanguage} from '@app-types/config';
+import {createEntity, IEntity} from '@xangular-common/entity';
+import {MenuItem} from 'primeng/components/common/menuitem';
+import {Observable} from 'rxjs';
+import {StoreState as UserState} from './store';
 
 import TStateUser = UserState.TStateUser;
+import {sourceConfigUser} from '@app-library/user/source/source.config';
 
 export enum EUserRole {
   ANONIMUS = 'user-anonimus',
@@ -13,36 +13,35 @@ export enum EUserRole {
 }
 
 
-
-
 export interface IUser extends IEntity {
-  role: EUserRole,
-  label: string;
-  language: ELanguage;
-  avatar: string;
+  name: string;
+  langcode: ELanguage;
+  user_picture: string;
 }
 
 export interface IMenuUpdate {
-  role: EUserRole,
-  items: MenuItem[]
+  role: EUserRole;
+  items: MenuItem[];
 }
 
 
-
-export const Anonymus: IUser = createEntity<IUser>('user', '0', {
-  role: EUserRole.ANONIMUS,
-  label: 'Anonymus',
-  language: ELanguage.RU,
-  avatar: 'https://avatars0.githubusercontent.com/u/2338387'
-})
-
-
+export const UserAnonymus: IUser = createEntity<IUser>('user', null, sourceConfigUser.fields, {
+  name: 'Anonymus',
+  langcode: ELanguage.RU,
+  user_picture: 'https://avatars0.githubusercontent.com/u/2338387'
+});
 
 
 export interface IUserService {
-  onUID(): Observable<string>;
+
+
   onLoaded(): Observable<TStateUser>;
+
   onLogin(): Observable<TStateUser>;
+
   onLogout(): Observable<TStateUser>;
+
+  getRole(user: IUser): EUserRole;
+
   // on(eventType: EUserEvent): Observable<IUser>
 }

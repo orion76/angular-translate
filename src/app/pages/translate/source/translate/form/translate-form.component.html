@@ -1,0 +1,15 @@
+<h2>{{pageTitle}}</h2>
+<div *ngIf="form" class="translate-form-component">
+    <form [formGroup]="form">
+        <p-tabView>
+            <p-tabPanel header="Source">
+                <translate-tab-source [form]="form"></translate-tab-source>
+            </p-tabPanel>
+            <p-tabPanel header="Translate">
+                Content 2
+            </p-tabPanel>
+        </p-tabView>
+    </form>
+
+</div>
+

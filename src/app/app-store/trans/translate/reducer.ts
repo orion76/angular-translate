@@ -9,10 +9,10 @@ import { EntityReducer } from '@xangular-store/entity/reducerMany';
 
 
 
-const { add, load, loadSuccess, loadError } = EntityReducer.factoryHandlers(featureAdapter);;
+const { add, load, loadSuccess, loadError } = EntityReducer.factoryHandlers(featureAdapter);
 
 
-function setParent(action: StoreActions.SET_PARENT, state: State) {
+function setParent(action: StoreActions.SetParent, state: State) {
 
   const { stateId, parent } = action;
   const entityState = state.entities[stateId];

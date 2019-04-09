@@ -1,13 +1,12 @@
-import { Injectable, InjectionToken } from '@angular/core';
-import { StoreActions as MenuActions } from '@app-library/menu-main/store';
-import { IMenuState } from '@app-library/menu-main/store/types';
-import { IAppState } from '@app/app-store/app-store.module';
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { delay, take } from 'rxjs/operators';
-import { StoreSelectors as UserSelectors, StoreState as UserState } from './store';
-import { Anonymus, EUserRole, IUser, IUserService } from './types';
-import TStateUser = UserState.TStateUser
+import {Inject, Injectable, InjectionToken} from '@angular/core';
+import {IAppState} from '@app/app-store/app-store.module';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
+import {take} from 'rxjs/operators';
+import {StoreSelectors as UserSelectors, StoreState as UserState} from './store';
+import {EUserRole, IUser, IUserService} from './types';
+import TStateUser = UserState.TStateUser;
+import {IUserAuthService, USER_AUTH_SERVICE} from '@app-library/user/auth';
 
 export const USER_SERVICE = new InjectionToken<IUserService>('USER_SERVICE');
 
@@ -18,9 +17,11 @@ export class UserService implements IUserService {
   selectors = UserSelectors.selectors;
 
 
-  constructor(private store: Store<IAppState>) {
+  constructor(
+    private store: Store<IAppState>,
+    @Inject(USER_AUTH_SERVICE) protected auth: IUserAuthService,
+  ) {
 
-    this.init();
 
     // const observer: PartialObserver<IMenuUpdate> = {
     //   complete: () => console.log('9999999999')
@@ -29,91 +30,25 @@ export class UserService implements IUserService {
   }
 
 
-  init() {
-
-    this.store.dispatch(new MenuActions.ADD(this.getUserMenu(Anonymus)));
-    this.onLogin().subscribe((state: TStateUser) => {
-      // this.menuReplace(EUserRole.ANONIMUS, EUserRole.AUTORISED, user);
-    })
-
-    this.onLogout().subscribe((user: TStateUser) => {
-      this.menuReplace(EUserRole.AUTORISED, EUserRole.ANONIMUS, Anonymus);
-    })
-
+  getRole(user: IUser) {
+    return user.id ? EUserRole.AUTORISED : EUserRole.ANONIMUS;
   }
 
-  getRoleMenu(role: EUserRole, user: IUser) {
-    let menu: IMenuState[] = [];
-    switch (user.role) {
-      case EUserRole.ANONIMUS:
-
-        menu = [{
-          item: { label: 'Login', routerLink: '/user/login' },
-          place: 'right', path: ['user'], id: EUserRole.ANONIMUS, weight: 1000,
-        }]
-        break;
-      case EUserRole.AUTORISED:
-
-        menu = [{
-          item: { label: 'Logout', routerLink: '/user/logout', icon: user.avatar },
-          place: 'right', path: ['user'], id: EUserRole.AUTORISED
-        }]
-        break;
-    }
-    return menu;
-  }
-
-  getUserMenu(user: IUser): IMenuState[] {
-
-    let label = 'nobody';
-
-    switch (user.role) {
-      case EUserRole.ANONIMUS:
-        label = 'Anonim';
-        break;
-      case EUserRole.AUTORISED:
-        label = user.label;
-        break;
-    }
-
-    return [{
-      item: { label, routerLink: '/user/login' },
-      place: 'right', path: [], id: 'user', weight: 1000,
-    }]
-  }
-
-  private menuReplace(roleOld: EUserRole, roleNew: EUserRole, user: IUser) {
-    this.store.dispatch(new MenuActions.DELETE(this.getRoleMenu(roleOld, user)));
-    this.store.dispatch(new MenuActions.ADD(this.getRoleMenu(roleNew, user)));
-  }
-
-  onUID(): Observable<string> {
-    return of('111').pipe(delay(1));
-  }
 
   onLoaded(): Observable<TStateUser> {
     return this.store.pipe(
-      this.selectors.entity,
-      this.selectors.isStatus({ LOAD_SUCCESS: true }),
+      this.selectors.isStatus({LOAD_SUCCESS: true}),
       take(1)
     );
   }
 
   onLogin(): Observable<TStateUser> {
-    return this.store.pipe(
-      this.selectors.entity,
-      this.selectors.isStatus({ LOGIN: true }),
-      take(1)
-    );
+    return this.auth.onLogin();
   }
-
 
   onLogout(): Observable<TStateUser> {
-    return this.store.pipe(
-      this.selectors.entity,
-      this.selectors.isStatus({ LOGOUT: true }),
-      take(1)
-    );
+    return this.auth.onLogout();
   }
+
 
 }

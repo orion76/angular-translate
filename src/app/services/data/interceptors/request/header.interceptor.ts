@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 export class HeaderRequestInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    let headers = req.headers;
+    // console.log('%c[INTERCEPTOR]', 'color:green', '(HEADER)', req);
+    const headers = req.headers;
 
     // headers = headers.set('', '');
 

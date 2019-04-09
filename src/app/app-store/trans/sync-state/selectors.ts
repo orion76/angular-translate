@@ -26,16 +26,16 @@ export namespace StoreSelectors {
 
 
   export const getEntity = (entities: Dictionary<ISyncState>, props: IStateProps): ISyncState => {
-    return entities && entities[props.stateId] ? entities[props.stateId] : null
+    return entities && entities[props.stateId] ? entities[props.stateId] : null;
   };
 
 
   export const selectFeatureState: MemoizedSelector<IAppState, State> = createFeatureSelector<State>(featureName);
 
   export type TTranslatedEntities = MemoizedSelector<IAppState, Dictionary<ISyncState>>;
-  export const TranslatedEntities: TTranslatedEntities = createSelector(selectFeatureState, selectEntities);
+  export const translatedEntities: TTranslatedEntities = createSelector(selectFeatureState, selectEntities);
 
   export type TTranslatedEntity = MemoizedSelectorWithProps<IAppState, IStateProps, ISyncState>;
-  export const Entity: TTranslatedEntity = createSelector(TranslatedEntities, getEntity);
+  export const translatedEntity: TTranslatedEntity = createSelector(translatedEntities, getEntity);
 }
 

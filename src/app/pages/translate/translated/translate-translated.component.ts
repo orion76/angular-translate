@@ -1,14 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { TransContentAbstract } from '@app-library/trans-content-abstract';
-import { IUserService, USER_SERVICE } from '@app-library/user';
-import { TRANSLATE_SERVICE } from '@app/services/injection-tokens';
-import { ITranslateService } from '@app/services/translate.service';
-import { IEntityTranslate } from '@app/types';
-import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { Observable } from 'rxjs';
-
-
+import {CommonModule} from '@angular/common';
+import {Component, ElementRef, Inject, Input, NgModule, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {TransContentAbstract} from '@app-library/trans-content-abstract';
+import {IUserService, USER_SERVICE} from '@app-library/user';
+import {TRANSLATE_SERVICE} from '@app/services/injection-tokens';
+import {ITranslateService} from '@app/services/translate.service';
+import {ISourceEntityTranslate} from '@app/types';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
+import {Observable} from 'rxjs';
 
 
 @Component({
@@ -21,10 +19,10 @@ import { Observable } from 'rxjs';
   `
 })
 export class TransTranslatedComponent extends TransContentAbstract implements OnInit {
-  @Input() entity$: Observable<IEntityTranslate>;
+  @Input() entity$: Observable<ISourceEntityTranslate>;
   // @Input() lines: Map<string, ILineEntityTranslated>;
 
-  @ViewChild("content")
+  @ViewChild('content')
   content: ElementRef;
 
 
@@ -37,7 +35,7 @@ export class TransTranslatedComponent extends TransContentAbstract implements On
   }
 
   ngOnInit() {
-    super.ngOnInit()
+    super.ngOnInit();
     // this.service.onEvent(ELineEvent.TRANSLATED_UPDATE_COMPLETE).subscribe((event: ILineEvent) => {
     //   const { lineId } = event;
 

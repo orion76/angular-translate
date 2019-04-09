@@ -1,6 +1,6 @@
 import { Component, NgModule, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TooltipModule } from "primeng/primeng";
+import { TooltipModule } from 'primeng/primeng';
 
 
 export type TLabelPosition = 'before' | 'after' | 'inline';

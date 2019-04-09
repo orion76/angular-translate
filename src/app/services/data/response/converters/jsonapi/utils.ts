@@ -1,5 +1,5 @@
-import { IEntity } from '@xangular-common/entity';
-import { iJSONAPI_Entity, iJSONAPI_Response } from './types';
+import {IEntity} from '@xangular-common/entity';
+import {IJSONAPIEntity, IJSONAPIResponse} from './types';
 
 
 export function itemToArray(data: any): any[] {
@@ -7,45 +7,47 @@ export function itemToArray(data: any): any[] {
 }
 
 
-function normalizeReference(references: iJSONAPI_Entity[]): Map<string, iJSONAPI_Entity> {
-  const all: Map<string, iJSONAPI_Entity> = new Map();
+function normalizeReference(references: IJSONAPIEntity[]): Map<string, IJSONAPIEntity> {
+  const all: Map<string, IJSONAPIEntity> = new Map();
 
-  references.forEach((entity: iJSONAPI_Entity) => {
+  references.forEach((entity: IJSONAPIEntity) => {
     if (!all.has(entity.id)) {
       Object.keys(entity.relationships).forEach((field: string) => {
-        entity.relationships[field].data = itemToArray(entity.relationships[field].data)
-      })
+        entity.relationships[field].data = itemToArray(entity.relationships[field].data);
+      });
       all.set(entity.id, entity);
     }
   });
   return all;
 }
 
-function setRelationships(all: Map<string, iJSONAPI_Entity>) {
+function setRelationships(all: Map<string, IJSONAPIEntity>) {
 
-  all.forEach((entity: iJSONAPI_Entity) => {
+  all.forEach((entity: IJSONAPIEntity) => {
     Object.keys(entity.relationships).forEach((field: string) => {
 
-      const dataNew: iJSONAPI_Entity[] = [];
-      const dataOld: iJSONAPI_Entity[] = entity.relationships[field].data as iJSONAPI_Entity[];
 
-      dataOld.forEach((rel: iJSONAPI_Entity) => {
-        if (!all.has(rel.id)) {
-          all.set(rel.id, rel);
-          dataNew.push(rel);
-        } else {
-          const relExist = all.get(rel.id);
-          const attributesDiff = diffObjects(rel.attributes, relExist.attributes);
-          if (attributesDiff) {
-            relExist.attributes = { ...relExist.attributes, ...attributesDiff };
+      const dataOld: IJSONAPIEntity[] = entity.relationships[field].data as IJSONAPIEntity[];
+
+      dataOld
+        .filter((rel: IJSONAPIEntity) => rel !== null || undefined)
+        .forEach((rel: IJSONAPIEntity) => {
+          if (!all.has(rel.id)) {
+            all.set(rel.id, rel);
+
+          } else {
+            const relExist = all.get(rel.id);
+            const attributesDiff = diffObjects(rel.attributes, relExist.attributes);
+            if (attributesDiff) {
+              relExist.attributes = {...relExist.attributes, ...attributesDiff};
+            }
           }
-        }
-      })
-    })
-  })
+        });
+    });
+  });
 }
 
-function diffObjects(e1: Object, e2: Object) {
+function diffObjects(e1: object, e2: object) {
   const diff: any = {};
   let isDiff = false;
   Object.keys(e2).forEach((field: string) => {
@@ -59,8 +61,7 @@ function diffObjects(e1: Object, e2: Object) {
 }
 
 
-
-export function convertGet(response: iJSONAPI_Response) {
+export function convert(response: IJSONAPIResponse) {
 
   const entities = itemToArray(response.data);
 
@@ -72,13 +73,13 @@ export function convertGet(response: iJSONAPI_Response) {
   return responseToEntity(entities);
 }
 
-export function responseToEntity(entities: iJSONAPI_Entity[]): IEntity[] {
-  return entities.map((entity: iJSONAPI_Entity) => {
+export function responseToEntity(entities: IJSONAPIEntity[]): IEntity[] {
+  return entities.map((entity: IJSONAPIEntity) => {
     return {
       id: entity.id,
       source: entity.type,
       ...entity.attributes,
       ...entity.relationships
-    }
-  })
+    };
+  });
 }
