@@ -1,0 +1,3 @@
+[submodule "src/app/libraries/dangular-forms"]
+	path = src/app/libraries/dangular-forms
+	url = git@github.com:orion76/dangular-form.git
